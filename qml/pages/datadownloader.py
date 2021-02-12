@@ -38,26 +38,68 @@ import pyotherside
 import threading
 import time
 import random
+import urllib.request
+import base64
+from google.transit import gtfs_realtime_pb2
 
 colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 
-def slow_function():
-    for i in range(11):
-        pyotherside.send('progress', i/10.0)
+def slow_function(bus):
+    for i in range(2):
+        pyotherside.send('progress', i/2.0)
         time.sleep(0.5)
+    pyotherside.send('message', 'Muuttujan alustus')
+    pyotherside.send('message', bus)
+    request = urllib.request.Request("https://data.waltti.fi/jyvaskyla/api/gtfsrealtime/v1.0/feed/tripupdate")
+    base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    request.add_header("Authorization", "Basic %s" % base64string)
+    response = urllib.request.urlopen(request)
+    feed = gtfs_realtime_pb2.FeedMessage()
+    feed.ParseFromString(response.read())
+    for entity in feed.entity:
+        if entity.HasField('trip_update'):
+            if bus in entity.trip_update.trip.route_id:
+                #print (entity.trip_update.trip)
+                #print entity.trip_update.vehicle
+                #print entity.trip_update.timestamp
+                route_id = entity.trip_update.trip.route_id
+                start_time = entity.trip_update.trip.start_time
+                license_plate = entity.trip_update.vehicle.license_plate
+                pyotherside.send('bus_id', route_id, start_time, license_plate)
     pyotherside.send('finished', random.choice(colors))
+
+    request = urllib.request.Request("https://data.waltti.fi/jyvaskyla/api/gtfsrealtime/v1.0/feed/vehicleposition")
+    base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    request.add_header("Authorization", "Basic %s" % base64string)
+    response = urllib.request.urlopen(request)
+    feed2 = gtfs_realtime_pb2.FeedMessage()
+    feed2.ParseFromString(response.read())
+
+    for entity in feed2.entity:
+        if entity.HasField('vehicle'):
+            if bus in entity.vehicle.trip.route_id:
+                latitude = entity.vehicle.position.latitude
+                longitude = entity.vehicle.position.longitude
+                stop_id = entity.vehicle.stop_id
+                current_stop_sequence = entity.vehicle.current_stop_sequence
+                current_status = entity.vehicle.current_status
+                license_plate, entity.vehicle.vehicle.license_plate
+                pyotherside.send('position', latitude, longitude, stop_id, current_stop_sequence, current_status, license_plate)
+                #print entity.vehicle.vehicle.license_plate
 
 class Downloader:
     def __init__(self):
         # Set bgthread to a finished thread so we never
         # have to check if it is None.
+        #self.bus = bus
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self):
+    def download(self, bus):
+        self.bus = bus
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function)
+        self.bgthread = threading.Thread(target=slow_function, args=(self.bus,))
         self.bgthread.start()
 
 

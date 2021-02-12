@@ -25,3 +25,6 @@ OTHER_FILES += qml/pythonsample.qml \
     pythonsample.desktop \
     qml/cover/coveractions.py \
     qml/pages/datadownloader.py
+
+DISTFILES += \
+    qml/pages/functions.js

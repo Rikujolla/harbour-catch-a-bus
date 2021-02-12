@@ -31,7 +31,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.4
-
+import "functions.js" as Myfunc
 Page {
 
     id: page
@@ -40,13 +40,36 @@ Page {
     PageHeader {
         id: header
         width: parent.width
-        title: "Colorology app"
+        title: "Catch a bus"
+    }
+
+    TextField {
+        id: bus
+        anchors.top: header.bottom
+        placeholderText: "Enter bus line"
+        anchors.horizontalCenter: parent.horizontalCenter
+        validator: RegExpValidator { regExp: /^[0-9]{4,4}$/ }
+        color: errorHighlight? "red" : Theme.primaryColor
+        inputMethodHints:  Qt.ImhDigitsOnly
+        EnterKey.enabled: !errorHighlight
+        EnterKey.iconSource: "image://theme/icon-m-enter-close"
+        EnterKey.onClicked: {
+            focus = false;
+        }
     }
 
     Label {
         id: mainLabel
         anchors.verticalCenter: parent.verticalCenter
-        text: "Color is unknown."
+        text: "Tripinfo"
+        visible: !page.downloading
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    Label {
+        id: positsione
+        anchors.top: mainLabel.bottom
+        text: "Testi"
         visible: !page.downloading
         anchors.horizontalCenter: parent.horizontalCenter
     }
@@ -54,17 +77,19 @@ Page {
     ProgressBar {
         id: dlprogress
         label: "Downloading latest color trends."
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: mainLabel.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width
         visible: page.downloading
     }
 
     Button {
-        text: "Update color"
+        text: "Check busses"
         enabled: !page.downloading
         anchors.bottom: parent.bottom
         width: parent.width
         onClicked: {
+            mainLabel.text = '';
             python.startDownload();
         }
     }
@@ -78,9 +103,21 @@ Page {
             setHandler('progress', function(ratio) {
                 dlprogress.value = ratio;
             });
+            setHandler('message', function(msg) {
+                console.log(msg);
+            });
+            setHandler('bus_id', function(msg1,msg2,msg3) {
+                console.log(msg1, msg2, msg3);
+                mainLabel.text = mainLabel.text + msg1 + " " + msg2 + " " + msg3
+            });
+            setHandler('position', function(latti,longi,p3, p4,p5,p6) {
+                console.log(latti, longi, p3, p4, p5, p6);
+                positsione.text = Myfunc.distance(latti,longi);
+            });
             setHandler('finished', function(newvalue) {
                 page.downloading = false;
-                mainLabel.text = 'Color is ' + newvalue + '.';
+                //mainLabel.text = 'Color is ' + newvalue + '.';
+                console.log( "finished");
             });
 
             importModule('datadownloader', function () {});
@@ -90,7 +127,7 @@ Page {
         function startDownload() {
             page.downloading = true;
             dlprogress.value = 0.0;
-            call('datadownloader.downloader.download', function() {});
+            call('datadownloader.downloader.download', [bus.text],function() {});
         }
 
         onError: {

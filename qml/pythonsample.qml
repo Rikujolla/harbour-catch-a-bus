@@ -30,12 +30,27 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtPositioning 5.2
 import "pages"
 
 ApplicationWindow
 {
     initialPage: Component { FirstPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
+
+    property int rateAct: 900 // Timers update rate when active
+    property int ratePass: 15000 // Timers update when application not active but tracking
+    property int rateSleep: 300000 // Timers when nothing happens, long away from tracking areas
+    property bool inSleep: false
+    property bool gpsTrue: true
+
+
+    PositionSource {
+        id: possut
+        updateInterval: Qt.application.active ? rateAct : (inSleep ? rateSleep/2 : ratePass*4/5)
+        active: gpsTrue
+    }
+
 }
 
 
