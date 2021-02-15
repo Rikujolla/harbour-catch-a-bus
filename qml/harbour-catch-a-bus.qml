@@ -44,11 +44,37 @@ ApplicationWindow
     property bool inSleep: false
     property bool gpsTrue: true
 
+    property string bus_line: "18"
+    property string bus_start_time: "00:00:00"
+    property string bus_label: "PUPUHUHTA"
+    property string citynumber: "209" // 209 means Jyväskylä
+    property string cityname: "jyvaskyla"
+
 
     PositionSource {
         id: possut
         updateInterval: Qt.application.active ? rateAct : (inSleep ? rateSleep/2 : ratePass*4/5)
         active: gpsTrue
+    }
+
+    ListModel {
+        id:buslist_model
+        ListElement {
+            line: '12'
+            time:'08:00:00'
+            label:'KUOKKALA'
+            licenseplate: 'CCC-111'
+        }
+    }
+
+    ListModel {
+        id:selected_busses
+        ListElement {
+            line: '18'
+            time:'00:00:00'
+            label:'PUPUHUHTA'
+            licenseplate: 'CCC-111'
+        }
     }
 
 }

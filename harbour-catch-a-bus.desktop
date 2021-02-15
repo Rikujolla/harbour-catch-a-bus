@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=harbour-catch-a-bus
+Exec=sailfish-qml harbour-catch-a-bus
+Name=Catch a bus
+
+Name[fi]=Ehdi bussiin!

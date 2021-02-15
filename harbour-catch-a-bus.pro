@@ -10,21 +10,25 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = pythonsample
+TARGET = harbour-catch-a-bus
 
 CONFIG += sailfishapp_qml
 
 SOURCES +=
 
-OTHER_FILES += qml/pythonsample.qml \
+OTHER_FILES += \
+    harbour-catch-a-bus.desktop \
     qml/cover/CoverPage.qml \
+    qml/harbour-catch-a-bus.qml \
     qml/pages/FirstPage.qml \
-    rpm/pythonsample.changes.in \
-    rpm/pythonsample.spec \
-    rpm/pythonsample.yaml \
-    pythonsample.desktop \
+    rpm/harbour-catch-a-bus.changes \
+    rpm/harbour-catch-a-bus.spec \
+    rpm/harbour-catch-a-bus.yaml \
     qml/cover/coveractions.py \
     qml/pages/datadownloader.py
 
 DISTFILES += \
+    qml/pages/About.qml \
+    qml/pages/Busses.qml \
+    qml/pages/Settings.qml \
     qml/pages/functions.js

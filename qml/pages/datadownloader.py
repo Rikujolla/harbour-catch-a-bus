@@ -44,13 +44,12 @@ from google.transit import gtfs_realtime_pb2
 
 colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 
-def slow_function(bus):
-    for i in range(2):
-        pyotherside.send('progress', i/2.0)
-        time.sleep(0.5)
+def slow_function(bus, city):
+    #for i in range(2):
+        #pyotherside.send('progress', i/2.0)
+        #time.sleep(0.5)
     pyotherside.send('message', 'Muuttujan alustus')
-    pyotherside.send('message', bus)
-    request = urllib.request.Request("https://data.waltti.fi/jyvaskyla/api/gtfsrealtime/v1.0/feed/tripupdate")
+    request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/tripupdate")
     base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
     request.add_header("Authorization", "Basic %s" % base64string)
     response = urllib.request.urlopen(request)
@@ -58,17 +57,16 @@ def slow_function(bus):
     feed.ParseFromString(response.read())
     for entity in feed.entity:
         if entity.HasField('trip_update'):
-            if bus in entity.trip_update.trip.route_id:
-                #print (entity.trip_update.trip)
-                #print entity.trip_update.vehicle
+            if bus == "haku" or bus in entity.trip_update.trip.route_id:
                 #print entity.trip_update.timestamp
                 route_id = entity.trip_update.trip.route_id
                 start_time = entity.trip_update.trip.start_time
+                label = entity.trip_update.vehicle.label
                 license_plate = entity.trip_update.vehicle.license_plate
-                pyotherside.send('bus_id', route_id, start_time, license_plate)
+                pyotherside.send('bus_id', route_id, start_time, label, license_plate)
     pyotherside.send('finished', random.choice(colors))
 
-    request = urllib.request.Request("https://data.waltti.fi/jyvaskyla/api/gtfsrealtime/v1.0/feed/vehicleposition")
+    request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/vehicleposition")
     base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
     request.add_header("Authorization", "Basic %s" % base64string)
     response = urllib.request.urlopen(request)
@@ -85,21 +83,20 @@ def slow_function(bus):
                 current_status = entity.vehicle.current_status
                 license_plate, entity.vehicle.vehicle.license_plate
                 pyotherside.send('position', latitude, longitude, stop_id, current_stop_sequence, current_status, license_plate)
-                #print entity.vehicle.vehicle.license_plate
 
 class Downloader:
     def __init__(self):
         # Set bgthread to a finished thread so we never
         # have to check if it is None.
-        #self.bus = bus
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, bus):
+    def download(self, bus, city):
         self.bus = bus
+        self.city = city
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.bus,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.bus, self.city))
         self.bgthread.start()
 
 
