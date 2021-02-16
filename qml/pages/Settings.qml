@@ -27,9 +27,6 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 //import QtQuick.LocalStorage 2.0
 //import "./databases.js" as Mydb
-//import harbour.koronako.koronaclient 1.0
-//import harbour.koronako.koronascan 1.0
-
 
 Page {
     id: page
@@ -50,8 +47,6 @@ Page {
             }
 
             SectionHeader {
-                //id: btVisibility
-                //visible: false
                 text: qsTr("Select city")
             }
 
@@ -70,14 +65,6 @@ Page {
                     }
                 }
             }
-            Switch{
-                onClicked: {console.log("testos")}
-            }
-            IconTextSwitch{
-                text: "Location"
-                icon.source: "image://theme/icon-m-gps"
-                onClicked: {console.log("testos")}
-            }
 
             Text {
                 font.pixelSize: Theme.fontSizeSmall
@@ -90,29 +77,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("If you end to this page when starting the app, check the settings are OK.")
-                }
-            }
-
-            SectionHeader {
-                id: btVisibility
-                visible: false
-                text: qsTr("Check bluetooth visibility")
-            }
-            Text {
-                id: btVisibilityText
-                visible: false
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.primaryColor
-                wrapMode: Text.WordWrap
-                width: parent.width
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    margins: Theme.paddingLarge
-                }
-                text: {
-                    qsTr("Set bluetooth on and visible from the phone settings. Restart the app.")
+                    qsTr("Some story")
                 }
             }
 
@@ -142,9 +107,6 @@ Page {
                     inputMethodHints: Qt.ImhNoPredictiveText
                     EnterKey.iconSource: "image://theme/icon-m-enter-close"
                     EnterKey.onClicked: {
-                        koronaClient.sipadd = text;
-                        serverAddress = text;
-                        Mydb.saveSettings(0);
                         focus = false;
                     }
                 }
@@ -156,7 +118,6 @@ Page {
                                                                   : Theme.primaryColor)
                     onClicked: {
                         iipee.text = ""
-                        Mydb.saveSettings(0);
                     }
                 }
             }
@@ -171,9 +132,6 @@ Page {
                     inputMethodHints: Qt.ImhDigitsOnly
                     EnterKey.iconSource: "image://theme/icon-m-enter-close"
                     EnterKey.onClicked: {
-                        koronaClient.sport = text
-                        serverPort = text;
-                        Mydb.saveSettings(0);
                         focus = false;
                     }
                 }
@@ -188,34 +146,12 @@ Page {
             }
 
             Button {
-                text:qsTr("Use common server")
+                text:qsTr("Button")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                 }
             }
 
-            SectionHeader {
-                id : phoneNameValidity
-                visible: false
-                text: qsTr("Phone name is not valid")
-            }
-
-            Text {
-                id: phoneNameValidityText
-                visible: false
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.primaryColor
-                wrapMode: Text.WordWrap
-                width: parent.width
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    margins: Theme.paddingLarge
-                }
-                text: {
-                    qsTr("The phone name is '%1'. The app will utilize last seven characters of the phone name. If the phone name is too short or too general, the app will not work. If you see this text, change the name from the device settings.").arg(koronaScan.ownDevice)
-                }
-            }
 
         }
     }

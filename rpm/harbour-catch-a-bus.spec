@@ -12,8 +12,8 @@ Name:       harbour-catch-a-bus
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
-Summary:    Python SailfishOS sample
-Version:    1.0
+Summary:    Catch a bus application
+Version:    0.0.3
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE

@@ -1,6 +1,6 @@
 Name: harbour-catch-a-bus
-Summary: Python SailfishOS sample
-Version: 1.0
+Summary: Catch a bus application
+Version: 0.0.3
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
