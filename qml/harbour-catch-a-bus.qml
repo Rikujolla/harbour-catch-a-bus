@@ -30,7 +30,8 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtPositioning 5.2
+import QtPositioning 5.4
+import QtQuick.XmlListModel 2.0
 import "pages"
 
 ApplicationWindow
@@ -49,6 +50,7 @@ ApplicationWindow
     property string bus_label: "PUPUHUHTA"
     property string citynumber: "209" // 209 means Jyväskylä
     property string cityname: "jyvaskyla"
+    property string current_time:"00:00:00"
 
 
     PositionSource {
@@ -77,6 +79,66 @@ ApplicationWindow
         }
     }
 
+    ListModel {
+        id:busstop_model
+        ListElement {
+            stop_id: '10000000'
+            stop_name:'Puuppolan eritasoliittymä 1'
+            stop_lat:'62.35482864741343'
+            stop_lon: '25.707038504557797'
+        }
+
+    }
+    ListModel {
+        id:selected_busstop
+        ListElement {
+            stop_id: '207673'
+            stop_name:'Poratie 1'
+            stop_lat:'62.2838474770924'
+            stop_lon: '25.7925898402179'
+        }
+
+    }
+
+    ListModel {
+        id:bus_at_stop
+        ListElement {
+            route_id:'9272'
+            start_time: '08:00:00'
+            planned_time:'07:12:00'
+            licence_plate: 'KMT-518'
+        }
+
+    }
+
+    XmlListModel {
+        id: busstops_xml
+        //source: !testData ? "data/lamstations.xml" : "https://github.com/Rikujolla/trafficviewer/tree/master/qml/data/lamstations.xml"
+        source: "data/209/stops.xml"
+        query: "/xml/stop"
+        XmlRole {name:"stop_id"; query:"stop_id/string()"}
+        XmlRole {name:"stop_name"; query:"stop_name/string()"}
+        XmlRole {name:"stop_lat"; query:"stop_lat/number()"}
+        XmlRole {name:"stop_lon"; query:"stop_lon/number()"}
+        //XmlRole {name:"LAM_NUMERO"; query:"LAM_NUMERO/number()"}
+    }
+
+    XmlListModel {
+        id: stoptimes_xml
+        //source: !testData ? "data/lamstations.xml" : "https://github.com/Rikujolla/trafficviewer/tree/master/qml/data/lamstations.xml"
+        source: "data/209/stop_times.xml"
+        query: "/xml/stoptime"
+        XmlRole {name:"day"; query:"day/string()"}
+        XmlRole {name:"trip_id"; query:"trip_id/string()"}
+        XmlRole {name:"start_time"; query:"start_time/string()"}
+        XmlRole {name:"departure_time"; query:"departure_time/string()"}
+        XmlRole {name:"stop_id"; query:"stop_id/string()"}
+        XmlRole {name:"stop_sequence"; query:"stop_sequence/number()"}
+    }
+
+    Component.onCompleted: {
+        //console.log (busstops_xml.get(6).stop_id)
+    }
 }
 
 

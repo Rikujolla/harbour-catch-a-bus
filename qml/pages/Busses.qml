@@ -52,7 +52,7 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Set location page")
+            title: qsTr("Select your bus")
         }
         delegate: BackgroundItem {
             id: delegate

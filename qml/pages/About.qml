@@ -61,7 +61,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 //: The name of the app followed with a version number
-                text: {qsTr("Koronako, version") + " " + version}
+                text: {qsTr("Catch a bus, version") + " " + version}
             }
 
             SectionHeader { text: qsTr("Idea") }
@@ -76,8 +76,8 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("The idea of the software is to scan devices with bluetooth to help determine possible coronavirus exposures.")
-                            + qsTr(" In addition of the app a proper server application (koronako-server) is needed.")
+                    qsTr("The idea of the software is to ..")
+                            + qsTr(" In addition of the app ...")
                 }
             }
 
@@ -93,11 +93,8 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("The basic idea to maintain your and others privacy is a symmetric device name mix of the devices.")
-                            + qsTr(" Because only part of the device name is used false alarms are possible occasionally.")
-                            +"\n" + qsTr("Only mixed device names and a month day number is saved to the database preventing data hacking later.")
-                            + qsTr(" Nor more than one month data can be saved.")
-                            +"\n" + qsTr("Paired devices are not saved to database. The major privacy concern is the requirement to have bluetooth on revealing your device to others.")
+                    qsTr("The basic idea to maintain your and others privacy is ...")
+                            +"\n" + qsTr("Only ....")
                 }
             }
 
@@ -130,7 +127,7 @@ Page {
                 }
                 text: {
                     qsTr("App icon (Riku Lahtinen)")
-                    + "\n" + qsTr("Android device list from wikipedia.")
+                    + "\n" + qsTr("Bus data.....")
                 }
             }
 
@@ -147,7 +144,7 @@ Page {
                 }
                 text: qsTr("Copyright (c) 2020, Riku Lahtinen") + "\n"
                       + qsTr("Licensed under BSD. License, source code and more information:") + "\n"
-                      + ("https://github.com/Rikujolla/harbour-koronako")
+                      + ("https://github.com/Rikujolla/harbour-catch-a-bus")
             }
         }
     }

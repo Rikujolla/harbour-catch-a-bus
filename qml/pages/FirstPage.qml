@@ -31,7 +31,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.4
+import QtQuick.LocalStorage 2.0
 import "functions.js" as Myfunc
+import "dbfunctions.js" as Mydbs
+
 Page {
 
     id: page
@@ -70,7 +73,28 @@ Page {
                 title: qsTr("Catch a bus")
             }
 
-            SectionHeader { text: qsTr("Selected bus stop") }
+            BackgroundItem {
+                SectionHeader { text: qsTr("Selected bus stop") }
+                onClicked: {
+                    Myfunc.closest_stop()
+                }
+            }
+
+            BackgroundItem {
+                Label {
+                    id:selected_stop
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                    }
+                    //text:selected_busstop.get(0).stop_name + busstops_xml.get(6).stop_id
+                    text: "some text"
+                }
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                }
+            }
 
             SectionHeader { text: qsTr("Selected bus connection") }
 
@@ -100,6 +124,11 @@ Page {
                         color: Theme.primaryColor
                         font.pixelSize:Theme.fontSizeLarge
                         text: line + " " + time + " " + label + " " + licenseplate
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            margins: Theme.paddingLarge
+                        }
                     }
                 }
             }
@@ -116,6 +145,7 @@ Page {
                 id: positsione
                 //anchors.top: mainLabel.bottom
                 text: "Testi"
+                font.pixelSize:Theme.fontSizeLarge
                 visible: !page.downloading
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -133,22 +163,78 @@ Page {
 
         }
 
+        Button {
+            id:deletos
+            text:"Delete"
+            anchors.bottom: stoptimes.top
+            onClicked: Mydbs.delete_tables()
+        }
 
         Button {
-            text: "Load distance"
+            id:stoptimes
+            text:"Stop times"
+            anchors.bottom: stops.top
+            onClicked: Mydbs.load_stop_times()
+        }
+
+        Button {
+            id:stops
+            text: "Stops"
+            anchors.bottom: trackbutton.top
+            onClicked: Mydbs.load_stops()
+        }
+
+        Button {
+            id:trackbutton
+            text: "Start tracking"
             enabled: !page.downloading
             anchors.bottom: bottombutton.top
             width: parent.width
             onClicked: {
-                buslist_model.clear();
+                //buslist_model.clear();
                 //mainLabel.text = '';
-                python.startDownload(selected_busses.get(0).line, cityname);
+                //python.startDownload(selected_busses.get(0).line, cityname);
+                distanceLoader.start()
             }
         }
+
+        Timer {
+            id:distanceLoader
+            interval: 10000;
+            running: false;
+            repeat: true
+            onTriggered: {
+                /*var minutes = 1000 * 60;
+                var hours = minutes * 60;
+                var days = hours * 24;
+                var years = days * 365;
+                var t = Date.now();
+                var y = Math.round(t / years);
+                var d = Math.round(t / days);
+                var h = Math.round(t / hours);
+                var m = Math.round(t / minutes);
+                m = m-y*365*24*60;
+                h = Math.round(m / 60);
+                m = m-h*60
+                h < 10 ? h= "0"+h: h=h
+
+                m < 10 ? m= "0"+m: m=m
+                current_time = h + ":"+ m + ":00"*/
+                //console.log("m,h", m,h)
+                var d = new Date();
+                var n = d.toLocaleTimeString();
+                //console.log(n, n.substr(0, 2),n.substr(3, 2),n.substr(6, 2) )
+                current_time = n.substr(0,2) + ":" + n.substr(3,2) + ":" + n.substr(6, 2)
+                if (!page.downloading){
+                    python.startDownload(selected_busses.get(0).line, cityname);
+                }
+            }
+        }
+
         Button {
             id:bottombutton
             text: "Check busses"
-            enabled: !page.downloading
+            enabled: !page.downloading && busstops_xml.status == 1
             anchors.bottom: parent.bottom
             width: parent.width
             onClicked: {
@@ -196,7 +282,7 @@ Page {
                 });
                 setHandler('position', function(latti,longi,p3, p4,p5,p6) {
                     console.log(latti, longi, p3, p4, p5, p6);
-                    positsione.text = Myfunc.distance(latti,longi);
+                    positsione.text = Myfunc.distance(latti,longi) + " " + p3 + " " + p4 + " " + p5;
                 });
                 setHandler('finished', function(newvalue) {
                     page.downloading = false;
@@ -226,6 +312,9 @@ Page {
                 console.log('got message from python: ' + data);
             }
         }
+    }
+    Component.onCompleted: {
+        //selected_stop.text = selected_busstop.get(0).stop_name + busstops_xml.get(6).stop_id
     }
 }
 
