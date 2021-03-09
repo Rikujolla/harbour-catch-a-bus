@@ -36,8 +36,22 @@ import "functions.js" as Myfunc
 import "dbfunctions.js" as Mydbs
 
 Page {
-
     id: page
+    onStatusChanged: {
+        if (selections.get(0).stop_name == 'Not selected'){
+            selected_stop.text = selections.get(0).stop_name
+        }
+        else {
+            selected_stop.text = selections.get(0).stop_name + ", " + selections.get(0).dist_me + " m"
+        }
+        competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
+        if (selections.get(0).trip_id == 'Not selected'){
+            selected_bus.text = selections.get(0).trip_id
+        }
+        else {
+            selected_bus.text = selections.get(0).trip_id + " " + selections.get(0).start_time + " " + selections.get(0).label + " " + selections.get(0).licence_plate
+        }
+    }
     property bool downloading: false
 
     SilicaFlickable {
@@ -48,6 +62,12 @@ Page {
                 text: qsTr("About")
                 onClicked:{
                     pageStack.push(Qt.resolvedUrl("About.qml"))
+                }
+            }
+            MenuItem {
+                text: qsTr("Load static data")
+                onClicked:{
+                    pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
                 }
             }
             MenuItem {
@@ -76,7 +96,8 @@ Page {
             BackgroundItem {
                 SectionHeader { text: qsTr("Selected bus stop") }
                 onClicked: {
-                    Myfunc.closest_stop()
+                    pageStack.push(Qt.resolvedUrl("Stops.qml"))
+                    Mydbs.get_closest_stop()
                 }
             }
 
@@ -88,15 +109,19 @@ Page {
                         right: parent.right
                         margins: Theme.paddingLarge
                     }
-                    //text:selected_busstop.get(0).stop_name + busstops_xml.get(6).stop_id
-                    text: "some text"
+                    text: ""
                 }
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
                 }
             }
 
-            SectionHeader { text: qsTr("Selected bus connection") }
+            BackgroundItem {
+                SectionHeader { text: qsTr("Selected bus connection") }
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("Busses.qml"))
+                }
+            }
 
             TextField {
                 id: bus
@@ -114,6 +139,22 @@ Page {
             }
 
             BackgroundItem {
+                Label {
+                    id:selected_bus
+                    font.pixelSize:Theme.fontSizeLarge
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                    }
+                    text: ""
+                }
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                }
+            }
+
+            /*BackgroundItem {
                 height: buslist.height
                 ListView {
                     id:buslist
@@ -131,15 +172,7 @@ Page {
                         }
                     }
                 }
-            }
-
-            /*Label {
-            id: mainLabel
-            //anchors.verticalCenter: parent.verticalCenter
-            text: "Tripinfo"
-            visible: !page.downloading
-            anchors.horizontalCenter: parent.horizontalCenter
-        }*/
+            }*/
 
             Label {
                 id: positsione
@@ -161,27 +194,20 @@ Page {
 
             SectionHeader { text: qsTr("Me to bus competition") }
 
-        }
-
-        Button {
-            id:deletos
-            text:"Delete"
-            anchors.bottom: stoptimes.top
-            onClicked: Mydbs.delete_tables()
-        }
-
-        Button {
-            id:stoptimes
-            text:"Stop times"
-            anchors.bottom: stops.top
-            onClicked: Mydbs.load_stop_times()
-        }
-
-        Button {
-            id:stops
-            text: "Stops"
-            anchors.bottom: trackbutton.top
-            onClicked: Mydbs.load_stops()
+            BackgroundItem {
+                Label {
+                    id:competition
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                    }
+                    text: ""
+                }
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                }
+            }
         }
 
         Button {
@@ -191,9 +217,6 @@ Page {
             anchors.bottom: bottombutton.top
             width: parent.width
             onClicked: {
-                //buslist_model.clear();
-                //mainLabel.text = '';
-                //python.startDownload(selected_busses.get(0).line, cityname);
                 distanceLoader.start()
             }
         }
@@ -204,29 +227,11 @@ Page {
             running: false;
             repeat: true
             onTriggered: {
-                /*var minutes = 1000 * 60;
-                var hours = minutes * 60;
-                var days = hours * 24;
-                var years = days * 365;
-                var t = Date.now();
-                var y = Math.round(t / years);
-                var d = Math.round(t / days);
-                var h = Math.round(t / hours);
-                var m = Math.round(t / minutes);
-                m = m-y*365*24*60;
-                h = Math.round(m / 60);
-                m = m-h*60
-                h < 10 ? h= "0"+h: h=h
-
-                m < 10 ? m= "0"+m: m=m
-                current_time = h + ":"+ m + ":00"*/
-                //console.log("m,h", m,h)
-                var d = new Date();
-                var n = d.toLocaleTimeString();
-                //console.log(n, n.substr(0, 2),n.substr(3, 2),n.substr(6, 2) )
-                current_time = n.substr(0,2) + ":" + n.substr(3,2) + ":" + n.substr(6, 2)
+                Myfunc.get_time();
+                buslist_model.clear();
+                Mydbs.clear_running_busses(); // check if needed
                 if (!page.downloading){
-                    python.startDownload(selected_busses.get(0).line, cityname);
+                    python.startDownload(selected_busses.get(0).line, cityname, selected_busses.get(0).time);
                 }
             }
         }
@@ -234,12 +239,12 @@ Page {
         Button {
             id:bottombutton
             text: "Check busses"
-            enabled: !page.downloading && busstops_xml.status == 1
+            enabled: !page.downloading
             anchors.bottom: parent.bottom
             width: parent.width
             onClicked: {
                 buslist_model.clear();
-                //mainLabel.text = '';
+                Mydbs.clear_running_busses();
                 if (bus.text !== "") {
                     if (cityname == "jyvaskyla") {
                         if(bus.text.length > 1){
@@ -253,11 +258,11 @@ Page {
                         _search = bus.text
                     }
 
-                    python.startDownload(_search, cityname);
+                    python.startDownload(_search, cityname, "00:00:01");
                     console.log("bus.text", bus.text)
                 }
                 else {
-                    python.startDownload("haku", cityname);
+                    python.startDownload("haku", cityname, "00:00:01");
                 }
             }
         }
@@ -276,29 +281,29 @@ Page {
                 });
                 setHandler('bus_id', function(msg1,msg2,msg3,msg4) {
                     console.log(msg1, msg2, msg3,msg4);
-                    //mainLabel.text = mainLabel.text + msg1 + " " + msg2 + " " + msg3 + " " + msg4
                     buslist_model.append({"line": msg1, "time":msg2, "label":msg3, "licenseplate":msg4})
-
+                    Mydbs.running_busses(msg1, msg2, msg3, msg4)
                 });
                 setHandler('position', function(latti,longi,p3, p4,p5,p6) {
                     console.log(latti, longi, p3, p4, p5, p6);
-                    positsione.text = Myfunc.distance(latti,longi) + " " + p3 + " " + p4 + " " + p5;
+                    selections.set(0, {"dist_bus":Myfunc.distance(latti,longi)});
+                    positsione.text = selections.get(0).dist_bus + " " + p3 + " " + p4 + " " + p5;
+                    competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
                 });
                 setHandler('finished', function(newvalue) {
                     page.downloading = false;
-                    //mainLabel.text = 'Color is ' + newvalue + '.';
-                    console.log( "finished");
+                    console.log( "finished" , newvalue);
                 });
 
                 importModule('datadownloader', function () {});
 
             }
 
-            function startDownload(arg1, arg2) {
+            function startDownload(arg1, arg2, arg3) {
                 page.downloading = true;
                 dlprogress.value = 0.0;
                 console.log("arg1",arg1)
-                call('datadownloader.downloader.download', [arg1, arg2],function() {});
+                call('datadownloader.downloader.download', [arg1, arg2, arg3],function() {});
             }
 
             onError: {
@@ -314,7 +319,7 @@ Page {
         }
     }
     Component.onCompleted: {
-        //selected_stop.text = selected_busstop.get(0).stop_name + busstops_xml.get(6).stop_id
+        Myfunc.get_time();
     }
 }
 

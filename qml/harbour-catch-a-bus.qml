@@ -44,13 +44,14 @@ ApplicationWindow
     property int rateSleep: 300000 // Timers when nothing happens, long away from tracking areas
     property bool inSleep: false
     property bool gpsTrue: true
-
     property string bus_line: "18"
-    property string bus_start_time: "00:00:00"
+    property string bus_start_time: "00:00:01"
     property string bus_label: "PUPUHUHTA"
     property string citynumber: "209" // 209 means Jyväskylä
     property string cityname: "jyvaskyla"
     property string current_time:"00:00:00"
+    property int stop_index: 0
+    property string day:"M-P"
 
 
     PositionSource {
@@ -87,19 +88,35 @@ ApplicationWindow
             stop_lat:'62.35482864741343'
             stop_lon: '25.707038504557797'
         }
-
     }
+
+// This model is used for busstops close to me
     ListModel {
         id:selected_busstop
         ListElement {
             stop_id: '207673'
-            stop_name:'Poratie 1'
+            stop_name:'Not selected'
             stop_lat:'62.2838474770924'
             stop_lon: '25.7925898402179'
+            dist_me: 400000.0
+            dist_bus: 400000.0
         }
-
     }
 
+    ListModel {
+        // Document selections to visualize them
+        id:selections
+        ListElement {
+            stop_id: 'Not selected'
+            stop_name:'Not selected'
+            dist_me: 400000.0
+            trip_id:'Not selected'
+            start_time: 'Not selected'
+            label: 'Not selected'
+            license_plate:""
+            dist_bus: 400000.0
+        }
+    }
     ListModel {
         id:bus_at_stop
         ListElement {
@@ -108,32 +125,16 @@ ApplicationWindow
             planned_time:'07:12:00'
             licence_plate: 'KMT-518'
         }
-
     }
 
     XmlListModel {
         id: busstops_xml
-        //source: !testData ? "data/lamstations.xml" : "https://github.com/Rikujolla/trafficviewer/tree/master/qml/data/lamstations.xml"
         source: "data/209/stops.xml"
         query: "/xml/stop"
         XmlRole {name:"stop_id"; query:"stop_id/string()"}
         XmlRole {name:"stop_name"; query:"stop_name/string()"}
         XmlRole {name:"stop_lat"; query:"stop_lat/number()"}
         XmlRole {name:"stop_lon"; query:"stop_lon/number()"}
-        //XmlRole {name:"LAM_NUMERO"; query:"LAM_NUMERO/number()"}
-    }
-
-    XmlListModel {
-        id: stoptimes_xml
-        //source: !testData ? "data/lamstations.xml" : "https://github.com/Rikujolla/trafficviewer/tree/master/qml/data/lamstations.xml"
-        source: "data/209/stop_times.xml"
-        query: "/xml/stoptime"
-        XmlRole {name:"day"; query:"day/string()"}
-        XmlRole {name:"trip_id"; query:"trip_id/string()"}
-        XmlRole {name:"start_time"; query:"start_time/string()"}
-        XmlRole {name:"departure_time"; query:"departure_time/string()"}
-        XmlRole {name:"stop_id"; query:"stop_id/string()"}
-        XmlRole {name:"stop_sequence"; query:"stop_sequence/number()"}
     }
 
     Component.onCompleted: {

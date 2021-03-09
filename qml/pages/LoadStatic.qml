@@ -23,57 +23,56 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import QtQuick.LocalStorage 2.0
-import "functions.js" as Myfunc
 import "dbfunctions.js" as Mydbs
-
+import QtQuick.LocalStorage 2.0
+import QtQuick.XmlListModel 2.0
 
 Page {
     id: page
-    onStatusChanged: {
-        //Mydbases.loadLocation()
-    }
 
-    SilicaListView {
-        id: listView
-        model: bus_at_stop
+    SilicaFlickable {
         anchors.fill: parent
 
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Busses available")
-                onClicked:{
-                    pageStack.push(Qt.resolvedUrl("Loc.qml"))
-                }
+        contentHeight: column.height
+
+        Column {
+            id: column
+
+            width: page.width
+            spacing: Theme.paddingLarge
+            PageHeader {
+                title: qsTr("Load static data")
             }
-        }
 
-        header: PageHeader {
-            title: qsTr("Stop schedule")
-        }
-        delegate: BackgroundItem {
-            id: delegate
-
-            Label {
-                id: listos
-                x: Theme.paddingLarge
-                text: route_id + " " + start_time + " " + planned_time + " " + licence_plate
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+            Button {
+                text:"Load stops"
+                enabled:busstops_xml.status == 1
+                onClicked: Mydbs.load_stops()
             }
-            onClicked: {
-                selected_busses.set(0, {"line": route_id, "time":start_time, "label":"label", "licenseplate":licence_plate})
-                selections.set(0, {"trip_id":route_id, "start_time":start_time, "label":"label", "license_plate":licence_plate})
-                pageStack.pop();
+
+            Button {
+                text:"Load stop times"
+                enabled: stoptimes_xml.status == 1
+                onClicked: Mydbs.load_stop_times()
             }
-        }
+            Button {
+                text:"Delete old data"
+                onClicked: Mydbs.delete_tables()
+            }
 
-        VerticalScrollDecorator {}
-
-        Component.onCompleted: {
-            Mydbs.get_stop_times()
+            XmlListModel {
+                id: stoptimes_xml
+                source: "../data/209/stop_times.xml"
+                query: "/xml/stoptime"
+                XmlRole {name:"day"; query:"day/string()"}
+                XmlRole {name:"trip_id"; query:"trip_id/string()"}
+                XmlRole {name:"start_time"; query:"start_time/string()"}
+                XmlRole {name:"departure_time"; query:"departure_time/string()"}
+                XmlRole {name:"stop_id"; query:"stop_id/string()"}
+                XmlRole {name:"stop_sequence"; query:"stop_sequence/number()"}
+            }
         }
     }
 }

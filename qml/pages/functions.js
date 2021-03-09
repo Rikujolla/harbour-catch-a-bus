@@ -17,7 +17,7 @@ function distance(thelati, thelongi) {
     return ddist;
 
 }
-
+/*
 function closest_stop() {
     var dist_smallest = 400000.0
     var dist_temp = 400000;
@@ -39,16 +39,28 @@ function closest_stop() {
     selected_busstop.clear();
     selected_busstop.set(0,{"stop_id":busstops_xml.get(_selected).stop_id, "stop_name":busstops_xml.get(_selected).stop_name})
 }
+*/
+function get_time() {
+    var d = new Date();
+    var n = d.toLocaleTimeString();
 
-function stop_busses() {
-    bus_at_stop.clear()
-    console.log(current_time,stoptimes_xml.get(6).departure_time)
-    for (var i=0;i<stoptimes_xml.count;i++){
-        if (stoptimes_xml.get(i).stop_id == selected_busstop.get(0).stop_id
-                && stoptimes_xml.get(i).departure_time > current_time
-                && stoptimes_xml.get(i).day == "L"){
-            bus_at_stop.append({"route_id":stoptimes_xml.get(i).trip_id, "start_time":stoptimes_xml.get(i).start_time, "planned_time":stoptimes_xml.get(i).departure_time})
-        }
+    switch(d.getDay()) {
+      case 0:
+        day = "S"
+        break;
+      case 6:
+          day = "L"
+        break;
+      default:
+          day = "M-P"
     }
+    console.log(day)
 
+    if(n.substr(2,1) == "."){
+        current_time = n.substr(0,2) + ":" + n.substr(3,2) + ":" + n.substr(6, 2)
+    }
+    else {
+        current_time = "0" + n.substr(0,1) + ":" + n.substr(2,2) + ":" + n.substr(5, 2)
+    }
+    //console.log(n, n.substr(0, 2),n.substr(3, 2),n.substr(6, 2) )
 }

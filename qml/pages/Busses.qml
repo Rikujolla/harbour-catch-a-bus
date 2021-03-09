@@ -1,4 +1,4 @@
-/*Copyright (c) 2015, Riku Lahtinen
+/*Copyright (c) 2021, Riku Lahtinen
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,9 +25,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-//import QtQuick.LocalStorage 2.0
-//import "dbases.js" as Mydbases
-
+import QtQuick.LocalStorage 2.0
+import "dbfunctions.js" as Mydbs
 
 Page {
     id: page
@@ -44,8 +43,6 @@ Page {
             MenuItem {
                 text: qsTr("Busses available")
                 onClicked:{
-                    //currentIndex = listSize+1;
-                    //listSize++;
                     pageStack.push(Qt.resolvedUrl("Loc.qml"))
                 }
             }
@@ -53,6 +50,10 @@ Page {
 
         header: PageHeader {
             title: qsTr("Select your bus")
+            description: {
+                if (selections.get(0).stop_name == 'Not selected') {qsTr("All currently running busses")}
+                else {qsTr("Currently running busses of the selected stop")}
+            }
         }
         delegate: BackgroundItem {
             id: delegate
@@ -66,6 +67,7 @@ Page {
             }
             onClicked: {
                 selected_busses.set(0, {"line": line, "time":time, "label":label, "licenseplate":licenseplate})
+                selections.set(0, {"trip_id":line, "start_time":time, "label":label, "license_plate":licenseplate})
                 pageStack.pop();
             }
         }
@@ -73,6 +75,7 @@ Page {
 
         Component.onCompleted: {
             //Mydbases.loadLocation()
+            Mydbs.running_busses_on_the_stop()
         }
     }
 }

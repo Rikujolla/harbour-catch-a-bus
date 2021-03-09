@@ -30,6 +30,8 @@ OTHER_FILES += \
 DISTFILES += \
     qml/pages/About.qml \
     qml/pages/Busses.qml \
+    qml/pages/LoadStatic.qml \
     qml/pages/Settings.qml \
+    qml/pages/Stops.qml \
     qml/pages/dbfunctions.js \
     qml/pages/functions.js

@@ -25,10 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtQuick.LocalStorage 2.0
-import "functions.js" as Myfunc
-import "dbfunctions.js" as Mydbs
-
+//import QtQuick.LocalStorage 2.0
 
 Page {
     id: page
@@ -38,20 +35,21 @@ Page {
 
     SilicaListView {
         id: listView
-        model: bus_at_stop
+        model: selected_busstop
         anchors.fill: parent
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Busses available")
+                text: qsTr("Clear busses")
                 onClicked:{
-                    pageStack.push(Qt.resolvedUrl("Loc.qml"))
+                    selections.set(0,{"stop_id": '207673', "stop_name":'Not selected', "dist_me":400000.0})
+                    pageStack.pop();
                 }
             }
         }
 
         header: PageHeader {
-            title: qsTr("Stop schedule")
+            title: qsTr("Closest stops")
         }
         delegate: BackgroundItem {
             id: delegate
@@ -59,21 +57,21 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: route_id + " " + start_time + " " + planned_time + " " + licence_plate
+                text: stop_name + ", " + dist_me + " m"
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                selected_busses.set(0, {"line": route_id, "time":start_time, "label":"label", "licenseplate":licence_plate})
-                selections.set(0, {"trip_id":route_id, "start_time":start_time, "label":"label", "license_plate":licence_plate})
+                stop_index = index;
+                console.log(index);
+                selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me})
                 pageStack.pop();
             }
         }
-
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
-            Mydbs.get_stop_times()
+            //Mydbases.loadLocation()
         }
     }
 }

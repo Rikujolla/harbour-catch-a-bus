@@ -44,11 +44,11 @@ from google.transit import gtfs_realtime_pb2
 
 colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 
-def slow_function(bus, city):
+def slow_function(bus, city, starttime):
     #for i in range(2):
         #pyotherside.send('progress', i/2.0)
         #time.sleep(0.5)
-    pyotherside.send('message', 'Muuttujan alustus')
+    #pyotherside.send('message', 'Muuttujan alustus')
     request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/tripupdate")
     base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
     request.add_header("Authorization", "Basic %s" % base64string)
@@ -58,7 +58,6 @@ def slow_function(bus, city):
     for entity in feed.entity:
         if entity.HasField('trip_update'):
             if bus == "haku" or bus in entity.trip_update.trip.route_id:
-                #print entity.trip_update.timestamp
                 route_id = entity.trip_update.trip.route_id
                 start_time = entity.trip_update.trip.start_time
                 label = entity.trip_update.vehicle.label
@@ -75,13 +74,14 @@ def slow_function(bus, city):
 
     for entity in feed2.entity:
         if entity.HasField('vehicle'):
-            if bus in entity.vehicle.trip.route_id:
+            if bus in entity.vehicle.trip.route_id and starttime in entity.vehicle.trip.start_time:
+            #if license_plate in entity.vehicle.trip.route_id and starttime in entity.vehicle.trip.start_time:
                 latitude = entity.vehicle.position.latitude
                 longitude = entity.vehicle.position.longitude
                 stop_id = entity.vehicle.stop_id
                 current_stop_sequence = entity.vehicle.current_stop_sequence
                 current_status = entity.vehicle.current_status
-                license_plate, entity.vehicle.vehicle.license_plate
+                license_plate = entity.vehicle.vehicle.license_plate
                 pyotherside.send('position', latitude, longitude, stop_id, current_stop_sequence, current_status, license_plate)
 
 class Downloader:
@@ -91,12 +91,13 @@ class Downloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, bus, city):
+    def download(self, bus, city, starttime):
         self.bus = bus
         self.city = city
+        self.starttime = starttime
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.bus, self.city))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.bus, self.city, self.starttime,))
         self.bgthread.start()
 
 
