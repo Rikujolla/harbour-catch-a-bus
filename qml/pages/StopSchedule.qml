@@ -52,6 +52,7 @@ Page {
 
         header: PageHeader {
             title: qsTr("Stop schedule")
+            description:"Route, Start time, Stop time, Route name"
         }
         delegate: BackgroundItem {
             id: delegate
@@ -59,13 +60,13 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: route_id + " " + start_time + " " + planned_time + " " + licence_plate
+                text: route_short_name + " " + start_time.substring(0,5) + " " + planned_time.substring(0,5) + " " + route_long_name
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                selected_busses.set(0, {"line": route_id, "time":start_time, "label":"label", "licenseplate":licence_plate})
-                selections.set(0, {"trip_id":route_id, "start_time":start_time, "label":"label", "license_plate":licence_plate})
+                //selected_busses.set(0, {"line": route_id, "time":start_time, "label":label, "licenseplate":licence_plate})
+                selections.set(0, {"route_short_name": route_short_name, "trip_id":route_id, "start_time":start_time, "label":route_long_name, "license_plate":licence_plate})
                 pageStack.pop();
             }
         }

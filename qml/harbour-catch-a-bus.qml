@@ -64,13 +64,14 @@ ApplicationWindow
         id:buslist_model
         ListElement {
             line: '12'
+            route_short_name: ''
             time:'08:00:00'
             label:'KUOKKALA'
             licenseplate: 'CCC-111'
         }
     }
 
-    ListModel {
+    /*ListModel {
         id:selected_busses
         ListElement {
             line: '18'
@@ -78,7 +79,7 @@ ApplicationWindow
             label:'PUPUHUHTA'
             licenseplate: 'CCC-111'
         }
-    }
+    }*/
 
     ListModel {
         id:busstop_model
@@ -107,6 +108,7 @@ ApplicationWindow
         // Document selections to visualize them
         id:selections
         ListElement {
+            route_short_name: ''
             stop_id: 'Not selected'
             stop_name:'Not selected'
             dist_me: 400000.0
@@ -121,8 +123,11 @@ ApplicationWindow
         id:bus_at_stop
         ListElement {
             route_id:'9272'
+            route_short_name: ''
+            route_long_name: ''
             start_time: '08:00:00'
             planned_time:'07:12:00'
+            label: ''
             licence_plate: 'KMT-518'
         }
     }

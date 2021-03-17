@@ -50,6 +50,7 @@ Page {
 
         header: PageHeader {
             title: qsTr("Closest stops")
+            description: qsTr("Stop name, Distance")
         }
         delegate: BackgroundItem {
             id: delegate

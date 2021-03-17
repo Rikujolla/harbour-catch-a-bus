@@ -1,0 +1,123 @@
+<xml>
+<routes><route_id>101</route_id><route_short_name>NONSTOP</route_short_name><route_long_name>Keskusta - Mattilanniemi</route_long_name></routes>
+<routes><route_id>118</route_id><route_short_name>Seutu PM</route_short_name><route_long_name>Uurainen - Jyväskylä</route_long_name></routes>
+<routes><route_id>131</route_id><route_short_name>Valon kaupunki</route_short_name><route_long_name>Korpilahti - Jyväskylä</route_long_name></routes>
+<routes><route_id>132</route_id><route_short_name>Valon kaupunki</route_short_name><route_long_name>Jyväskylä - Korpilahti</route_long_name></routes>
+<routes><route_id>18</route_id><route_short_name>SEUTU MM</route_short_name><route_long_name>KEURUU-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>3</route_id><route_short_name>333UL</route_short_name><route_long_name>Saarijärvi-Jyväskylä</route_long_name></routes>
+<routes><route_id>411</route_id><route_short_name>00 KOI</route_short_name><route_long_name>LAUKAA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>6411</route_id><route_short_name>SEUTU TOIVAKKA</route_short_name><route_long_name>TOIVAKKA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>6412</route_id><route_short_name>SEUTU TOIVAKKA</route_short_name><route_long_name>JYVÄSKYLÄ-TOIVAKKA</route_long_name></routes>
+<routes><route_id>6671</route_id><route_short_name>SEUTU SJ</route_short_name><route_long_name>SAARIJÄRVI-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>7</route_id><route_short_name>Seutu RA</route_short_name><route_long_name>Jyväskylä - Laukaa</route_long_name></routes>
+<routes><route_id>9011</route_id><route_short_name>1</route_short_name><route_long_name>HAAPANIEMI-KORTEMÄKI</route_long_name></routes>
+<routes><route_id>9012</route_id><route_short_name>1</route_short_name><route_long_name>KORTEMÄKI-HAAPANIEMI</route_long_name></routes>
+<routes><route_id>9013</route_id><route_short_name>1M</route_short_name><route_long_name>HAAPANIEMI-VIITANIEMI</route_long_name></routes>
+<routes><route_id>9014</route_id><route_short_name>1M</route_short_name><route_long_name>VIITANIEMI-HAAPANIEMI</route_long_name></routes>
+<routes><route_id>9021</route_id><route_short_name>2</route_short_name><route_long_name>KAUNISHARJU-KORTEMÄKI</route_long_name></routes>
+<routes><route_id>9022</route_id><route_short_name>2</route_short_name><route_long_name>KORTEMÄKI-KAUNISHARJU</route_long_name></routes>
+<routes><route_id>9023</route_id><route_short_name>2M</route_short_name><route_long_name>KAUNISHARJU-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9024</route_id><route_short_name>2M</route_short_name><route_long_name>KESKUSSAIRAALA-KAUNISHARJU</route_long_name></routes>
+<routes><route_id>9031</route_id><route_short_name>3</route_short_name><route_long_name>VAAJAKOSKI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9032</route_id><route_short_name>3</route_short_name><route_long_name>KESKUSTA-VAAJAKOSKI</route_long_name></routes>
+<routes><route_id>9033</route_id><route_short_name>3K</route_short_name><route_long_name>HALSSILA-HUHTAHARJUN KOULU</route_long_name></routes>
+<routes><route_id>9034</route_id><route_short_name>3K</route_short_name><route_long_name>HUHTAHARJUN KOULU-HALSSILA</route_long_name></routes>
+<routes><route_id>9041</route_id><route_short_name>4</route_short_name><route_long_name>VIHERLANDIA-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9042</route_id><route_short_name>4</route_short_name><route_long_name>KESKUSSAIRAALA-VIHERLANDIA</route_long_name></routes>
+<routes><route_id>9043</route_id><route_short_name>4K</route_short_name><route_long_name>VIHERLANDIA-VAAJAKOSKI</route_long_name></routes>
+<routes><route_id>9044</route_id><route_short_name>4K</route_short_name><route_long_name>VAAJAKOSKI-VIHERLANDIA</route_long_name></routes>
+<routes><route_id>9051</route_id><route_short_name>5</route_short_name><route_long_name>YLISTÖNMÄKI-VIITANIEMI</route_long_name></routes>
+<routes><route_id>9052</route_id><route_short_name>5</route_short_name><route_long_name>VIITANIEMI-YLISTÖNMÄKI</route_long_name></routes>
+<routes><route_id>9053</route_id><route_short_name>5K</route_short_name><route_long_name>KORTEPOHJA-YLISTÖNMÄKI</route_long_name></routes>
+<routes><route_id>9054</route_id><route_short_name>5</route_short_name><route_long_name>KESKUSTA-YLISTÖNMÄKI</route_long_name></routes>
+<routes><route_id>9055</route_id><route_short_name>5</route_short_name><route_long_name>YLISTÖNMÄKI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9071</route_id><route_short_name>7</route_short_name><route_long_name>SÄÄKSVUORI-VIITANIEMI</route_long_name></routes>
+<routes><route_id>9072</route_id><route_short_name>7</route_short_name><route_long_name>VIITANIEMI-SÄÄKSVUORI</route_long_name></routes>
+<routes><route_id>9081</route_id><route_short_name>8</route_short_name><route_long_name>NENÄINNIEMI-VIITANIEMI</route_long_name></routes>
+<routes><route_id>9082</route_id><route_short_name>8</route_short_name><route_long_name>VIITANIEMI-NENÄINNIEMI</route_long_name></routes>
+<routes><route_id>9101</route_id><route_short_name>10</route_short_name><route_long_name>KAAKKOLAMPI-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9102</route_id><route_short_name>10</route_short_name><route_long_name>KESKUSSAIRAALA-KAAKKOLAMPI</route_long_name></routes>
+<routes><route_id>9121</route_id><route_short_name>12</route_short_name><route_long_name>KANGASLAMPI-KELTINMÄKI</route_long_name></routes>
+<routes><route_id>9122</route_id><route_short_name>12</route_short_name><route_long_name>KELTINMÄKI-KANGASLAMPI</route_long_name></routes>
+<routes><route_id>9123</route_id><route_short_name>12K</route_short_name><route_long_name>YLÄMYLLYJÄRVI-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9124</route_id><route_short_name>12K</route_short_name><route_long_name>KAUPPATORI-YLÄMYLLYJÄRVI</route_long_name></routes>
+<routes><route_id>9125</route_id><route_short_name>12T</route_short_name><route_long_name>KANGASLAMPI-KANGAS-KELTINMÄKI</route_long_name></routes>
+<routes><route_id>9126</route_id><route_short_name>12T</route_short_name><route_long_name>KELTINMÄKI-KANGAS-KANGASLAMPI</route_long_name></routes>
+<routes><route_id>9131</route_id><route_short_name>13</route_short_name><route_long_name>TIKKALA-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9132</route_id><route_short_name>13</route_short_name><route_long_name>KAUPPATORI-TIKKALA</route_long_name></routes>
+<routes><route_id>9135</route_id><route_short_name>13M</route_short_name><route_long_name>13M JKL-SAUKKOLA-KORPILAHTI</route_long_name></routes>
+<routes><route_id>9141</route_id><route_short_name>14</route_short_name><route_long_name>VERKKONIEMI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9142</route_id><route_short_name>14</route_short_name><route_long_name>KESKUSTA-VERKKONIEMI</route_long_name></routes>
+<routes><route_id>9143</route_id><route_short_name>14M</route_short_name><route_long_name>VERKKONIEMI-9TIE-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9144</route_id><route_short_name>14M</route_short_name><route_long_name>KAUPPATORI-9TIE-VERKKONIEMI</route_long_name></routes>
+<routes><route_id>9151</route_id><route_short_name>15</route_short_name><route_long_name>VIHERLANDIA-KESKUSTA</route_long_name></routes>
+<routes><route_id>9152</route_id><route_short_name>15</route_short_name><route_long_name>KESKUSTA-VIHERLANDIA</route_long_name></routes>
+<routes><route_id>9153</route_id><route_short_name>15K</route_short_name><route_long_name>VIHERLANDIA-KSAIRAALA</route_long_name></routes>
+<routes><route_id>9154</route_id><route_short_name>15K</route_short_name><route_long_name>KSAIRAALA-VIHERLANDIA</route_long_name></routes>
+<routes><route_id>9161</route_id><route_short_name>16</route_short_name><route_long_name>MUURATSALO-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9162</route_id><route_short_name>16</route_short_name><route_long_name>KAUPPATORI-MUURATSALO</route_long_name></routes>
+<routes><route_id>9163</route_id><route_short_name>16M</route_short_name><route_long_name>MUURATSALO-VIITANIEMI</route_long_name></routes>
+<routes><route_id>9164</route_id><route_short_name>16M</route_short_name><route_long_name>VIITANIEMI-MUURATSALO</route_long_name></routes>
+<routes><route_id>9181</route_id><route_short_name>18</route_short_name><route_long_name>RISTIKIVI-KORTEPOHJA</route_long_name></routes>
+<routes><route_id>9182</route_id><route_short_name>18</route_short_name><route_long_name>KORTEPOHJA-RISTIKIVI</route_long_name></routes>
+<routes><route_id>9183</route_id><route_short_name>18K</route_short_name><route_long_name>NENÄINNIEMI-KORTEPOHJA</route_long_name></routes>
+<routes><route_id>9184</route_id><route_short_name>18K</route_short_name><route_long_name>KORTEPOHJA-NENÄINNIEMI</route_long_name></routes>
+<routes><route_id>9191</route_id><route_short_name>19</route_short_name><route_long_name>SAMULINNIEMI-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9192</route_id><route_short_name>19</route_short_name><route_long_name>KESKUSSAIRAALA-SAMULINNIEMI</route_long_name></routes>
+<routes><route_id>9193</route_id><route_short_name>19L</route_short_name><route_long_name>SAMULINNIEMI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9194</route_id><route_short_name>19L</route_short_name><route_long_name>KESKUSTA-SAMULINNIEMI</route_long_name></routes>
+<routes><route_id>9201</route_id><route_short_name>20</route_short_name><route_long_name>PUPUHUHTA-KUOKKALA</route_long_name></routes>
+<routes><route_id>9202</route_id><route_short_name>20</route_short_name><route_long_name>KUOKKALA-PUPUHUHTA</route_long_name></routes>
+<routes><route_id>9211</route_id><route_short_name>21</route_short_name><route_long_name>MUURAME-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9212</route_id><route_short_name>21</route_short_name><route_long_name>KAUPPATORI-MUURAME</route_long_name></routes>
+<routes><route_id>9213</route_id><route_short_name>21M</route_short_name><route_long_name>MUURAME-9TIE-KAUPPATORI</route_long_name></routes>
+<routes><route_id>9214</route_id><route_short_name>21M</route_short_name><route_long_name>KAUPPATORI-9TIE-MUURAME</route_long_name></routes>
+<routes><route_id>9221</route_id><route_short_name>22</route_short_name><route_long_name>TIKKAKOSKI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9222</route_id><route_short_name>22</route_short_name><route_long_name>KESKUSTA-TIKKAKOSKI</route_long_name></routes>
+<routes><route_id>9223</route_id><route_short_name>22M</route_short_name><route_long_name>TIKKAKOSKI-4TIE-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9224</route_id><route_short_name>22M</route_short_name><route_long_name>KESKUSSAIRAALA-4TIE-TIKKAKOSKI</route_long_name></routes>
+<routes><route_id>9225</route_id><route_short_name>22</route_short_name><route_long_name>PALOKANKESKUS-KUOKKALA</route_long_name></routes>
+<routes><route_id>9226</route_id><route_short_name>22</route_short_name><route_long_name>KESKUSTA-PALOKANKESKUS</route_long_name></routes>
+<routes><route_id>9231</route_id><route_short_name>23</route_short_name><route_long_name>KIRRI-KESKUSSAIRAALA</route_long_name></routes>
+<routes><route_id>9232</route_id><route_short_name>23</route_short_name><route_long_name>KESKUSSAIRAALA-KIRRI</route_long_name></routes>
+<routes><route_id>9251</route_id><route_short_name>25</route_short_name><route_long_name>PALOKKA-KAAKKOLAMPI</route_long_name></routes>
+<routes><route_id>9252</route_id><route_short_name>25</route_short_name><route_long_name>KAAKKOLAMPI-PALOKKA</route_long_name></routes>
+<routes><route_id>9253</route_id><route_short_name>25</route_short_name><route_long_name>LAAJAVUORI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9254</route_id><route_short_name>25</route_short_name><route_long_name>KESKUSTA-LAAJAVUORI</route_long_name></routes>
+<routes><route_id>9261</route_id><route_short_name>26</route_short_name><route_long_name>HEINÄLAMPI-YLISTÖNMÄKI</route_long_name></routes>
+<routes><route_id>9262</route_id><route_short_name>26</route_short_name><route_long_name>YLISTÖNMÄKI-HEINÄLAMPI</route_long_name></routes>
+<routes><route_id>9271</route_id><route_short_name>27</route_short_name><route_long_name>HEIKKILÄ-PALOKKA-MUSTALAMPI</route_long_name></routes>
+<routes><route_id>9272</route_id><route_short_name>27</route_short_name><route_long_name>MUSTALAMPI-PALOKKA-HEIKKILÄ</route_long_name></routes>
+<routes><route_id>9311</route_id><route_short_name>31</route_short_name><route_long_name>SAARENMAA-LINTUKANGAS-KESKUSTA</route_long_name></routes>
+<routes><route_id>9312</route_id><route_short_name>31</route_short_name><route_long_name>KESKUSTA-LINTUKANGAS-SAARENMAA</route_long_name></routes>
+<routes><route_id>9321</route_id><route_short_name>32</route_short_name><route_long_name>VERTAALA-PALOKKA-KESKUSTA</route_long_name></routes>
+<routes><route_id>9322</route_id><route_short_name>32</route_short_name><route_long_name>KESKUSTA-PALOKKA-VERTAALA</route_long_name></routes>
+<routes><route_id>9341</route_id><route_short_name>34</route_short_name><route_long_name>TIKKAKOSKI-JYLHÄ-PUUPPOLA</route_long_name></routes>
+<routes><route_id>9342</route_id><route_short_name>34</route_short_name><route_long_name>RANNILA-PUUPPOLA</route_long_name></routes>
+<routes><route_id>9361</route_id><route_short_name>36</route_short_name><route_long_name>TIKKAKOSKI-MATINMÄKI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9362</route_id><route_short_name>36</route_short_name><route_long_name>KESKUSTA-MATINMÄKI-TIKKAKOSKI</route_long_name></routes>
+<routes><route_id>9372</route_id><route_short_name>37</route_short_name><route_long_name>KESKUSTA-NUUTTI-RUOKE</route_long_name></routes>
+<routes><route_id>9381</route_id><route_short_name>38</route_short_name><route_long_name>TOIVAKKA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9382</route_id><route_short_name>38</route_short_name><route_long_name>JYVÄSKYLÄ-TOIVAKKA</route_long_name></routes>
+<routes><route_id>9383</route_id><route_short_name>38K</route_short_name><route_long_name>LEPPÄLAHTI-KESKUSTA</route_long_name></routes>
+<routes><route_id>9384</route_id><route_short_name>38K</route_short_name><route_long_name>KESKUSTA-LEPPÄLAHTI</route_long_name></routes>
+<routes><route_id>9385</route_id><route_short_name>38R</route_short_name><route_long_name>TOIVAKKA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9386</route_id><route_short_name>38R</route_short_name><route_long_name>JYVÄSKYLÄ-TOIVAKKA</route_long_name></routes>
+<routes><route_id>9391</route_id><route_short_name>39</route_short_name><route_long_name>RUOKE-KESKUSTA-RUOKE</route_long_name></routes>
+<routes><route_id>9392</route_id><route_short_name>39</route_short_name><route_long_name>KESKUSTA-RUOKE</route_long_name></routes>
+<routes><route_id>9411</route_id><route_short_name>41</route_short_name><route_long_name>LAUKAA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9412</route_id><route_short_name>41</route_short_name><route_long_name>JYVÄSKYLÄ-LAUKAA</route_long_name></routes>
+<routes><route_id>9413</route_id><route_short_name>41</route_short_name><route_long_name>PEURUNKA-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9414</route_id><route_short_name>41</route_short_name><route_long_name>JYVÄSKYLÄ-PEURUNKA</route_long_name></routes>
+<routes><route_id>9415</route_id><route_short_name>Seutu</route_short_name><route_long_name>ÄÄNEKOSKI-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9416</route_id><route_short_name>Seutu</route_short_name><route_long_name>JYVÄSKYLÄ-ÄÄNEKOSKI</route_long_name></routes>
+<routes><route_id>9421</route_id><route_short_name>42</route_short_name><route_long_name>LIEVESTUORE-JYVÄSKYLÄ</route_long_name></routes>
+<routes><route_id>9422</route_id><route_short_name>42</route_short_name><route_long_name>JYVÄSKYLÄ-LIEVESTUORE</route_long_name></routes>
+<routes><route_id>9501</route_id><route_short_name>Kynttiläkyyti</route_short_name><route_long_name>MÄNTYKANKAAN HAUTAUSMAA-KESKUSTA</route_long_name></routes>
+<routes><route_id>9502</route_id><route_short_name>Kynttiläkyyti</route_short_name><route_long_name>KESKUSTA-MÄNTYKANKAAN HAUTAUSMAA</route_long_name></routes>
+<routes><route_id>9511</route_id><route_short_name>Kynttiläkyyti</route_short_name><route_long_name>VAAJAKOSKI-LAHJAHARJUN HAUTAUSMAA</route_long_name></routes>
+<routes><route_id>9512</route_id><route_short_name>Kynttiläkyyti</route_short_name><route_long_name>LAHJAHARJUN HAUTAUSMAA-VAAJAKOSKI</route_long_name></routes>
+<routes><route_id>9601</route_id><route_short_name>LAUKAA-TARVAALA</route_short_name><route_long_name>LAUKAA-VUONTEE-TARVAALA</route_long_name></routes>
+<routes><route_id>9603</route_id><route_short_name>NOJOSNIEMI</route_short_name><route_long_name>NOJOSNIEMI-LIEVESTUORE</route_long_name></routes>
+<routes><route_id>9604</route_id><route_short_name>41</route_short_name><route_long_name>JYVÄSKYLÄ-VATIA</route_long_name></routes>
+</xml>

@@ -27,6 +27,20 @@ function load_stop_times() {
                 })
 }
 
+function load_routes() {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
+                    console.log("hhhhh")
+                    for (var i=0;i<routes_xml.count;i++){
+                        tx.executeSql('INSERT INTO Routes VALUES(?, ?, ?)', [routes_xml.get(i).route_id, routes_xml.get(i).route_short_name, routes_xml.get(i).route_long_name])
+                    }
+                })
+}
+
 function delete_tables() {
     var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
 
@@ -47,18 +61,21 @@ function get_stop_times() {
                 function(tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
-                    var rs = tx.executeSql('SELECT * FROM Stop_times WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
+                    //var rs = tx.executeSql('SELECT * FROM Stop_times WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, Stop_times.stop_id AS stopid, Stops.stop_name AS sname FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id=Stops.stop_id WHERE Stop_times.stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     bus_at_stop.clear()
-                    //console.log(current_time,stoptimes_xml.get(6).departure_time, rs.rows.length)
+                    console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)
 
                     for (var i=0;i<rs.rows.length;i++){
+                        //console.log(rs.rows.item(i).sname, rs.rows.item(i).sname)
                         if (rs.rows.item(i).stop_id == selected_busstop.get(stop_index).stop_id
                                 && rs.rows.item(i).departure_time > current_time
                                 && rs.rows.item(i).day == day){
-                            bus_at_stop.append({"route_id":rs.rows.item(i).trip_id, "start_time":rs.rows.item(i).start_time, "planned_time":rs.rows.item(i).departure_time})
+                            bus_at_stop.append({"route_id":rs.rows.item(i).trip_id, "route_short_name": rs.rows.item(i).route_short_name, "route_long_name": rs.rows.item(i).route_long_name, "start_time":rs.rows.item(i).start_time, "planned_time":rs.rows.item(i).departure_time})
                         }
                     }
-
                 })
 }
 
@@ -70,22 +87,14 @@ function get_closest_stop() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     var rs = tx.executeSql('SELECT * FROM Stops');
-                    var dist_smallest = 400000.0
                     var dist_temp = 400000;
                     var _thelati = 0.0
                     var _thelongi = 0.0
-                    var _selected = 0;
                     for (var i=0;i<rs.rows.length;i++){
                         _thelati = (rs.rows.item(i).stop_lat)
                         _thelongi = (rs.rows.item(i).stop_lon)
-                        //console.log(_thelati, _thelongi, _thelati+_thelongi)
                         dist_temp = Myfunc.distance(_thelati, _thelongi)
                         tx.executeSql('UPDATE Stops SET mydistance = ?  WHERE stop_id = ?', [dist_temp,rs.rows.item(i).stop_id])
-                        if (dist_temp < dist_smallest){
-                            dist_smallest = dist_temp
-                            var _stopname = rs.rows.item(_selected).stop_name
-                            _selected = i;
-                        }
                     }
 
                     rs = tx.executeSql('SELECT * FROM Stops ORDER BY mydistance ASC LIMIT 15');
@@ -93,11 +102,6 @@ function get_closest_stop() {
                     for (i=0;i<rs.rows.length;i++){
                         selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":rs.rows.item(i).mydistance})
                     }
-
-                    console.log ("Pysakille " + rs.rows.item(0).stop_name + " " + dist_smallest + "m " + rs.rows.item(0).mydistance)
-                    selected_stop.text = _stopname + ", " + dist_smallest + "m"
-                    //selected_busstop.clear();
-                    //selected_busstop.set(0,{"stop_id":rs.rows.item(0).stop_id, "stop_name":rs.rows.item(0).stop_name})
                 })
 }
 
@@ -131,8 +135,10 @@ function running_busses_on_the_stop() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     if (selections.get(0).stop_name != 'Not selected'){
-                        var rs = tx.executeSql('SELECT * FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
+                        //var rs = tx.executeSql('SELECT * FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
+                        var rs = tx.executeSql('SELECT *, route_short_name, route_long_name FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? INNER JOIN Routes ON Busses.route_id = Routes.route_id ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
                     }
                     else {
                         rs = tx.executeSql('SELECT * FROM Busses');
@@ -142,7 +148,7 @@ function running_busses_on_the_stop() {
                     console.log(rs.rows.length);
                     for (var i = 0; i<rs.rows.length; i++){
                         console.log (rs.rows.item(i).route_id, rs.rows.item(i).start_time,rs.rows.item(i).label,rs.rows.item(i).license_plate)
-                        buslist_model.append({"line": rs.rows.item(i).route_id, "time":rs.rows.item(i).start_time, "label":rs.rows.item(i).label, "licenseplate":rs.rows.item(i).license_plate})
+                        buslist_model.append({"line": rs.rows.item(i).route_id, route_short_name: rs.rows.item(i).route_short_name, "time":rs.rows.item(i).start_time, "label":rs.rows.item(i).label, "licenseplate":rs.rows.item(i).license_plate})
                     }
                 })
 }

@@ -61,13 +61,13 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: line + " " + time + " " + label + " " + licenseplate
+                text: route_short_name + " " + time.substring(0,5) + " " + label + " " + licenseplate
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                selected_busses.set(0, {"line": line, "time":time, "label":label, "licenseplate":licenseplate})
-                selections.set(0, {"trip_id":line, "start_time":time, "label":label, "license_plate":licenseplate})
+                //selected_busses.set(0, {"line": line, "time":time, "label":label, "licenseplate":licenseplate})
+                selections.set(0, {"route_short_name": route_short_name, "trip_id":line, "start_time":time, "label":label, "license_plate":licenseplate})
                 pageStack.pop();
             }
         }

@@ -49,7 +49,7 @@ Page {
             selected_bus.text = selections.get(0).trip_id
         }
         else {
-            selected_bus.text = selections.get(0).trip_id + " " + selections.get(0).start_time + " " + selections.get(0).label + " " + selections.get(0).licence_plate
+            selected_bus.text = selections.get(0).route_short_name + " " + selections.get(0).start_time.substring(0,5) + " " + selections.get(0).label + " " + selections.get(0).licence_plate
         }
     }
     property bool downloading: false
@@ -96,8 +96,8 @@ Page {
             BackgroundItem {
                 SectionHeader { text: qsTr("Selected bus stop") }
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("Stops.qml"))
                     Mydbs.get_closest_stop()
+                    pageStack.push(Qt.resolvedUrl("Stops.qml"))
                 }
             }
 
@@ -112,7 +112,13 @@ Page {
                     text: ""
                 }
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                    if (selected_stop.text == "Not selected"){
+                        Mydbs.get_closest_stop()
+                        pageStack.push(Qt.resolvedUrl("Stops.qml"))
+                    }
+                    else {
+                        pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                    }
                 }
             }
 
@@ -154,30 +160,10 @@ Page {
                 }
             }
 
-            /*BackgroundItem {
-                height: buslist.height
-                ListView {
-                    id:buslist
-                    model:selected_busses
-                    height:selected_busses.count*100
-                    //anchors.top: bus.bottom
-                    delegate: Text {
-                        color: Theme.primaryColor
-                        font.pixelSize:Theme.fontSizeLarge
-                        text: line + " " + time + " " + label + " " + licenseplate
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            margins: Theme.paddingLarge
-                        }
-                    }
-                }
-            }*/
-
             Label {
                 id: positsione
                 //anchors.top: mainLabel.bottom
-                text: "Testi"
+                text: ""
                 font.pixelSize:Theme.fontSizeLarge
                 visible: !page.downloading
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -186,7 +172,6 @@ Page {
             ProgressBar {
                 id: dlprogress
                 label: "Downloading bus data."
-                //anchors.top: mainLabel.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 visible: page.downloading
@@ -231,7 +216,7 @@ Page {
                 buslist_model.clear();
                 Mydbs.clear_running_busses(); // check if needed
                 if (!page.downloading){
-                    python.startDownload(selected_busses.get(0).line, cityname, selected_busses.get(0).time);
+                    python.startDownload(selections.get(0).trip_id, cityname, selections.get(0).start_time);
                 }
             }
         }
@@ -281,7 +266,7 @@ Page {
                 });
                 setHandler('bus_id', function(msg1,msg2,msg3,msg4) {
                     console.log(msg1, msg2, msg3,msg4);
-                    buslist_model.append({"line": msg1, "time":msg2, "label":msg3, "licenseplate":msg4})
+                    //buslist_model.append({"line": msg1, "time":msg2, "label":msg3, "licenseplate":msg4})
                     Mydbs.running_busses(msg1, msg2, msg3, msg4)
                 });
                 setHandler('position', function(latti,longi,p3, p4,p5,p6) {

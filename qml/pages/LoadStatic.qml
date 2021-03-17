@@ -58,6 +58,11 @@ Page {
                 onClicked: Mydbs.load_stop_times()
             }
             Button {
+                text:"Load routes"
+                enabled: routes_xml.status == 1
+                onClicked: Mydbs.load_routes()
+            }
+            Button {
                 text:"Delete old data"
                 onClicked: Mydbs.delete_tables()
             }
@@ -72,6 +77,15 @@ Page {
                 XmlRole {name:"departure_time"; query:"departure_time/string()"}
                 XmlRole {name:"stop_id"; query:"stop_id/string()"}
                 XmlRole {name:"stop_sequence"; query:"stop_sequence/number()"}
+            }
+
+            XmlListModel {
+                id: routes_xml
+                source: "../data/209/routes.xml"
+                query: "/xml/routes"
+                XmlRole {name:"route_id"; query:"route_id/string()"}
+                XmlRole {name:"route_short_name"; query:"route_short_name/string()"}
+                XmlRole {name:"route_long_name"; query:"route_long_name/string()"}
             }
         }
     }
