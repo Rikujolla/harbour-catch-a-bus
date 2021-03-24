@@ -31,7 +31,6 @@ import "dbfunctions.js" as Mydbs
 Page {
     id: page
     onStatusChanged: {
-        //Mydbases.loadLocation()
     }
 
     SilicaListView {
@@ -66,7 +65,6 @@ Page {
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                //selected_busses.set(0, {"line": line, "time":time, "label":label, "licenseplate":licenseplate})
                 selections.set(0, {"route_short_name": route_short_name, "trip_id":line, "start_time":time, "label":label, "license_plate":licenseplate})
                 pageStack.pop();
             }
@@ -74,7 +72,6 @@ Page {
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
-            //Mydbases.loadLocation()
             Mydbs.running_busses_on_the_stop()
         }
     }

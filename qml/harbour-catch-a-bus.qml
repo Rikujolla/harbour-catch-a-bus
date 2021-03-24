@@ -119,6 +119,23 @@ ApplicationWindow
             dist_bus: 400000.0
         }
     }
+
+    ListModel {
+        // Document selections to visualize them
+        id:stopseq_model
+        ListElement {
+            route_short_name: ''
+            stop_id: 'Not selected'
+            stop_name:'Not selected'
+            dist_me: 400000.0
+            trip_id:'Not selected'
+            start_time: 'Not selected'
+            planned_time:''
+            label: 'Not selected'
+            license_plate:""
+            dist_bus: 400000.0
+        }
+    }
     ListModel {
         id:bus_at_stop
         ListElement {

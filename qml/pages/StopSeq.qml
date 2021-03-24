@@ -25,33 +25,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtQuick.LocalStorage 2.0
-import "functions.js" as Myfunc
-import "dbfunctions.js" as Mydbs
-
+//import QtQuick.LocalStorage 2.0
 
 Page {
     id: page
     onStatusChanged: {
+
     }
 
     SilicaListView {
         id: listView
-        model: bus_at_stop
+        model: stopseq_model
         anchors.fill: parent
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Busses available")
+                text: qsTr("Stop sequence")
                 onClicked:{
-                    pageStack.push(Qt.resolvedUrl("Loc.qml"))
+                    //selections.set(0,{"stop_id": '207673', "stop_name":'Not selected', "dist_me":400000.0})
+                    pageStack.pop();
                 }
             }
         }
 
         header: PageHeader {
-            title: qsTr("Stop schedule")
-            description:"Route, Start time, Stop time, Route name"
+            title: qsTr("Stop sequence")
+            description: qsTr("Stop name, Distance")
         }
         delegate: BackgroundItem {
             id: delegate
@@ -59,20 +58,20 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: route_short_name + " " + start_time.substring(0,5) + " " + planned_time.substring(0,5) + " " + route_long_name
+                text: planned_time + " " + stop_name + " " + dist_me + " m"
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                selections.set(0, {"route_short_name": route_short_name, "trip_id":route_id, "start_time":start_time, "label":route_long_name, "license_plate":licence_plate})
+                //stop_index = index;
+                //selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me})
                 pageStack.pop();
             }
         }
-
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
-            Mydbs.get_stop_times()
+
         }
     }
 }

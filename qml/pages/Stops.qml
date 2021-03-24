@@ -64,7 +64,7 @@ Page {
             }
             onClicked: {
                 stop_index = index;
-                console.log(index);
+                //console.log(index);
                 selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me})
                 pageStack.pop();
             }

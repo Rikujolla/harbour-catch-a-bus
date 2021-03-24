@@ -17,29 +17,7 @@ function distance(thelati, thelongi) {
     return ddist;
 
 }
-/*
-function closest_stop() {
-    var dist_smallest = 400000.0
-    var dist_temp = 400000;
-    var _thelati = 0.0
-    var _thelongi = 0.0
-    var _selected = 0;
-    for (var i=0;i<busstops_xml.count;i++){
-        _thelati = (busstops_xml.get(i).stop_lat)
-        _thelongi = (busstops_xml.get(i).stop_lon)
-        //console.log(_thelati, _thelongi, _thelati+_thelongi)
-        dist_temp = distance(_thelati, _thelongi)
-        if (dist_temp < dist_smallest){
-            dist_smallest = dist_temp
-            _selected = i;
-        }
-    }
-    console.log ("Pysakille " + busstops_xml.get(_selected).stop_name + " " + dist_smallest + "m" )
-    selected_stop.text = busstops_xml.get(_selected).stop_name + ", " + dist_smallest + "m"
-    selected_busstop.clear();
-    selected_busstop.set(0,{"stop_id":busstops_xml.get(_selected).stop_id, "stop_name":busstops_xml.get(_selected).stop_name})
-}
-*/
+
 function get_time() {
     var d = new Date();
     var n = d.toLocaleTimeString();
@@ -54,7 +32,7 @@ function get_time() {
       default:
           day = "M-P"
     }
-    console.log(day)
+    //console.log(day)
 
     if(n.substr(2,1) == "."){
         current_time = n.substr(0,2) + ":" + n.substr(3,2) + ":" + n.substr(6, 2)

@@ -49,7 +49,7 @@ Page {
             selected_bus.text = selections.get(0).trip_id
         }
         else {
-            selected_bus.text = selections.get(0).route_short_name + " " + selections.get(0).start_time.substring(0,5) + " " + selections.get(0).label + " " + selections.get(0).licence_plate
+            selected_bus.text = selections.get(0).route_short_name + " " + selections.get(0).start_time.substring(0,5) + " " + selections.get(0).label
         }
     }
     property bool downloading: false
@@ -131,7 +131,6 @@ Page {
 
             TextField {
                 id: bus
-                //anchors.top: header.bottom
                 placeholderText: "Enter bus line"
                 anchors.horizontalCenter: parent.horizontalCenter
                 validator: RegExpValidator { regExp: /^[0-9]{0,}$/ }
@@ -160,13 +159,19 @@ Page {
                 }
             }
 
-            Label {
-                id: positsione
-                //anchors.top: mainLabel.bottom
-                text: ""
-                font.pixelSize:Theme.fontSizeLarge
-                visible: !page.downloading
-                anchors.horizontalCenter: parent.horizontalCenter
+            BackgroundItem {
+                Label {
+                    id: positsione
+                    text: ""
+                    font.pixelSize:Theme.fontSizeLarge
+                    visible: !page.downloading
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                onClicked: {
+                    Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
+                    console.log(day,selections.get(0).trip_id,selections.get(0).start_time)
+                    pageStack.push(Qt.resolvedUrl("StopSeq.qml"))
+                }
             }
 
             ProgressBar {
@@ -182,6 +187,7 @@ Page {
             BackgroundItem {
                 Label {
                     id:competition
+                    font.pixelSize:Theme.fontSizeLarge
                     anchors {
                         left: parent.left
                         right: parent.right
@@ -244,7 +250,7 @@ Page {
                     }
 
                     python.startDownload(_search, cityname, "00:00:01");
-                    console.log("bus.text", bus.text)
+                    //console.log("bus.text", bus.text)
                 }
                 else {
                     python.startDownload("haku", cityname, "00:00:01");
@@ -262,22 +268,21 @@ Page {
                     dlprogress.value = ratio;
                 });
                 setHandler('message', function(msg) {
-                    console.log(msg);
+                    //console.log(msg);
                 });
                 setHandler('bus_id', function(msg1,msg2,msg3,msg4) {
-                    console.log(msg1, msg2, msg3,msg4);
+                    //console.log(msg1, msg2, msg3,msg4);
                     //buslist_model.append({"line": msg1, "time":msg2, "label":msg3, "licenseplate":msg4})
                     Mydbs.running_busses(msg1, msg2, msg3, msg4)
                 });
-                setHandler('position', function(latti,longi,p3, p4,p5,p6) {
-                    console.log(latti, longi, p3, p4, p5, p6);
+                setHandler('position', function(latti, longi, p3, p4, p5, p6) {
                     selections.set(0, {"dist_bus":Myfunc.distance(latti,longi)});
-                    positsione.text = selections.get(0).dist_bus + " " + p3 + " " + p4 + " " + p5;
+                    positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + " " + p5 + ")";
                     competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
                 });
                 setHandler('finished', function(newvalue) {
                     page.downloading = false;
-                    console.log( "finished" , newvalue);
+                    //console.log( "finished" , newvalue);
                 });
 
                 importModule('datadownloader', function () {});
@@ -287,19 +292,19 @@ Page {
             function startDownload(arg1, arg2, arg3) {
                 page.downloading = true;
                 dlprogress.value = 0.0;
-                console.log("arg1",arg1)
+                //console.log("arg1",arg1)
                 call('datadownloader.downloader.download', [arg1, arg2, arg3],function() {});
             }
 
             onError: {
                 // when an exception is raised, this error handler will be called
-                console.log('python error: ' + traceback);
+                //console.log('python error: ' + traceback);
             }
 
             onReceived: {
                 // asychronous messages from Python arrive here
                 // in Python, this can be accomplished via pyotherside.send()
-                console.log('got message from python: ' + data);
+                //console.log('got message from python: ' + data);
             }
         }
     }
