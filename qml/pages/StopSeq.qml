@@ -25,7 +25,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-//import QtQuick.LocalStorage 2.0
+import QtQuick.LocalStorage 2.0
+import "dbfunctions.js" as Mydbs
 
 Page {
     id: page
@@ -42,7 +43,6 @@ Page {
             MenuItem {
                 text: qsTr("Stop sequence")
                 onClicked:{
-                    //selections.set(0,{"stop_id": '207673', "stop_name":'Not selected', "dist_me":400000.0})
                     pageStack.pop();
                 }
             }
@@ -50,7 +50,7 @@ Page {
 
         header: PageHeader {
             title: qsTr("Stop sequence")
-            description: qsTr("Stop name, Distance")
+            description: qsTr("Stop time, Stop name, Distance")
         }
         delegate: BackgroundItem {
             id: delegate
@@ -58,16 +58,28 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: planned_time + " " + stop_name + " " + dist_me + " m"
+                text: planned_time + " " + stop_name
+                font.bold: index < selections.get(0).stop_sequence ? true:false
+                font.italic: index < selections.get(0).stop_sequence ? true:false
                 anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+                color: colore == "first" ? Theme.secondaryHighlightColor : Theme.primaryColor
+                //color: colore
             }
             onClicked: {
-                //stop_index = index;
-                //selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me})
-                pageStack.pop();
+                //console.log(index, selections.get(0).stop_sequence)
             }
         }
+
+        Timer {
+            running: true && Qt.application.active
+            interval: 5000
+            repeat:true
+            onTriggered: {
+                Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
+                listView.positionViewAtIndex(selections.get(0).stop_sequence-1, ListView.Center)
+            }
+        }
+
         VerticalScrollDecorator {}
 
         Component.onCompleted: {

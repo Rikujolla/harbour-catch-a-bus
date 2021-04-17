@@ -104,18 +104,19 @@ function get_closest_stop() {
                     var dist_temp = 400000;
                     var _thelati = 0.0
                     var _thelongi = 0.0
+                    var coord = possut.position.coordinate
 
                     for (var i=0;i<rs.rows.length;i++){
                         _thelati = (rs.rows.item(i).stop_lat)
                         _thelongi = (rs.rows.item(i).stop_lon)
-                        dist_temp = Myfunc.distance(_thelati, _thelongi)
+                        dist_temp = Myfunc.distance(_thelati, _thelongi,coord.latitude, coord.longitude)
                         tx.executeSql('UPDATE Stops SET mydistance = ?  WHERE stop_id = ?', [dist_temp,rs.rows.item(i).stop_id])
                     }
 
                     rs = tx.executeSql('SELECT * FROM Stops WHERE mydistance < ? ORDER BY mydistance ASC', [2000]);
                     selected_busstop.clear();
                     for (i=0;i<rs.rows.length;i++){
-                        selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":rs.rows.item(i).mydistance})
+                        selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":rs.rows.item(i).mydistance, "stop_lat":rs.rows.item(i).stop_lat, "stop_lon":rs.rows.item(i).stop_lon})
                     }
                 })
 }
@@ -180,9 +181,19 @@ function fill_sequence(_day, _trip_id, _start_time) {
                     var rs = tx.executeSql('SELECT *, stop_name FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id = Stops.stop_id WHERE day = ? AND trip_id = ? AND start_time = ?', [_day, _trip_id, _start_time])
                     stopseq_model.clear()
                     for (var i = 0;i<rs.rows.length;i++) {
-                      stopseq_model.set(i, {"planned_time":rs.rows.item(i).departure_time.substring(0,5), "stop_name": rs.rows.item(i).stop_name})
+                        if(rs.rows.item(i).stop_id == selections.get(0).stop_id){
+                            //console.log(rs.rows.item(i).stop_name)
+                            selections.set(0,{"stop_sequence_selected":rs.rows.item(i).stop_sequence})
+                        }
+
+                        if (i<selections.get(0).stop_sequence-1){
+                            stopseq_model.set(i, {"planned_time":rs.rows.item(i).departure_time.substring(0,5), "stop_name": rs.rows.item(i).stop_name, "stop_sequence":rs.rows.item(i).stop_sequence, "colore":"first"})
+                        }
+                        else {
+                            stopseq_model.set(i, {"planned_time":rs.rows.item(i).departure_time.substring(0,5), "stop_name": rs.rows.item(i).stop_name, "stop_sequence":rs.rows.item(i).stop_sequence, "colore":"second"})
+                        }
                     }
 
-                    console.log(_day, _trip_id, _start_time)
+                    //console.log(_day, _trip_id, _start_time)
                 })
 }

@@ -64,8 +64,8 @@ Page {
             }
             onClicked: {
                 stop_index = index;
-                //console.log(index);
-                selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me})
+                //console.log(stop_lat, stop_lon)
+                selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me, "stop_lat":stop_lat, "stop_lon":stop_lon})
                 pageStack.pop();
             }
         }

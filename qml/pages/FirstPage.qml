@@ -169,7 +169,7 @@ Page {
                 }
                 onClicked: {
                     Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
-                    console.log(day,selections.get(0).trip_id,selections.get(0).start_time)
+                    //console.log(day,selections.get(0).trip_id,selections.get(0).start_time)
                     pageStack.push(Qt.resolvedUrl("StopSeq.qml"))
                 }
             }
@@ -214,7 +214,7 @@ Page {
 
         Timer {
             id:distanceLoader
-            interval: 10000;
+            interval: 5000;
             running: false;
             repeat: true
             onTriggered: {
@@ -276,8 +276,12 @@ Page {
                     Mydbs.running_busses(msg1, msg2, msg3, msg4)
                 });
                 setHandler('position', function(latti, longi, p3, p4, p5, p6) {
-                    selections.set(0, {"dist_bus":Myfunc.distance(latti,longi)});
+                    var coord = possut.position.coordinate
+                    selections.set(0, {"dist_bus":Myfunc.distance(latti,longi,coord.latitude,coord.longitude)});
+                    selections.set(0, {"dist_bus_to_stop":Myfunc.distance(latti,longi,selections.get(0).stop_lat,selections.get(0).stop_lon)});
+                    selections.set(0, {"dist_me":Myfunc.distance(selections.get(0).stop_lat,selections.get(0).stop_lon,coord.latitude,coord.longitude)});
                     positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + " " + p5 + ")";
+                    selections.set(0,{"stop_sequence":p4})
                     competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
                 });
                 setHandler('finished', function(newvalue) {

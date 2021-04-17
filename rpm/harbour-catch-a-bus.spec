@@ -13,7 +13,7 @@ Name:       harbour-catch-a-bus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Catch a bus application
-Version:    0.0.6
+Version:    0.0.7
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -67,6 +67,6 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/86x86/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 # >> files
 # << files

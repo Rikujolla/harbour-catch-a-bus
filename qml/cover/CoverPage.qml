@@ -30,16 +30,122 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtQuick.LocalStorage 2.0
 import io.thp.pyotherside 1.4
+import "../pages/dbfunctions.js" as Mydbs
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: ("Plain Cover")
+    Image{
+        id: bg_image
+        source:"../images/harbour-catch-a-bus-coverpage-256.png"
+        opacity: 0.2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
     }
 
-    CoverActionList {
+    Label {
+        id: label
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        text: qsTr("Catch a bus")
+        anchors.topMargin: Theme.paddingLarge
+        x: Theme.paddingLarge
+    }
+    Label {
+        id: label2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: label.bottom
+        text: selections.get(0).route_short_name
+        anchors.topMargin: Theme.paddingMedium
+        x: Theme.paddingLarge
+    }
+    Label {
+        id: label3
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: label2.bottom
+        //text: (selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence) + " stops"
+        text: (selections.get(0).stop_sequence) + " stops"
+        anchors.topMargin: Theme.paddingMedium
+        x: Theme.paddingLarge
+    }
+    Label {
+        id: label4
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: label3.bottom
+        text: "Bus " + selections.get(0).dist_bus_to_stop + " m"
+        anchors.topMargin: Theme.paddingMedium
+        x: Theme.paddingLarge
+    }
+    Label {
+        id: label5
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: label4.bottom
+        text: "Me " + selections.get(0).dist_me + " m"
+        anchors.topMargin: Theme.paddingMedium
+        x: Theme.paddingLarge
+    }
+    Label {
+        id: label6
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: label5.bottom
+        text: "RUN!"
+        anchors.topMargin: Theme.paddingMedium
+        x: Theme.paddingLarge
+    }
+
+    Timer {
+        repeat: true
+        interval: 1000
+        running: true && status == 2
+        onTriggered: {
+            label2.text = selections.get(0).route_short_name
+            Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
+            //console.log("statuscover", status)
+            if ((selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence)<0){
+                label3.text = qsTr("Bus passed")
+            }
+            else {
+                label3.text = (selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence) + " stops"
+            }
+            label4.text = "Bus " + selections.get(0).dist_bus_to_stop + " m"
+            var _time_bus = selections.get(0).dist_bus_to_stop/16.6 //Estimating bus speed about 60 km/h
+            var _my_speed_needed = selections.get(0).dist_me/(_time_bus + 30.0)
+
+            label5.text = "Me " + selections.get(0).dist_me + " m"
+
+            if (((selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence)<0) && selections.get(0).dist_bus < 30.0){ //
+                label6.text = qsTr("IN THE BUS!")
+                label6.color = "green"
+            }
+            else if (((selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence)<0) && selections.get(0).dist_bus >= 30.0){ //
+                label6.text = qsTr("YOU LOST!")
+                label6.color = "red"
+            }
+            else if (_my_speed_needed < 0.7 ) {
+                label6.text = qsTr("HOLD!")
+                label6.color = "white"
+            }
+            else if (_my_speed_needed < 1.4) {
+                label6.text = qsTr("WALK!")
+                label6.color = "green"
+            }
+            else if (_my_speed_needed < 2.8){
+                label6.text = qsTr("JOG!")
+                label6.color = "yellow"
+            }
+            else if (_my_speed_needed < 4.2){
+                label6.text = qsTr("RUN!")
+                label6.color = "orange"
+            }
+            else {
+                label6.text = qsTr("YOU LOST!")
+                label6.color = "red"
+            }
+            //console.log(selections.get(0).dist_bus_to_stop, selections.get(0).dist_bus, selections.get(0).dist_me)
+        }
+    }
+
+    /*CoverActionList {
         id: coverAction
 
         CoverAction {
@@ -55,7 +161,7 @@ CoverBackground {
                 label.text = newstring;
             });
         }
-    }
+    }*/
 
     Python {
         id: python

@@ -28,6 +28,13 @@ OTHER_FILES += \
     qml/pages/datadownloader.py
 
 DISTFILES += \
+    icons/108x108/harbour-catch-a-bus.png \
+    icons/128x128/harbour-catch-a-bus.png \
+    icons/172x172/harbour-catch-a-bus.png \
+    icons/256x256/harbour-catch-a-bus.png \
+    icons/86x86/harbour-catch-a-bus.png \
+    icons/harbour-catch-a-bus-coverpage-256.png \
+    translations/*.ts \
     qml/pages/About.qml \
     qml/pages/Busses.qml \
     qml/pages/LoadStatic.qml \
@@ -36,3 +43,9 @@ DISTFILES += \
     qml/pages/Stops.qml \
     qml/pages/dbfunctions.js \
     qml/pages/functions.js
+
+SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172 256x256
+
+CONFIG += sailfishapp_i18n
+
+TRANSLATIONS += translations/harbour-catch-a-bus-fi.ts

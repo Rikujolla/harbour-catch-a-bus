@@ -45,7 +45,7 @@ Page {
             }
             Image {
                 id: logo
-                source: "./images/harbour-koronako.png"
+                source: "./images/harbour-catch-a-bus.png"
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: Screen.width/7
                 width: Screen.width/7

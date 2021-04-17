@@ -71,16 +71,6 @@ ApplicationWindow
         }
     }
 
-    /*ListModel {
-        id:selected_busses
-        ListElement {
-            line: '18'
-            time:'00:00:00'
-            label:'PUPUHUHTA'
-            licenseplate: 'CCC-111'
-        }
-    }*/
-
     ListModel {
         id:busstop_model
         ListElement {
@@ -97,10 +87,10 @@ ApplicationWindow
         ListElement {
             stop_id: '207673'
             stop_name:'Not selected'
-            stop_lat:'62.2838474770924'
-            stop_lon: '25.7925898402179'
-            dist_me: 400000.0
-            dist_bus: 400000.0
+            stop_lat:0.0
+            stop_lon: 0.0
+            dist_me: 40000.0
+            dist_bus: 40000.0
         }
     }
 
@@ -111,12 +101,17 @@ ApplicationWindow
             route_short_name: ''
             stop_id: 'Not selected'
             stop_name:'Not selected'
-            dist_me: 400000.0
+            stop_lat:0.0
+            stop_lon: 0.0
+            stop_sequence:0 //Current_stop_sequence
+            stop_sequence_selected:0 //Stop_sequence of the current stop for selected trip
+            dist_me: 40000.0 //My distance to a selected bus stop
             trip_id:'Not selected'
             start_time: 'Not selected'
             label: 'Not selected'
             license_plate:""
-            dist_bus: 400000.0
+            dist_bus: 40000.0 // The bus distance to me
+            dist_bus_to_stop: 40000.0 //The bus distance to a bus stop
         }
     }
 
@@ -127,13 +122,15 @@ ApplicationWindow
             route_short_name: ''
             stop_id: 'Not selected'
             stop_name:'Not selected'
-            dist_me: 400000.0
+            stop_sequence:0
+            colore:""
+            dist_me: 40000.0
             trip_id:'Not selected'
             start_time: 'Not selected'
             planned_time:''
             label: 'Not selected'
             license_plate:""
-            dist_bus: 400000.0
+            dist_bus: 40000.0
         }
     }
     ListModel {
