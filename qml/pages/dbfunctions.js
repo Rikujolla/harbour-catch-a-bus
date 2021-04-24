@@ -61,8 +61,10 @@ function delete_tables() {
                 function(tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
-                    tx.executeSql('DELETE FROM Stop_times');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('DELETE FROM Stops');
+                    tx.executeSql('DELETE FROM Stop_times');
+                    tx.executeSql('DELETE FROM Routes');
                 })
 }
 

@@ -7,6 +7,13 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+* Sat Apr 24 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.0.8-1
+- Jyvaskyla data download is working. Still to be generalize
+
+* Sat Apr 10 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.0.7-1
+- Functionality is quite ready for publishing
+- Static data downloading missing
+
 * Wed Mar 24 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.0.6-1
 - Working better
 

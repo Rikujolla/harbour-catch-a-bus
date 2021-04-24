@@ -34,6 +34,8 @@ DISTFILES += \
     icons/256x256/harbour-catch-a-bus.png \
     icons/86x86/harbour-catch-a-bus.png \
     icons/harbour-catch-a-bus-coverpage-256.png \
+    icons/harbour-catch-a-bus.png \
+    qml/pages/staticfiles.py \
     translations/*.ts \
     qml/pages/About.qml \
     qml/pages/Busses.qml \

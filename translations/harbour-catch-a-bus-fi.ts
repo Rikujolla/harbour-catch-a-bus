@@ -32,41 +32,29 @@
         <translation>BSD-lisenssi. Lisenssi, lähdekoodi ja lisätietoja:</translation>
     </message>
     <message>
-        <source>App icon (Riku Lahtinen)</source>
-        <translation>Sovelluksen ikoni (Riku Lahtinen)</translation>
-    </message>
-    <message>
         <source>Catch a bus, version</source>
         <extracomment>The name of the app followed with a version number</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The idea of the software is to ..</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> In addition of the app ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ehdi bussiin, versio</translation>
     </message>
     <message>
         <source>Privacy</source>
         <translation>Yksityisyys</translation>
     </message>
     <message>
-        <source>The basic idea to maintain your and others privacy is ...</source>
+        <source>The idea of the software is to ease the competition of you and the bus. You see if running is needed or should I stay at home and wait for the next bus.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Only ....</source>
+        <source>The app is collecting data only to the local database on your phone. To function properly the app needs your location info.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bus data.....</source>
+        <source>App icon (Kapu)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright (c) 2020, Riku Lahtinen</source>
-        <translation>Copyright (c) 2015, Riku Lahtinen</translation>
+        <source>Copyright (c) 2021, Riku Lahtinen</source>
+        <translation type="unfinished">Copyright (c) 2015, Riku Lahtinen {2021,?}</translation>
     </message>
 </context>
 <context>
@@ -119,8 +107,8 @@
         <translation></translation>
     </message>
     <message>
-        <source>RUN FAST!</source>
-        <translation>JUOKSE!</translation>
+        <source>JOG!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -147,7 +135,7 @@
     </message>
     <message>
         <source>Selected bus stop</source>
-        <translationValittu pysäkki></translation>
+        <translation>Valittu pysäkki</translation>
     </message>
     <message>
         <source>Selected bus connection</source>
@@ -162,7 +150,7 @@
     <name>LoadStatic</name>
     <message>
         <source>Load static data</source>
-        <translation type="unfinished"></translation>
+        <translation>Lataa tiedot</translation>
     </message>
 </context>
 <context>
@@ -215,11 +203,11 @@
     <name>StopSeq</name>
     <message>
         <source>Stop sequence</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkkilistaus</translation>
     </message>
     <message>
         <source>Stop time, Stop name, Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkkiaika, pysäkin nimi, etäisyys</translation>
     </message>
 </context>
 <context>
@@ -234,7 +222,7 @@
     </message>
     <message>
         <source>Stop name, Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkin nimi, etäisyys</translation>
     </message>
 </context>
 </TS>

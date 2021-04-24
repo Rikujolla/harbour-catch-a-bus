@@ -28,6 +28,7 @@ import Sailfish.Silica 1.0
 import "dbfunctions.js" as Mydbs
 import QtQuick.LocalStorage 2.0
 import QtQuick.XmlListModel 2.0
+import io.thp.pyotherside 1.5
 
 Page {
     id: page
@@ -46,26 +47,80 @@ Page {
                 title: qsTr("Load static data")
             }
 
+            Text {
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.primaryColor
+                wrapMode: Text.WordWrap
+                width: parent.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingLarge
+                }
+                text: "Country Finland, City Jyväskylä. Load and extract the zip file https://tvv.fra1.digitaloceanspaces.com/209.zip to the folder /home/nemo/.local/share/harbour-catch-a-bus/fin/209" +
+                      " Please wait until all the buttons are enabled."
+            }
+
             Button {
-                text:"Load stops"
+                text:"1. Delete old data"
+                onClicked: Mydbs.delete_tables()
+            }
+
+            Button {
+                text:"2. Load new data"
+                onClicked: spython.startDownload(StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/", "loaddata", "loaddata")
+            }
+
+            Button {
+                text:"3. Unzip data"
+                onClicked: spython.startDownload(StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/", "unzip", "unzip")
+            }
+
+            Button {
+                text:"4. Create stops.xml"
+                onClicked: spython.startDownload(StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/", "stops.txt", "stops.xml")
+            }
+
+            Button {
+                text:"5. Create routes.xml"
+                onClicked: spython.startDownload(StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/", "routes.txt", "routes.xml")
+            }
+
+            Button {
+                text:"6. Create stop times.xml"
+                onClicked: spython.startDownload(StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/", "stop_times.txt", "stop_times.xml")
+            }
+
+            Button {
+                text:"7. Reload xml"
+                enabled:busstops_xml.status == 1
+                onClicked: {
+                    busstops_xml.reload()
+                    routes_xml.reload()
+                    stoptimes_xml.reload()
+                }
+            }
+
+            Button {
+                text:"8. Load stops"
                 enabled:busstops_xml.status == 1
                 onClicked: Mydbs.load_stops()
             }
 
             Button {
-                text:"Load stop times"
-                enabled: stoptimes_xml.status == 1
-                onClicked: Mydbs.load_stop_times()
-            }
-            Button {
-                text:"Load routes"
+                text:"9. Load routes"
                 enabled: routes_xml.status == 1
                 onClicked: Mydbs.load_routes()
             }
+
             Button {
-                text:"Delete old data"
-                onClicked: Mydbs.delete_tables()
+                text:"10. Load stop times"
+                enabled: stoptimes_xml.status == 1
+                onClicked: Mydbs.load_stop_times()
             }
+
+
+
 
             XmlListModel {
                 id: stoptimes_xml
@@ -81,12 +136,29 @@ Page {
 
             XmlListModel {
                 id: routes_xml
-                source: "../data/209/routes.xml"
+                source: StandardPaths.home + "/.local/share/harbour-catch-a-bus/" + country + "/" + citynumber + "/routes.xml" //Jyvaskyla
+                //source: "../data/209/routes.xml"
                 query: "/xml/routes"
                 XmlRole {name:"route_id"; query:"route_id/string()"}
                 XmlRole {name:"route_short_name"; query:"route_short_name/string()"}
                 XmlRole {name:"route_long_name"; query:"route_long_name/string()"}
             }
+        }
+    }
+    Python {
+        id: spython
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl('.'));
+
+            setHandler('message', function(msg1, msg2, msg3) {
+                console.log(msg1, msg2, msg3);
+            });
+            importModule('staticfiles', function () {});
+        }
+
+        function startDownload(arg1, arg2, arg3){
+            call('staticfiles.sloader.download', [arg1, arg2, arg3],function() {});
+
         }
     }
 }

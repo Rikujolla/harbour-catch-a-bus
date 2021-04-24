@@ -47,11 +47,13 @@ ApplicationWindow
     property string bus_line: "18"
     property string bus_start_time: "00:00:01"
     property string bus_label: "PUPUHUHTA"
+    property string country: "fin"
     property string citynumber: "209" // 209 means Jyväskylä
     property string cityname: "jyvaskyla"
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
+    property string version: "0.0.7"
 
 
     PositionSource {

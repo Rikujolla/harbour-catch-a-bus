@@ -26,7 +26,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 
-
 Page {
     id: page
 
@@ -45,7 +44,7 @@ Page {
             }
             Image {
                 id: logo
-                source: "./images/harbour-catch-a-bus.png"
+                source: "../images/harbour-catch-a-bus.png"
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: Screen.width/7
                 width: Screen.width/7
@@ -76,8 +75,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("The idea of the software is to ..")
-                            + qsTr(" In addition of the app ...")
+                    qsTr("The idea of the software is to ease the competition of you and the bus. You see if running is needed or should I stay at home and wait for the next bus.")
                 }
             }
 
@@ -93,8 +91,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("The basic idea to maintain your and others privacy is ...")
-                            +"\n" + qsTr("Only ....")
+                    qsTr("The app is collecting data only to the local database on your phone. To function properly the app needs your location info.")
                 }
             }
 
@@ -126,8 +123,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("App icon (Riku Lahtinen)")
-                    + "\n" + qsTr("Bus data.....")
+                    qsTr("App icon (Kapu)")
                 }
             }
 
@@ -142,7 +138,7 @@ Page {
                     right: parent.right
                     margins: Theme.paddingLarge
                 }
-                text: qsTr("Copyright (c) 2020, Riku Lahtinen") + "\n"
+                text: qsTr("Copyright (c) 2021, Riku Lahtinen") + "\n"
                       + qsTr("Licensed under BSD. License, source code and more information:") + "\n"
                       + ("https://github.com/Rikujolla/harbour-catch-a-bus")
             }
