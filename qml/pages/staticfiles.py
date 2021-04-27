@@ -41,7 +41,7 @@ import zipfile
 import os
 import urllib.request
 
-def slow_function(path, ifile, ofile):
+def slow_function(path, ifile, ofile, country, city):
     if not os.path.exists(path):
         os.makedirs(path)
     finfile = path + ifile
@@ -58,11 +58,14 @@ def slow_function(path, ifile, ofile):
                 #row0 = line.split(",")
             #pyotherside.send('message', row0[0], row0[2], row[3])
     if ifile == "loaddata":
-        urllib.request.urlretrieve('https://tvv.fra1.digitaloceanspaces.com/209.zip', '/home/nemo/.local/share/harbour-catch-a-bus/fin/209/209.zip')
+        zip_source = 'https://tvv.fra1.digitaloceanspaces.com/' + city + '.zip'
+        zip_target = '/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip'
+        pyotherside.send('message', "Loaded", "all", "data!", zip_source, zip_target)
+        urllib.request.urlretrieve(zip_source, zip_target)
         pyotherside.send('message', "Loaded", "all", "data!")
     elif ifile == "unzip":
-        with zipfile.ZipFile('/home/nemo/.local/share/harbour-catch-a-bus/fin/209/209.zip', 'r') as zip_ref:
-            zip_ref.extractall('/home/nemo/.local/share/harbour-catch-a-bus/fin/209/')
+        with zipfile.ZipFile('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip', 'r') as zip_ref:
+            zip_ref.extractall('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/')
         pyotherside.send('message', "Unzipped", "all", "data!")
     elif ifile == "routes.txt":
         linenumber = 0
@@ -82,7 +85,7 @@ def slow_function(path, ifile, ofile):
                                         outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
                                         outfile.write('</routes>'+ '\n')
                         outfile.write('</xml>\n')
-        pyotherside.send('message', path, ifile, ofile)
+        pyotherside.send('message', path, ifile, ofile, country, city)
     elif ifile == "stops.txt":
         linenumber = 0
         with open (foutfile, 'w') as outfile:
@@ -102,7 +105,7 @@ def slow_function(path, ifile, ofile):
                                         outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
                                         outfile.write('</stop>'+ '\n')
                         outfile.write('</xml>\n')
-        pyotherside.send('message', path, ifile, ofile)
+        pyotherside.send('message', path, ifile, ofile, country, city)
     elif ifile == "stop_times.txt":
         linenumber = 0
         with open (foutfile, 'w') as outfile:
@@ -139,10 +142,29 @@ def slow_function(path, ifile, ofile):
                                         outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
                                         outfile.write('</stoptime>'+ '\n')
                         outfile.write('</xml>\n')
-        pyotherside.send('message', path, ifile, ofile)
+        pyotherside.send('message', path, ifile, ofile, country, city)
+
+    elif ifile == "trips.txt":
+            linenumber = 0
+            with open (foutfile, 'w') as outfile:
+                    with open (finfile) as infile:
+                            outfile.write('<xml>\n')
+                            for line in infile:
+                                    line = line.replace('"','')
+                                    if linenumber == 0:
+                                            row0 = line.split(",")
+                                            linenumber = 1
+                                    else:
+                                            outfile.write('<trips>')
+                                            row = line.split(",")
+                                            outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                            outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                            outfile.write('</trips>'+ '\n')
+                            outfile.write('</xml>\n')
+            pyotherside.send('message', path, ifile, ofile, country, city)
 
     else:
-        pyotherside.send('message', "path", "ifile", "ofile")
+        pyotherside.send('message', "path", "ifile", "ofile", "country", "city")
 
 class Sloader:
     def __init__(self):
@@ -151,13 +173,15 @@ class Sloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, path, ifile, ofile):
+    def download(self, path, ifile, ofile, country, city):
         self.path = path
         self.ifile = ifile
         self.ofile = ofile
+        self.country = country
+        self.city = city
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,))
         self.bgthread.start()
 
 

@@ -54,6 +54,20 @@ function load_routes() {
                 })
 }
 
+function load_trips() {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
+                    console.log("hhhhh trips")
+                    for (var i=0;i<trips_xml.count;i++){
+                        tx.executeSql('INSERT INTO Trips VALUES(?, ?, ?)', [trips_xml.get(i).route_id, trips_xml.get(i).service_id, trips_xml.get(i).trip_id])
+                    }
+                })
+}
+
 function delete_tables() {
     var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
 
@@ -62,9 +76,11 @@ function delete_tables() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
                     tx.executeSql('DELETE FROM Stops');
                     tx.executeSql('DELETE FROM Stop_times');
                     tx.executeSql('DELETE FROM Routes');
+                    tx.executeSql('DELETE FROM Trips');
                 })
 }
 
@@ -77,8 +93,10 @@ function get_stop_times() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
                     //var rs = tx.executeSql('SELECT * FROM Stop_times WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, Stop_times.stop_id AS stopid, Stops.stop_name AS sname FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id=Stops.stop_id WHERE Stop_times.stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     bus_at_stop.clear()
                     //console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)

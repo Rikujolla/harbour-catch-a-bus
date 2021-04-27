@@ -152,6 +152,31 @@
         <source>Load static data</source>
         <translation>Lataa tiedot</translation>
     </message>
+    <message>
+        <source>Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finland</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Joensuu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jyväskylä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lahti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <extracomment>Country name</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Settings</name>
