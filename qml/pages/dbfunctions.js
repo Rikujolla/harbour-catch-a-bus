@@ -61,9 +61,29 @@ function load_trips() {
     db.transaction(
                 function(tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
-                    console.log("hhhhh trips")
+                    //console.log("hhhhh trips",trips_xml.get(0).route_id, trips_xml.get(0).service_id, trips_xml.get(0).trip_id)
                     for (var i=0;i<trips_xml.count;i++){
                         tx.executeSql('INSERT INTO Trips VALUES(?, ?, ?)', [trips_xml.get(i).route_id, trips_xml.get(i).service_id, trips_xml.get(i).trip_id])
+                    }
+                })
+}
+
+function load_calendar() {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar(service_id TEXT,monday TEXT,tuesday TEXT,wednesday TEXT,thursday TEXT,friday TEXT,saturday TEXT,sunday TEXT,start_date TEXT,end_date TEXT)');
+                    console.log("hhhhh trips",calendar_xml.get(0).service_id, calendar_xml.get(0).monday, calendar_xml.get(0).tuesday
+                                , calendar_xml.get(0).wednesday, calendar_xml.get(0).thursday, calendar_xml.get(0).friday
+                                , calendar_xml.get(0).saturday, calendar_xml.get(0).sunday, calendar_xml.get(0).start_date
+                                , calendar_xml.get(0).end_date)
+                    for (var i=0;i<calendar_xml.count;i++){
+                        tx.executeSql('INSERT INTO Calendar VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [calendar_xml.get(i).service_id, calendar_xml.get(i).monday, calendar_xml.get(i).tuesday
+                                                                                                    , calendar_xml.get(i).wednesday, calendar_xml.get(i).thursday, calendar_xml.get(i).friday
+                                                                                                    , calendar_xml.get(i).saturday, calendar_xml.get(i).sunday, calendar_xml.get(i).start_date
+                                                                                                    , calendar_xml.get(i).end_date])
                     }
                 })
 }
@@ -97,7 +117,7 @@ function get_stop_times() {
                     //var rs = tx.executeSql('SELECT * FROM Stop_times WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, Stop_times.stop_id AS stopid, Stops.stop_name AS sname FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id=Stops.stop_id WHERE Stop_times.stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
-                    var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    var rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
                     bus_at_stop.clear()
                     //console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)
 
@@ -106,7 +126,7 @@ function get_stop_times() {
                         if (rs.rows.item(i).stop_id == selected_busstop.get(stop_index).stop_id
                                 && rs.rows.item(i).departure_time > current_time
                                 && rs.rows.item(i).day == day){
-                            bus_at_stop.append({"route_id":rs.rows.item(i).trip_id, "route_short_name": rs.rows.item(i).route_short_name, "route_long_name": rs.rows.item(i).route_long_name, "start_time":rs.rows.item(i).start_time, "planned_time":rs.rows.item(i).departure_time})
+                            bus_at_stop.append({"route_id":rs.rows.item(i).route_id, "route_short_name": rs.rows.item(i).route_short_name, "route_long_name": rs.rows.item(i).route_long_name, "start_time":rs.rows.item(i).start_time, "planned_time":rs.rows.item(i).departure_time})
                         }
                     }
                 })
@@ -172,9 +192,10 @@ function running_busses_on_the_stop() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
                     if (selections.get(0).stop_name != 'Not selected'){
                         //var rs = tx.executeSql('SELECT * FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
-                        var rs = tx.executeSql('SELECT *, route_short_name, route_long_name FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? INNER JOIN Routes ON Busses.route_id = Routes.route_id ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
+                        var rs = tx.executeSql('SELECT *, route_short_name, route_long_name FROM Busses INNER JOIN Trips ON Trips.route_id=Busses.route_id INNER JOIN Stop_times on Stop_times.trip_id = Trips.trip_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? INNER JOIN Routes ON Busses.route_id = Routes.route_id ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
                     }
                     else {
                         rs = tx.executeSql('SELECT * FROM Busses');
@@ -189,7 +210,7 @@ function running_busses_on_the_stop() {
                 })
 }
 
-function fill_sequence(_day, _trip_id, _start_time) {
+function fill_sequence(_day, _route_id, _start_time) {
     var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
 
     db.transaction(
@@ -198,7 +219,8 @@ function fill_sequence(_day, _trip_id, _start_time) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
-                    var rs = tx.executeSql('SELECT *, stop_name FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id = Stops.stop_id WHERE day = ? AND trip_id = ? AND start_time = ?', [_day, _trip_id, _start_time])
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
+                    var rs = tx.executeSql('SELECT *, stop_name, route_id FROM Stop_times INNER JOIN Trips ON Trips.trip_id=Stop_times.trip_id INNER JOIN Stops ON Stop_times.stop_id = Stops.stop_id WHERE day = ? AND route_id = ? AND start_time = ?', [_day, _route_id, _start_time])
                     stopseq_model.clear()
                     for (var i = 0;i<rs.rows.length;i++) {
                         if(rs.rows.item(i).stop_id == selections.get(0).stop_id){

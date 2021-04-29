@@ -136,6 +136,12 @@ Page {
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                text:"4. Create calendar.xml"
+                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber)
+            }
+
+            Button {
+                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
                 text:"4. Create stops.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stops.txt", "stops.xml", load_country, load_citynumber)
             }
@@ -170,6 +176,12 @@ Page {
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
+                text:"8. Load calendar"
+                onClicked: Mydbs.load_calendar()
+            }
+
+            Button {
+                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
                 text:"8. Load stops"
                 onClicked: Mydbs.load_stops()
             }
@@ -190,6 +202,22 @@ Page {
                 enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
                 text:"11. Load trips"
                 onClicked: Mydbs.load_trips()
+            }
+
+            XmlListModel {
+                id: calendar_xml
+                source: load_path + load_country + "/" + load_citynumber + "/calendar.xml"
+                query: "/xml/calendar"
+                XmlRole {name:"service_id"; query:"service_id/string()"}
+                XmlRole {name:"monday"; query:"monday/string()"}
+                XmlRole {name:"tuesday"; query:"tuesday/string()"}
+                XmlRole {name:"wednesday"; query:"wednesday/string()"}
+                XmlRole {name:"thursday"; query:"thursday/string()"}
+                XmlRole {name:"friday"; query:"friday/string()"}
+                XmlRole {name:"saturday"; query:"saturday/string()"}
+                XmlRole {name:"sunday"; query:"sunday/string()"}
+                XmlRole {name:"start_date"; query:"start_date/string()"}
+                XmlRole {name:"end_date"; query:"end_date/string()"}
             }
 
             XmlListModel {

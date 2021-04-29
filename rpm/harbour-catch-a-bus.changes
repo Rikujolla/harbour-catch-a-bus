@@ -7,6 +7,13 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+* Thu Apr 29 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.0-1
+- Jyvaskyla data download is working. Still to be generalize.
+- Calendar data downloading done
+
+* Tue Apr 27 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.0.9-1
+- Jyvaskyla data download is working. Still to be generalize.
+
 * Sat Apr 24 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.0.8-1
 - Jyvaskyla data download is working. Still to be generalize
 
