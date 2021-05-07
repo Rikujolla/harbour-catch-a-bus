@@ -53,7 +53,7 @@ ApplicationWindow
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.0.7"
+    property string version: "0.1.1"
 
 
     PositionSource {

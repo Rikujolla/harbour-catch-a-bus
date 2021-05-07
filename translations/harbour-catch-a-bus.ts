@@ -189,13 +189,12 @@
     </message>
     <message>
         <location filename="../qml/pages/LoadStatic.qml" line="70"/>
-        <location filename="../qml/pages/LoadStatic.qml" line="91"/>
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/LoadStatic.qml" line="74"/>
-        <location filename="../qml/pages/LoadStatic.qml" line="94"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="95"/>
         <source>Select</source>
         <extracomment>Country name</extracomment>
         <translation type="unfinished"></translation>
@@ -206,17 +205,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="100"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="92"/>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="101"/>
         <source>Joensuu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="106"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="107"/>
         <source>Jyväskylä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="112"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="113"/>
         <source>Lahti</source>
         <translation type="unfinished"></translation>
     </message>

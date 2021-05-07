@@ -61,7 +61,7 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: "On this page data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/" +
-                      " Please wait until all the buttons are enabled."
+                      " Please wait until all the buttons are enabled. You can either select city or add your own data settings."
             }
 
             ComboBox {
@@ -87,8 +87,9 @@ Page {
 
             ComboBox {
                 id: selCity
+                visible:selCountry.currentIndex > 0
                 width: parent.width
-                label: qsTr("Country")
+                label: qsTr("City")
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("Select")
@@ -116,6 +117,12 @@ Page {
                     }
                 }
             }
+
+            TextField {
+                visible: selCountry.currentIndex == 0
+                label: "Write zip file location."
+            }
+
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
                 text:"1. Delete old data"
@@ -142,31 +149,37 @@ Page {
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
-                text:"4. Create stops.xml"
+                text:"5. Create calendar dates.xml"
+                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar_dates.txt", "calendar_dates.xml", load_country, load_citynumber)
+            }
+
+            Button {
+                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                text:"6. Create stops.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stops.txt", "stops.xml", load_country, load_citynumber)
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
-                text:"5. Create routes.xml"
+                text:"7. Create routes.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "routes.txt", "routes.xml", load_country, load_citynumber)
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
-                text:"6. Create stop_times.xml"
+                text:"8. Create stop_times.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stop_times.txt", "stop_times.xml", load_country, load_citynumber)
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
-                text:"7. Create trips.xml"
+                text:"9. Create trips.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "trips.txt", "trips.xml", load_country, load_citynumber)
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"7. Reload xml"
+                text:"10. Reload xml"
                 onClicked: {
                     busstops_xml.reload()
                     routes_xml.reload()
@@ -176,31 +189,37 @@ Page {
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"8. Load calendar"
+                text:"11. Load calendar"
                 onClicked: Mydbs.load_calendar()
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"8. Load stops"
+                text:"12. Load calendar dates"
+                onClicked: Mydbs.load_calendar_dates()
+            }
+
+            Button {
+                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
+                text:"13. Load stops"
                 onClicked: Mydbs.load_stops()
             }
 
             Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && routes_xml.status == 1
-                text:"9. Load routes"
+                text:"14. Load routes"
                 onClicked: Mydbs.load_routes()
             }
 
             Button {
                 enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
-                text:"10. Load stop times"
+                text:"15. Load stop times"
                 onClicked: Mydbs.load_stop_times()
             }
 
             Button {
                 enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
-                text:"11. Load trips"
+                text:"16. Load trips"
                 onClicked: Mydbs.load_trips()
             }
 
@@ -218,6 +237,15 @@ Page {
                 XmlRole {name:"sunday"; query:"sunday/string()"}
                 XmlRole {name:"start_date"; query:"start_date/string()"}
                 XmlRole {name:"end_date"; query:"end_date/string()"}
+            }
+
+            XmlListModel {
+                id: calendar_dates_xml
+                source: load_path + load_country + "/" + load_citynumber + "/calendar_dates.xml"
+                query: "/xml/calendar_dates"
+                XmlRole {name:"service_id"; query:"service_id/string()"}
+                XmlRole {name:"date"; query:"date/string()"}
+                XmlRole {name:"exception_type"; query:"exception_type/string()"}
             }
 
             XmlListModel {

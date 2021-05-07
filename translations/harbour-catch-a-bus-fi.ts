@@ -177,6 +177,10 @@
         <extracomment>Country name</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Settings</name>

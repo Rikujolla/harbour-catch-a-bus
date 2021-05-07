@@ -75,15 +75,29 @@ function load_calendar() {
     db.transaction(
                 function(tx) {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar(service_id TEXT,monday TEXT,tuesday TEXT,wednesday TEXT,thursday TEXT,friday TEXT,saturday TEXT,sunday TEXT,start_date TEXT,end_date TEXT)');
-                    console.log("hhhhh trips",calendar_xml.get(0).service_id, calendar_xml.get(0).monday, calendar_xml.get(0).tuesday
+                    /*console.log("hhhhh trips",calendar_xml.get(0).service_id, calendar_xml.get(0).monday, calendar_xml.get(0).tuesday
                                 , calendar_xml.get(0).wednesday, calendar_xml.get(0).thursday, calendar_xml.get(0).friday
                                 , calendar_xml.get(0).saturday, calendar_xml.get(0).sunday, calendar_xml.get(0).start_date
-                                , calendar_xml.get(0).end_date)
+                                , calendar_xml.get(0).end_date)*/
                     for (var i=0;i<calendar_xml.count;i++){
                         tx.executeSql('INSERT INTO Calendar VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [calendar_xml.get(i).service_id, calendar_xml.get(i).monday, calendar_xml.get(i).tuesday
                                                                                                     , calendar_xml.get(i).wednesday, calendar_xml.get(i).thursday, calendar_xml.get(i).friday
                                                                                                     , calendar_xml.get(i).saturday, calendar_xml.get(i).sunday, calendar_xml.get(i).start_date
                                                                                                     , calendar_xml.get(i).end_date])
+                    }
+                })
+}
+
+function load_calendar_dates() {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar_dates(service_id TEXT, date TEXT, exception_type TEXT)');
+                    //console.log("hhhhh trips",trips_xml.get(0).route_id, trips_xml.get(0).service_id, trips_xml.get(0).trip_id)
+                    for (var i=0;i<calendar_dates_xml.count;i++){
+                        tx.executeSql('INSERT INTO Calendar_dates VALUES(?, ?, ?)', [calendar_dates_xml.get(i).service_id, calendar_dates_xml.get(i).date, calendar_dates_xml.get(i).exception_type])
                     }
                 })
 }
@@ -97,10 +111,14 @@ function delete_tables() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar(service_id TEXT,monday TEXT,tuesday TEXT,wednesday TEXT,thursday TEXT,friday TEXT,saturday TEXT,sunday TEXT,start_date TEXT,end_date TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar_dates(service_id TEXT, date TEXT, exception_type TEXT)');
                     tx.executeSql('DELETE FROM Stops');
                     tx.executeSql('DELETE FROM Stop_times');
                     tx.executeSql('DELETE FROM Routes');
                     tx.executeSql('DELETE FROM Trips');
+                    tx.executeSql('DELETE FROM Calendar');
+                    tx.executeSql('DELETE FROM Calendar_dates');
                 })
 }
 
@@ -114,10 +132,107 @@ function get_stop_times() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(day TEXT, trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
-                    //var rs = tx.executeSql('SELECT * FROM Stop_times WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
-                    //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, Stop_times.stop_id AS stopid, Stops.stop_name AS sname FROM Stop_times INNER JOIN Stops ON Stop_times.stop_id=Stops.stop_id WHERE Stop_times.stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
-                    //var rs = tx.executeSql('SELECT day, trip_id, start_time, departure_time, stop_id, route_short_name, route_long_name FROM Stop_times INNER JOIN Routes ON Stop_times.trip_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
-                    var rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar_tmp(service_id TEXT, exception_type TEXT)');
+                    tx.executeSql('DELETE FROM Calendar_tmp');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar_tmp2(service_id TEXT, exception_type TEXT)');
+                    tx.executeSql('DELETE FROM Calendar_tmp2');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar(service_id TEXT,monday TEXT,tuesday TEXT,wednesday TEXT,thursday TEXT,friday TEXT,saturday TEXT,sunday TEXT,start_date TEXT,end_date TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Calendar_dates(service_id TEXT, date TEXT, exception_type TEXT)');
+
+                    // Count the day in a format of GTFS
+                    var _d = new Date();
+                    var _date = _d.getDate()
+                    if (_date < 10){_date = "0" +_date}
+                    var _month = _d.getMonth() + 1
+                    if (_month < 10){_month = "0" + _month}
+                    var _dateday = _d.getFullYear() + _month  + _date
+                    /*
+                    //_dateday = "20210501"
+                    // Check services with dates
+                    tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND friday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                    //var rt = tx.executeSql('SELECT service_id, sum(exception_type) AS  exception_type FROM Calendar_tmp GROUP BY service_id')
+                    var rt = tx.executeSql('SELECT * FROM Calendar_tmp')
+                    for (var j=0;j<rt.rows.length;j++) {
+                        console.log("one", rt.rows.item(j).service_id, rt.rows.item(j).exception_type)
+                    }
+                    // With average erraneous data can be handled that is if vthe service is ordered twice
+                    tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                    console.log("vali")
+                    rt = tx.executeSql('SELECT * FROM Calendar_tmp2')
+                    for (j=0;j<rt.rows.length;j++) {
+                        console.log("two", rt.rows.item(j).service_id, rt.rows.item(j).exception_type)
+                    }
+                    tx.executeSql('DELETE FROM Calendar_tmp');
+                    tx.executeSql('DELETE FROM Calendar_tmp2');
+                    */
+
+                    if (_d.getDay() == 0) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND sunday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        var rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 1) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND monday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 2) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND tuesday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 3) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND wednesday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 4) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND thursday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 5) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND friday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else if (_d.getDay() == 6) {
+                        console.log("day", day, _d.getDay())
+                        // First selecting service_ids from normal calendar
+                        tx.executeSql('INSERT INTO Calendar_tmp SELECT service_id, ? AS exception_type FROM Calendar WHERE start_date <= ? AND end_date >=? AND saturday = ? UNION SELECT service_id, exception_type FROM Calendar_dates WHERE date = ?', ["1", _dateday, _dateday, "1", _dateday])
+                        // Then checking the effect of exceptions
+                        tx.executeSql('INSERT INTO Calendar_tmp2 SELECT service_id, avg(exception_type) FROM Calendar_tmp GROUP BY service_id HAVING avg(exception_type)==1.0')
+                        // Then loading routes on the stop on the selected day,
+                        rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar_tmp2 ON Calendar_tmp2.service_id = Trips.service_id WHERE stop_id = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id]);
+                    }
+                    else {
+                        console.log("some error, day", day, _d.getDay())
+                        //rs = tx.executeSql('SELECT day, start_time, departure_time, stop_id, route_short_name, route_long_name, Trips.route_id AS route_id, monday FROM Stop_times INNER JOIN Trips ON Stop_times.trip_id=Trips.trip_id INNER JOIN Routes ON Trips.route_id=Routes.route_id INNER JOIN Calendar ON Calendar.service_id = Trips.service_id WHERE stop_id = ? and monday = ? ORDER BY start_time ASC', [selected_busstop.get(stop_index).stop_id, "1"]);
+                    }
                     bus_at_stop.clear()
                     //console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)
 
@@ -125,7 +240,7 @@ function get_stop_times() {
                         //console.log(rs.rows.item(i).sname, rs.rows.item(i).sname)
                         if (rs.rows.item(i).stop_id == selected_busstop.get(stop_index).stop_id
                                 && rs.rows.item(i).departure_time > current_time
-                                && rs.rows.item(i).day == day){
+                                ){
                             bus_at_stop.append({"route_id":rs.rows.item(i).route_id, "route_short_name": rs.rows.item(i).route_short_name, "route_long_name": rs.rows.item(i).route_long_name, "start_time":rs.rows.item(i).start_time, "planned_time":rs.rows.item(i).departure_time})
                         }
                     }

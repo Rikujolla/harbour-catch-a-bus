@@ -7,6 +7,10 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+* Fri May 07 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.1-1
+- Jyvaskyla data download is working generalize way, others dont.
+- Calendar exception days can be taken to account
+
 * Thu Apr 29 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.0-1
 - Jyvaskyla data download is working. Still to be generalize.
 - Calendar data downloading done

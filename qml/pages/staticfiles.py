@@ -191,6 +191,26 @@ def slow_function(path, ifile, ofile, country, city):
                                     outfile.write('</xml>\n')
                     pyotherside.send('message', path, ifile, ofile, country, city)
 
+    elif ifile == "calendar_dates.txt":
+                            linenumber = 0
+                            with open (foutfile, 'w') as outfile:
+                                    with open (finfile) as infile:
+                                            outfile.write('<xml>\n')
+                                            for line in infile:
+                                                    line = line.replace('"','')
+                                                    if linenumber == 0:
+                                                            row0 = line.split(",")
+                                                            linenumber = 1
+                                                    else:
+                                                            outfile.write('<calendar_dates>')
+                                                            row = line.split(",")
+                                                            outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                                            outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
+                                                            outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                                            outfile.write('</calendar_dates>'+ '\n')
+                                            outfile.write('</xml>\n')
+                            pyotherside.send('message', path, ifile, ofile, country, city)
+
     else:
         pyotherside.send('message', "path", "ifile", "ofile", "country", "city")
 
