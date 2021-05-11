@@ -118,25 +118,15 @@ def slow_function(path, ifile, ofile, country, city):
                                         linenumber = 1
                                 else:
                                         outfile.write('<stoptime>')
-                                        row = line.split(",")
-                                        if "_0_" in row[0]:
-                                                row_null = row[0].split("_0_")
-                                        elif "_1_" in row[0]:
-                                                row_null = row[0].split("_1_")
-                                        row_one= row_null[1].split("_")
-                                        row_zero=row_null[0].split("_")
-                                        if "M-P_" in row_null[0]:
-                                                day = "M-P"
-                                        if "L_" in row_null[0]:
-                                                day = "L"
-                                        if "S_" in row_null[0]:
-                                                day = "S"
-                                        if "koulup" in row_null[0]:
-                                                day = "koulup"
 
-                                        outfile.write('<' + 'day' + '>' + day + '</' + 'day' + '>')
+                                        row = line.split(",")
+
+                                        if row[4] == "1":
+                                                start_time = row[2]
+
                                         outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                        outfile.write('<' + 'start_time' + '>' + row_one[0][:2] + ":" + row_one[0][2:4] + ":" + row_one[0][-2:]+ '</' + 'start_time' + '>')
+                                        #outfile.write('<' + 'start_time' + '>' + row_one[0][:2] + ":" + row_one[0][2:4] + ":" + row_one[0][-2:]+ '</' + 'start_time' + '>')
+                                        outfile.write('<' + 'start_time' + '>' + start_time + '</' + 'start_time' + '>')
                                         outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
                                         outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
                                         outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')

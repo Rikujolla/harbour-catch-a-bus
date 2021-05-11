@@ -118,10 +118,6 @@
         <translation>Tietoja</translation>
     </message>
     <message>
-        <source>Load static data</source>
-        <translation>Lataa tiedot</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
@@ -145,6 +141,26 @@
         <source>Me to bus competition</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Start tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset and stop tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Me</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>m - The bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoadStatic</name>
@@ -152,33 +168,30 @@
         <source>Load static data</source>
         <translation>Lataa tiedot</translation>
     </message>
+</context>
+<context>
+    <name>SelectCity</name>
     <message>
-        <source>Country</source>
+        <source>City selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Finland</source>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectCountry</name>
+    <message>
+        <source>Stop sequence</source>
+        <translation type="unfinished">Pysäkkilistaus</translation>
+    </message>
+    <message>
+        <source>Stop time, Stop name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Joensuu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Jyväskylä</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lahti</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <extracomment>Country name</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>City</source>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -193,27 +206,27 @@
         <translation>Valitse kaupunki</translation>
     </message>
     <message>
-        <source>Some story</source>
+        <source>Select ccountry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server settings</source>
+        <source>City data is loadad from server 1.1.2021. The data is valid for current date but may still have changed. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert here address info of your koronako-server</source>
+        <source>Load static data</source>
+        <translation type="unfinished">Lataa tiedot</translation>
+    </message>
+    <message>
+        <source>Selected country: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>IP address</source>
+        <source>Change country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Port number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Button</source>
+        <source>Selected city: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -227,6 +240,10 @@
         <source>Stop schedule</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Route, Start time, Stop time, Route name</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StopSeq</name>
@@ -235,8 +252,8 @@
         <translation>Pysäkkilistaus</translation>
     </message>
     <message>
-        <source>Stop time, Stop name, Distance</source>
-        <translation>Pysäkkiaika, pysäkin nimi, etäisyys</translation>
+        <source>Stop time, Stop name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

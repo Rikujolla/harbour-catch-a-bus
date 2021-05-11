@@ -32,6 +32,8 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtPositioning 5.4
 import QtQuick.XmlListModel 2.0
+import QtQuick.LocalStorage 2.0
+import "pages/dbfunctions.js" as Mydbs
 import "pages"
 
 ApplicationWindow
@@ -47,13 +49,16 @@ ApplicationWindow
     property string bus_line: "18"
     property string bus_start_time: "00:00:01"
     property string bus_label: "PUPUHUHTA"
-    property string country: "fin"
-    property string citynumber: "209" // 209 means Jyväskylä
-    property string cityname: "jyvaskyla"
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.1.1"
+    property string version: "0.1.2"
+    //Cityinfo, maybe later to be included in a ListModel
+    //property string city: "Jyväskyla"
+    //property string cityname: "jyvaskyla"
+    //property string citynumber: "209" // 209 means Jyväskylä, not necessarily number, may be other code also
+    //property string country_name: "Finland"
+    //property string country: "fin"
 
 
     PositionSource {
@@ -114,6 +119,11 @@ ApplicationWindow
             license_plate:""
             dist_bus: 40000.0 // The bus distance to me
             dist_bus_to_stop: 40000.0 //The bus distance to a bus stop
+            city: "" // Jyväskylä
+            cityname: "" //jyvaskyla
+            citynumber: "" // E.g. 209 means Jyväskylä, not necessarily number, may be other code also
+            country_name: "" // E.g. Finland
+            country: "" // E.g. fin
         }
     }
 
@@ -148,7 +158,7 @@ ApplicationWindow
         }
     }
 
-    XmlListModel {
+    /*XmlListModel {
         id: busstops_xml
         source: "data/209/stops.xml"
         query: "/xml/stop"
@@ -156,10 +166,10 @@ ApplicationWindow
         XmlRole {name:"stop_name"; query:"stop_name/string()"}
         XmlRole {name:"stop_lat"; query:"stop_lat/number()"}
         XmlRole {name:"stop_lon"; query:"stop_lon/number()"}
-    }
+    }*/
 
     Component.onCompleted: {
-        //console.log (busstops_xml.get(6).stop_id)
+        Mydbs.loadSettings()
     }
 }
 

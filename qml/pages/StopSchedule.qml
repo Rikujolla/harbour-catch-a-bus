@@ -51,7 +51,7 @@ Page {
 
         header: PageHeader {
             title: qsTr("Stop schedule")
-            description:"Route, Start time, Stop time, Route name"
+            description:qsTr("Route, Start time, Stop time, Route name")
         }
         delegate: BackgroundItem {
             id: delegate

@@ -7,6 +7,9 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+* Tue May 11 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.2-1
+- Jyvaskyla, Lahti and Joensuu working somehow.
+
 * Fri May 07 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.1-1
 - Jyvaskyla data download is working generalize way, others dont.
 - Calendar exception days can be taken to account

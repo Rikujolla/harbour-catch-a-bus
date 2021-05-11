@@ -35,6 +35,8 @@ DISTFILES += \
     icons/86x86/harbour-catch-a-bus.png \
     icons/harbour-catch-a-bus-coverpage-256.png \
     icons/harbour-catch-a-bus.png \
+    qml/pages/SelectCity.qml \
+    qml/pages/SelectCountry.qml \
     qml/pages/staticfiles.py \
     translations/*.ts \
     qml/pages/About.qml \
@@ -43,6 +45,7 @@ DISTFILES += \
     qml/pages/Settings.qml \
     qml/pages/StopSeq.qml \
     qml/pages/Stops.qml \
+    qml/data/city.xml \
     qml/pages/dbfunctions.js \
     qml/pages/functions.js
 

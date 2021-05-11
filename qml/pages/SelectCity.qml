@@ -31,26 +31,30 @@ import "dbfunctions.js" as Mydbs
 Page {
     id: page
     onStatusChanged: {
-
+        //console.log(city_xml.get(0).citynumber)
     }
 
     SilicaListView {
         id: listView
-        model: stopseq_model
+        model: city_list
         anchors.fill: parent
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Stop sequence")
+                text: qsTr("City selection")
                 onClicked:{
-                    pageStack.pop();
+                }
+            }
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked:{
                 }
             }
         }
 
         header: PageHeader {
-            title: qsTr("Stop sequence")
-            description: qsTr("Stop time, Stop name")
+            title: qsTr("City selection")
+            description: selections.get(0).country_name
         }
         delegate: BackgroundItem {
             id: delegate
@@ -58,30 +62,39 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: planned_time + " " + stop_name
-                font.bold: index < selections.get(0).stop_sequence ? true:false
-                font.italic: index < selections.get(0).stop_sequence ? true:false
+                text: city_a
+                //font.bold: index < selections.get(0).stop_sequence ? true:false
+                //font.italic: index < selections.get(0).stop_sequence ? true:false
                 anchors.verticalCenter: parent.verticalCenter
-                color: colore == "first" ? Theme.secondaryHighlightColor : Theme.primaryColor
+                //color: colore == "first" ? Theme.secondaryHighlightColor : Theme.primaryColor
             }
             onClicked: {
+                selections.set(0,{"city": city_a})
+                selections.set(0,{"cityname": cityname_a})
+                selections.set(0,{"citynumber": citynumber_a})
+                console.log(city_a, cityname_a, citynumber_a)
+                Mydbs.saveSettings()
+                pageStack.pop();
+
             }
         }
 
-        Timer {
-            running: true && Qt.application.active
-            interval: 5000
-            repeat:true
-            onTriggered: {
-                Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
-                listView.positionViewAtIndex(selections.get(0).stop_sequence-1, ListView.Center)
+
+        ListModel {
+            id: city_list
+            ListElement {
+                city_a:""
+                cityname_a:""
+                citynumber_a:""
             }
         }
+
 
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
 
+            Mydbs.fill_city();
         }
     }
 }

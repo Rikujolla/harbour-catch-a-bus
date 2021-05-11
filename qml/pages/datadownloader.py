@@ -42,8 +42,6 @@ import urllib.request
 import base64
 from google.transit import gtfs_realtime_pb2
 
-colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-
 def slow_function(bus, city, starttime):
     #for i in range(2):
         #pyotherside.send('progress', i/2.0)
@@ -63,7 +61,7 @@ def slow_function(bus, city, starttime):
                 label = entity.trip_update.vehicle.label
                 license_plate = entity.trip_update.vehicle.license_plate
                 pyotherside.send('bus_id', route_id, start_time, label, license_plate)
-    pyotherside.send('finished', random.choice(colors))
+    pyotherside.send('finished', 'random.choice(colors)')
 
     request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/vehicleposition")
     base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="

@@ -25,15 +25,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-//import QtQuick.LocalStorage 2.0
-//import "./databases.js" as Mydb
+import QtQuick.LocalStorage 2.0
+import "dbfunctions.js" as Mydbs
+import QtQuick.XmlListModel 2.0
 
 Page {
     id: page
+    onStatusChanged: {
+        country_setting.text = qsTr("Selected country: ") + selections.get(0).country_name
+        city_setting.text = qsTr("Selected city: ") + selections.get(0).city
+    }
 
     SilicaFlickable {
         anchors.fill: parent
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Select ccountry")
+                onClicked:{
+                    //pageStack.push(Qt.resolvedUrl("About.qml"))
+                }
+            }
+            MenuItem {
+                text: qsTr("Select city")
+                onClicked:{
+                    //pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
+                }
+            }
+        }
 
         contentHeight: column.height
 
@@ -46,27 +65,8 @@ Page {
                 title: qsTr("Settings page")
             }
 
-            SectionHeader {
-                text: qsTr("Select city")
-            }
-
-            TextSwitch {
-                text: "Jyväskylä"
-                onClicked: {
-                    if (checked) {
-                        text = "Tampere"
-                        cityname = "tampere"
-                        citynumber = "xxx"
-                    }
-                    else {
-                        text = "Jyväskylä"
-                        cityname = "jyvaskyla"
-                        citynumber = "209"
-                    }
-                }
-            }
-
             Text {
+                id: country_setting
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.primaryColor
                 wrapMode: Text.WordWrap
@@ -75,87 +75,77 @@ Page {
                     left: parent.left
                     right: parent.right
                     margins: Theme.paddingLarge
-                }
-                text: {
-                    qsTr("Some story")
-                }
-            }
-
-            SectionHeader { text: qsTr("Server settings") }
-            Text {
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.primaryColor
-                wrapMode: Text.WordWrap
-                width: parent.width
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    margins: Theme.paddingLarge
-                }
-                text: {
-                    qsTr("Insert here address info of your koronako-server")
-                }
-            }
-
-            Row {
-                TextField {
-                    id: iipee
-                    text: serverAddress
-                    placeholderText: qsTr("IP address")
-                    label: qsTr("IP address")
-                    width: page.width*3/4
-                    inputMethodHints: Qt.ImhNoPredictiveText
-                    EnterKey.iconSource: "image://theme/icon-m-enter-close"
-                    EnterKey.onClicked: {
-                        focus = false;
-                    }
-                }
-
-                IconButton {
-                    visible: iipee.text != ""
-                    icon.source: "image://theme/icon-m-clear?" + (pressed
-                                                                  ? Theme.highlightColor
-                                                                  : Theme.primaryColor)
-                    onClicked: {
-                        iipee.text = ""
-                    }
-                }
-            }
-
-            Row {
-                TextField {
-                    id: portti
-                    text: serverPort
-                    placeholderText: qsTr("Port number")
-                    label: qsTr("Port number")
-                    width: page.width*3/4
-                    inputMethodHints: Qt.ImhDigitsOnly
-                    EnterKey.iconSource: "image://theme/icon-m-enter-close"
-                    EnterKey.onClicked: {
-                        focus = false;
-                    }
-                }
-
-                IconButton {
-                    visible: portti.text != ""
-                    icon.source: "image://theme/icon-m-clear?" + (pressed
-                                                                  ? Theme.highlightColor
-                                                                  : Theme.primaryColor)
-                    onClicked: portti.text = ""
                 }
             }
 
             Button {
-                text:qsTr("Button")
+                text:qsTr("Change country")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
+                    Mydbs.load_city_data();
+                    pageStack.push(Qt.resolvedUrl("SelectCountry.qml"))
                 }
             }
 
+            Text {
+                id:city_setting
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.primaryColor
+                wrapMode: Text.WordWrap
+                width: parent.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingLarge
+                }
+            }
+
+            Button {
+                text:qsTr("Select city")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("SelectCity.qml"))
+                }
+            }
+
+            Text {
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.primaryColor
+                wrapMode: Text.WordWrap
+                width: parent.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingLarge
+                }
+                text: {
+                    qsTr("City data is loadad from server 1.1.2021. The data is valid for current date but may still have changed. ")
+                }
+            }
+
+            Button {
+                text:qsTr("Load static data")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
+                }
+            }
+
+            XmlListModel {
+                id: city_xml
+                source: "../data/city.xml"
+                query: "/xml/city"
+                XmlRole {name:"country_name"; query:"country_name/string()"}
+                XmlRole {name:"country"; query:"country/string()"}
+                XmlRole {name:"city"; query:"city/string()"}
+                XmlRole {name:"cityname"; query:"cityname/string()"}
+                XmlRole {name:"citynumber"; query:"citynumber/string()"}
+            }
 
         }
     }
 
     Component.onCompleted: {
+        Mydbs.loadSettings();
     }
 }

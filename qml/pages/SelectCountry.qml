@@ -31,19 +31,23 @@ import "dbfunctions.js" as Mydbs
 Page {
     id: page
     onStatusChanged: {
-
+        //console.log(city_xml.get(0).citynumber)
     }
 
     SilicaListView {
         id: listView
-        model: stopseq_model
+        model: country_list
         anchors.fill: parent
 
         PullDownMenu {
             MenuItem {
                 text: qsTr("Stop sequence")
                 onClicked:{
-                    pageStack.pop();
+                }
+            }
+            MenuItem {
+                text: qsTr("Reload")
+                onClicked:{
                 }
             }
         }
@@ -58,30 +62,40 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: planned_time + " " + stop_name
-                font.bold: index < selections.get(0).stop_sequence ? true:false
-                font.italic: index < selections.get(0).stop_sequence ? true:false
+                text: country_name_a
+                //font.bold: index < selections.get(0).stop_sequence ? true:false
+                //font.italic: index < selections.get(0).stop_sequence ? true:false
                 anchors.verticalCenter: parent.verticalCenter
-                color: colore == "first" ? Theme.secondaryHighlightColor : Theme.primaryColor
+                //color: colore == "first" ? Theme.secondaryHighlightColor : Theme.primaryColor
             }
             onClicked: {
+                selections.set(0,{"country_name": country_name_a})
+                selections.set(0,{"country": country_a})
+                selections.set(0,{"city": ""})
+                selections.set(0,{"cityname": ""})
+                selections.set(0,{"citynumber": ""})
+                console.log(country_name_a, country_a)
+                Mydbs.saveSettings();
+                pageStack.pop();
+
             }
         }
 
-        Timer {
-            running: true && Qt.application.active
-            interval: 5000
-            repeat:true
-            onTriggered: {
-                Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
-                listView.positionViewAtIndex(selections.get(0).stop_sequence-1, ListView.Center)
+
+        ListModel {
+            id: country_list
+            ListElement {
+                country_name_a:""
+                country_a:""
             }
         }
+
 
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
 
+            Mydbs.fill_country();
         }
     }
 }

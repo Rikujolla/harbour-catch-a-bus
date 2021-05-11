@@ -65,12 +65,6 @@ Page {
                 }
             }
             MenuItem {
-                text: qsTr("Load static data")
-                onClicked:{
-                    pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
-                }
-            }
-            MenuItem {
                 text: qsTr("Settings")
                 onClicked:{
                     pageStack.push(Qt.resolvedUrl("Settings.qml"))
@@ -82,6 +76,24 @@ Page {
                     pageStack.push(Qt.resolvedUrl("Busses.qml"))
                 }
             }
+            MenuItem {
+                text: distanceLoader.running ? qsTr("Reset and stop tracking") : qsTr("Start tracking")
+                onClicked:{
+                    if(distanceLoader.running) {
+                        distanceLoader.stop()
+                        selected_stop.text = "Not selected"
+                        bus.text = ""
+                        selected_bus.text = "Not selected"
+                        positsione.text = ""
+                        selections.set(0,{"dist_me":40000.0})
+                        selections.set(0,{"dist_bus":40000.0})
+                        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m - The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
+                    }
+                    else {
+                        distanceLoader.start()
+                    }
+                }
+            }
         }
 
         Column {
@@ -91,6 +103,7 @@ Page {
             spacing: Theme.paddingLarge
             PageHeader {
                 title: qsTr("Catch a bus")
+                description: selections.get(0).country_name + ", " + selections.get(0).city
             }
 
             BackgroundItem {
@@ -140,6 +153,18 @@ Page {
                 EnterKey.iconSource: "image://theme/icon-m-enter-close"
                 EnterKey.onClicked: {
                     focus = false;
+
+                    buslist_model.clear();
+                    Mydbs.clear_running_busses();
+                    if (bus.text !== "") {
+                        var _search = Mydbs.get_route_id(bus.text)
+
+                        python.startDownload(_search, selections.get(0).cityname, "00:00:01");
+                    }
+                    else {
+                        python.startDownload("haku", selections.get(0).cityname, "00:00:01");
+                    }
+
                 }
             }
 
@@ -174,13 +199,13 @@ Page {
                 }
             }
 
-            ProgressBar {
+            /*ProgressBar {
                 id: dlprogress
                 label: "Downloading bus data."
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 visible: page.downloading
-            }
+            }*/
 
             SectionHeader { text: qsTr("Me to bus competition") }
 
@@ -201,7 +226,7 @@ Page {
             }
         }
 
-        Button {
+        /*Button {
             id:trackbutton
             text: "Start tracking"
             enabled: !page.downloading
@@ -210,7 +235,7 @@ Page {
             onClicked: {
                 distanceLoader.start()
             }
-        }
+        }*/
 
         Timer {
             id:distanceLoader
@@ -222,12 +247,12 @@ Page {
                 buslist_model.clear();
                 Mydbs.clear_running_busses(); // check if needed
                 if (!page.downloading){
-                    python.startDownload(selections.get(0).trip_id, cityname, selections.get(0).start_time);
+                    python.startDownload(selections.get(0).trip_id, selections.get(0).cityname, selections.get(0).start_time);
                 }
             }
         }
 
-        Button {
+        /*Button {
             id:bottombutton
             text: "Check busses"
             enabled: !page.downloading
@@ -237,26 +262,15 @@ Page {
                 buslist_model.clear();
                 Mydbs.clear_running_busses();
                 if (bus.text !== "") {
-                    if (cityname == "jyvaskyla") {
-                        if(bus.text.length > 1){
-                            var _search = "9" + bus.text
-                        }
-                        else {
-                            _search = "90" + bus.text
-                        }
-                    }
-                    else {
-                        _search = bus.text
-                    }
+                    var _search = Mydbs.get_route_id(bus.text)
 
-                    python.startDownload(_search, cityname, "00:00:01");
-                    //console.log("bus.text", bus.text)
+                    python.startDownload(_search, selections.get(0).cityname, "00:00:01");
                 }
                 else {
-                    python.startDownload("haku", cityname, "00:00:01");
+                    python.startDownload("haku", selections.get(0).cityname, "00:00:01");
                 }
             }
-        }
+        }*/
 
         Python {
             id: python
@@ -280,9 +294,9 @@ Page {
                     selections.set(0, {"dist_bus":Myfunc.distance(latti,longi,coord.latitude,coord.longitude)});
                     selections.set(0, {"dist_bus_to_stop":Myfunc.distance(latti,longi,selections.get(0).stop_lat,selections.get(0).stop_lon)});
                     selections.set(0, {"dist_me":Myfunc.distance(selections.get(0).stop_lat,selections.get(0).stop_lon,coord.latitude,coord.longitude)});
-                    positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + " " + p5 + ")";
+                    positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + ")";
                     selections.set(0,{"stop_sequence":p4})
-                    competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
+                    competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m - The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
                 });
                 setHandler('finished', function(newvalue) {
                     page.downloading = false;
@@ -295,7 +309,7 @@ Page {
 
             function startDownload(arg1, arg2, arg3) {
                 page.downloading = true;
-                dlprogress.value = 0.0;
+                //dlprogress.value = 0.0;
                 //console.log("arg1",arg1)
                 call('datadownloader.downloader.download', [arg1, arg2, arg3],function() {});
             }

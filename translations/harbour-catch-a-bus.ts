@@ -146,36 +146,59 @@
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="68"/>
-        <source>Load static data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FirstPage.qml" line="74"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="80"/>
+        <location filename="../qml/pages/FirstPage.qml" line="74"/>
         <source>Select a bus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="93"/>
+        <location filename="../qml/pages/FirstPage.qml" line="80"/>
+        <source>Start tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="80"/>
+        <source>Reset and stop tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="90"/>
+        <location filename="../qml/pages/FirstPage.qml" line="299"/>
+        <source>Me</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="90"/>
+        <location filename="../qml/pages/FirstPage.qml" line="299"/>
+        <source>m - The bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="90"/>
+        <location filename="../qml/pages/FirstPage.qml" line="299"/>
+        <source>m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="105"/>
         <source>Catch a bus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="97"/>
+        <location filename="../qml/pages/FirstPage.qml" line="110"/>
         <source>Selected bus stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="126"/>
+        <location filename="../qml/pages/FirstPage.qml" line="139"/>
         <source>Selected bus connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="185"/>
+        <location filename="../qml/pages/FirstPage.qml" line="210"/>
         <source>Me to bus competition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -187,86 +210,81 @@
         <source>Load static data</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SelectCity</name>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="70"/>
-        <source>Country</source>
+        <location filename="../qml/pages/SelectCity.qml" line="44"/>
+        <location filename="../qml/pages/SelectCity.qml" line="56"/>
+        <source>City selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="74"/>
-        <location filename="../qml/pages/LoadStatic.qml" line="95"/>
-        <source>Select</source>
-        <extracomment>Country name</extracomment>
+        <location filename="../qml/pages/SelectCity.qml" line="49"/>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectCountry</name>
+    <message>
+        <location filename="../qml/pages/SelectCountry.qml" line="44"/>
+        <location filename="../qml/pages/SelectCountry.qml" line="56"/>
+        <source>Stop sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="80"/>
-        <source>Finland</source>
+        <location filename="../qml/pages/SelectCountry.qml" line="49"/>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="92"/>
-        <source>City</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="101"/>
-        <source>Joensuu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="107"/>
-        <source>Jyväskylä</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="113"/>
-        <source>Lahti</source>
+        <location filename="../qml/pages/SelectCountry.qml" line="57"/>
+        <source>Stop time, Stop name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../qml/pages/Settings.qml" line="46"/>
+        <location filename="../qml/pages/Settings.qml" line="44"/>
+        <source>Select ccountry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="65"/>
         <source>Settings page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/Settings.qml" line="36"/>
+        <source>Selected city: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="122"/>
+        <source>City data is loadad from server 1.1.2021. The data is valid for current date but may still have changed. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="35"/>
+        <source>Selected country: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="82"/>
+        <source>Change country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="127"/>
+        <source>Load static data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/pages/Settings.qml" line="50"/>
-        <source>Select city</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="80"/>
-        <source>Some story</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="84"/>
-        <source>Server settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="96"/>
-        <source>Insert here address info of your koronako-server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/pages/Settings.qml" line="104"/>
-        <location filename="../qml/pages/Settings.qml" line="105"/>
-        <source>IP address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="129"/>
-        <location filename="../qml/pages/Settings.qml" line="130"/>
-        <source>Port number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="149"/>
-        <source>Button</source>
+        <source>Select city</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -282,6 +300,11 @@
         <source>Stop schedule</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/pages/StopSchedule.qml" line="54"/>
+        <source>Route, Start time, Stop time, Route name</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StopSeq</name>
@@ -293,7 +316,7 @@
     </message>
     <message>
         <location filename="../qml/pages/StopSeq.qml" line="53"/>
-        <source>Stop time, Stop name, Distance</source>
+        <source>Stop time, Stop name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

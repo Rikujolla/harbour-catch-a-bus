@@ -48,6 +48,7 @@ Page {
             spacing: Theme.paddingLarge
             PageHeader {
                 title: qsTr("Load static data")
+                description: selections.get(0).country_name + ", " + selections.get(0).city
             }
 
             Text {
@@ -64,7 +65,7 @@ Page {
                       " Please wait until all the buttons are enabled. You can either select city or add your own data settings."
             }
 
-            ComboBox {
+            /*ComboBox {
                 id: selCountry
                 width: parent.width
                 label: qsTr("Country")
@@ -121,73 +122,80 @@ Page {
             TextField {
                 visible: selCountry.currentIndex == 0
                 label: "Write zip file location."
-            }
+            }*/
 
-            Button {
+            /*Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
                 text:"1. Delete old data"
                 onClicked: Mydbs.delete_tables()
-            }
+            }*/
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                id:button1
                 text:"2. Load new data"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber)
+                onClicked: {
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber)
+                    button2.enabled = true
+                }
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                id:button2
+                enabled:false
                 text:"3. Unzip data"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"4. Create calendar.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"5. Create calendar dates.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar_dates.txt", "calendar_dates.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"6. Create stops.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stops.txt", "stops.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"7. Create routes.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "routes.txt", "routes.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"8. Create stop_times.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stop_times.txt", "stop_times.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
+                enabled:true
                 text:"9. Create trips.xml"
                 onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "trips.txt", "trips.xml", load_country, load_citynumber)
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
+                enabled:true
                 text:"10. Reload xml"
                 onClicked: {
+                    calendar_xml.reload()
+                    calendar_dates_xml.reload()
                     busstops_xml.reload()
                     routes_xml.reload()
                     stoptimes_xml.reload()
+                    trips_xml.reload()
                 }
             }
 
-            Button {
+            /*Button {
                 enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
                 text:"11. Load calendar"
                 onClicked: Mydbs.load_calendar()
@@ -215,12 +223,20 @@ Page {
                 enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
                 text:"15. Load stop times"
                 onClicked: Mydbs.load_stop_times()
-            }
+            }*/
 
             Button {
-                enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
-                text:"16. Load trips"
-                onClicked: Mydbs.load_trips()
+                enabled: stoptimes_xml.status == 1
+                text:"11. Load data to database"
+                onClicked: {
+                    Mydbs.delete_tables()
+                    Mydbs.load_calendar()
+                    Mydbs.load_calendar_dates()
+                    Mydbs.load_stops()
+                    Mydbs.load_routes()
+                    Mydbs.load_trips()
+                    Mydbs.load_stop_times()
+                }
             }
 
             XmlListModel {
@@ -246,6 +262,16 @@ Page {
                 XmlRole {name:"service_id"; query:"service_id/string()"}
                 XmlRole {name:"date"; query:"date/string()"}
                 XmlRole {name:"exception_type"; query:"exception_type/string()"}
+            }
+
+            XmlListModel {
+                id: busstops_xml
+                source: load_path + load_country + "/" + load_citynumber + "/stops.xml"
+                query: "/xml/stop"
+                XmlRole {name:"stop_id"; query:"stop_id/string()"}
+                XmlRole {name:"stop_name"; query:"stop_name/string()"}
+                XmlRole {name:"stop_lat"; query:"stop_lat/number()"}
+                XmlRole {name:"stop_lon"; query:"stop_lon/number()"}
             }
 
             XmlListModel {
@@ -278,6 +304,12 @@ Page {
                 XmlRole {name:"trip_id"; query:"trip_id/string()"}
             }
         }
+    }
+
+    Component.onCompleted: {
+        load_country = selections.get(0).country
+        load_citynumber = selections.get(0).citynumber
+        console.log(load_country, load_citynumber)
     }
 
     Python {
