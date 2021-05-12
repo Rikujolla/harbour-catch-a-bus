@@ -226,7 +226,7 @@ function get_stop_times() {
                         console.log("some error, day", _d.getDay())
                     }
                     bus_at_stop.clear()
-                    //console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)
+                    console.log(selected_busstop.get(stop_index).stop_id, rs.rows.length)
 
                     for (var i=0;i<rs.rows.length;i++){
                         //console.log(rs.rows.item(i).sname, rs.rows.item(i).sname)

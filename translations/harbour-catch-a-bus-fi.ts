@@ -166,7 +166,35 @@
     <name>LoadStatic</name>
     <message>
         <source>Load static data</source>
-        <translation>Lataa tiedot</translation>
+        <translation type="unfinished">Lataa tiedot</translation>
+    </message>
+    <message>
+        <source>Load new data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unzip data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload xml</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load data to database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On this page the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create xml files</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -206,14 +234,6 @@
         <translation>Valitse kaupunki</translation>
     </message>
     <message>
-        <source>Select ccountry</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>City data is loadad from server 1.1.2021. The data is valid for current date but may still have changed. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Load static data</source>
         <translation type="unfinished">Lataa tiedot</translation>
     </message>
@@ -222,11 +242,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change country</source>
+        <source>Selected city: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Selected city: </source>
+        <source>Select country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load and edit static data!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

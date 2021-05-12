@@ -51,6 +51,7 @@ Page {
         else {
             selected_bus.text = selections.get(0).route_short_name + " " + selections.get(0).start_time.substring(0,5) + " " + selections.get(0).label
         }
+        pheader.description = selections.get(0).country_name + ", " + selections.get(0).city
     }
     property bool downloading: false
 
@@ -102,6 +103,7 @@ Page {
             width: page.width
             spacing: Theme.paddingLarge
             PageHeader {
+                id:pheader
                 title: qsTr("Catch a bus")
                 description: selections.get(0).country_name + ", " + selections.get(0).city
             }
@@ -172,6 +174,7 @@ Page {
                 Label {
                     id:selected_bus
                     font.pixelSize:Theme.fontSizeLarge
+                    wrapMode: Text.WordWrap
                     anchors {
                         left: parent.left
                         right: parent.right
@@ -199,14 +202,6 @@ Page {
                 }
             }
 
-            /*ProgressBar {
-                id: dlprogress
-                label: "Downloading bus data."
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
-                visible: page.downloading
-            }*/
-
             SectionHeader { text: qsTr("Me to bus competition") }
 
             BackgroundItem {
@@ -226,17 +221,6 @@ Page {
             }
         }
 
-        /*Button {
-            id:trackbutton
-            text: "Start tracking"
-            enabled: !page.downloading
-            anchors.bottom: bottombutton.top
-            width: parent.width
-            onClicked: {
-                distanceLoader.start()
-            }
-        }*/
-
         Timer {
             id:distanceLoader
             interval: 5000;
@@ -251,26 +235,6 @@ Page {
                 }
             }
         }
-
-        /*Button {
-            id:bottombutton
-            text: "Check busses"
-            enabled: !page.downloading
-            anchors.bottom: parent.bottom
-            width: parent.width
-            onClicked: {
-                buslist_model.clear();
-                Mydbs.clear_running_busses();
-                if (bus.text !== "") {
-                    var _search = Mydbs.get_route_id(bus.text)
-
-                    python.startDownload(_search, selections.get(0).cityname, "00:00:01");
-                }
-                else {
-                    python.startDownload("haku", selections.get(0).cityname, "00:00:01");
-                }
-            }
-        }*/
 
         Python {
             id: python
@@ -328,6 +292,8 @@ Page {
     }
     Component.onCompleted: {
         Myfunc.get_time();
+        pheader.description = selections.get(0).country_name + ", " + selections.get(0).city
+        Mydbs.loadSettings()
     }
 }
 

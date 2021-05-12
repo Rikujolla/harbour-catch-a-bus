@@ -67,10 +67,64 @@ def slow_function(path, ifile, ofile, country, city):
         with zipfile.ZipFile('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip', 'r') as zip_ref:
             zip_ref.extractall('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/')
         pyotherside.send('message', "Unzipped", "all", "data!")
-    elif ifile == "routes.txt":
+
+    elif ifile == "calendar.txt":
         linenumber = 0
         with open (foutfile, 'w') as outfile:
-                with open (finfile) as infile:
+            with open (finfile) as infile:
+                                        outfile.write('<xml>\n')
+                                        for line in infile:
+                                                line = line.replace('"','')
+                                                if linenumber == 0:
+                                                        row0 = line.split(",")
+                                                        linenumber = 1
+                                                else:
+                                                        outfile.write('<calendar>')
+                                                        row = line.split(",")
+                                                        outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                                        outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
+                                                        outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                                        outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
+                                                        outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
+                                                        outfile.write('<' + row0[5] + '>' + row[5] + '</' + row0[5] + '>')
+                                                        outfile.write('<' + row0[6] + '>' + row[6] + '</' + row0[6] + '>')
+                                                        outfile.write('<' + row0[7] + '>' + row[7] + '</' + row0[7] + '>')
+                                                        outfile.write('<' + row0[8] + '>' + row[8] + '</' + row0[8] + '>')
+                                                        outfile.write('<' + row0[9] + '>' + row[9] + '</' + row0[9] + '>')
+                                                        outfile.write('</calendar>'+ '\n')
+                                        outfile.write('</xml>\n')
+            pyotherside.send('message', path, ifile, ofile, country, city)
+
+
+        ifile = "calendar_dates.txt"
+        ofile = "calendar_dates.xml"
+        finfile = path + ifile
+        foutfile = path + ofile
+        linenumber = 0
+        with open (foutfile, 'w') as outfile:
+            with open (finfile) as infile:
+                                                                outfile.write('<xml>\n')
+                                                                for line in infile:
+                                                                        line = line.replace('"','')
+                                                                        if linenumber == 0:
+                                                                                row0 = line.split(",")
+                                                                                linenumber = 1
+                                                                        else:
+                                                                                outfile.write('<calendar_dates>')
+                                                                                row = line.split(",")
+                                                                                outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                                                                outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
+                                                                                outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                                                                outfile.write('</calendar_dates>'+ '\n')
+                                                                outfile.write('</xml>\n')
+            pyotherside.send('message', path, ifile, ofile, country, city)
+        ifile = "routes.txt"
+        ofile = "routes.xml"
+        finfile = path + ifile
+        foutfile = path + ofile
+        linenumber = 0
+        with open (foutfile, 'w') as outfile:
+            with open (finfile) as infile:
                         outfile.write('<xml>\n')
                         for line in infile:
                                 line = line.replace('"','')
@@ -86,7 +140,11 @@ def slow_function(path, ifile, ofile, country, city):
                                         outfile.write('</routes>'+ '\n')
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
-    elif ifile == "stops.txt":
+
+        ifile = "stops.txt"
+        ofile = "stops.xml"
+        finfile = path + ifile
+        foutfile = path + ofile
         linenumber = 0
         with open (foutfile, 'w') as outfile:
                 with open (finfile) as infile:
@@ -106,10 +164,37 @@ def slow_function(path, ifile, ofile, country, city):
                                         outfile.write('</stop>'+ '\n')
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
-    elif ifile == "stop_times.txt":
+
+        ifile = "trips.txt"
+        ofile = "trips.xml"
+        finfile = path + ifile
+        foutfile = path + ofile
         linenumber = 0
         with open (foutfile, 'w') as outfile:
-                with open (finfile) as infile:
+            with open (finfile) as infile:
+                                outfile.write('<xml>\n')
+                                for line in infile:
+                                        line = line.replace('"','')
+                                        if linenumber == 0:
+                                                row0 = line.split(",")
+                                                linenumber = 1
+                                        else:
+                                                outfile.write('<trips>')
+                                                row = line.split(",")
+                                                outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                                outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
+                                                outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                                outfile.write('</trips>'+ '\n')
+                                outfile.write('</xml>\n')
+            pyotherside.send('message', path, ifile, ofile, country, city)
+
+        ifile = "stop_times.txt"
+        ofile = "stop_times.xml"
+        finfile = path + ifile
+        foutfile = path + ofile
+        linenumber = 0
+        with open (foutfile, 'w') as outfile:
+            with open (finfile) as infile:
                         outfile.write('<xml>\n')
                         for line in infile:
                                 line = line.replace('"','')
@@ -134,75 +219,10 @@ def slow_function(path, ifile, ofile, country, city):
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
 
-    elif ifile == "trips.txt":
-            linenumber = 0
-            with open (foutfile, 'w') as outfile:
-                    with open (finfile) as infile:
-                            outfile.write('<xml>\n')
-                            for line in infile:
-                                    line = line.replace('"','')
-                                    if linenumber == 0:
-                                            row0 = line.split(",")
-                                            linenumber = 1
-                                    else:
-                                            outfile.write('<trips>')
-                                            row = line.split(",")
-                                            outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                            outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
-                                            outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
-                                            outfile.write('</trips>'+ '\n')
-                            outfile.write('</xml>\n')
-            pyotherside.send('message', path, ifile, ofile, country, city)
-
-    elif ifile == "calendar.txt":
-                    linenumber = 0
-                    with open (foutfile, 'w') as outfile:
-                            with open (finfile) as infile:
-                                    outfile.write('<xml>\n')
-                                    for line in infile:
-                                            line = line.replace('"','')
-                                            if linenumber == 0:
-                                                    row0 = line.split(",")
-                                                    linenumber = 1
-                                            else:
-                                                    outfile.write('<calendar>')
-                                                    row = line.split(",")
-                                                    outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                                    outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
-                                                    outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
-                                                    outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
-                                                    outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
-                                                    outfile.write('<' + row0[5] + '>' + row[5] + '</' + row0[5] + '>')
-                                                    outfile.write('<' + row0[6] + '>' + row[6] + '</' + row0[6] + '>')
-                                                    outfile.write('<' + row0[7] + '>' + row[7] + '</' + row0[7] + '>')
-                                                    outfile.write('<' + row0[8] + '>' + row[8] + '</' + row0[8] + '>')
-                                                    outfile.write('<' + row0[9] + '>' + row[9] + '</' + row0[9] + '>')
-                                                    outfile.write('</calendar>'+ '\n')
-                                    outfile.write('</xml>\n')
-                    pyotherside.send('message', path, ifile, ofile, country, city)
-
-    elif ifile == "calendar_dates.txt":
-                            linenumber = 0
-                            with open (foutfile, 'w') as outfile:
-                                    with open (finfile) as infile:
-                                            outfile.write('<xml>\n')
-                                            for line in infile:
-                                                    line = line.replace('"','')
-                                                    if linenumber == 0:
-                                                            row0 = line.split(",")
-                                                            linenumber = 1
-                                                    else:
-                                                            outfile.write('<calendar_dates>')
-                                                            row = line.split(",")
-                                                            outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                                            outfile.write('<' + row0[1] + '>' + row[1] + '</' + row0[1] + '>')
-                                                            outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
-                                                            outfile.write('</calendar_dates>'+ '\n')
-                                            outfile.write('</xml>\n')
-                            pyotherside.send('message', path, ifile, ofile, country, city)
 
     else:
         pyotherside.send('message', "path", "ifile", "ofile", "country", "city")
+    pyotherside.send('finished', 'random.choice(colors)')
 
 class Sloader:
     def __init__(self):

@@ -35,7 +35,8 @@ Page {
     property string load_citynumber: "xxx"
     property string load_country: "xxx"
     property string load_path: StandardPaths.home + "/.local/share/harbour-catch-a-bus/"
-
+    property bool downloading: false
+    property int level: 0
     SilicaFlickable {
         anchors.fill: parent
 
@@ -61,173 +62,59 @@ Page {
                     right: parent.right
                     margins: Theme.paddingLarge
                 }
-                text: "On this page data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/" +
-                      " Please wait until all the buttons are enabled. You can either select city or add your own data settings."
+                text: qsTr("On this page the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/") + " " +
+                      qsTr("Please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.")
             }
-
-            /*ComboBox {
-                id: selCountry
-                width: parent.width
-                label: qsTr("Country")
-                menu: ContextMenu {
-                    MenuItem {
-                        //: Country name
-                        text: qsTr("Select")
-                        onClicked: {
-                            load_country = "xxx"
-                        }
-                    }
-                    MenuItem {
-                        text: qsTr("Finland")
-                        onClicked: {
-                            load_country = "fin"
-                        }
-                    }
-                }
-            }
-
-            ComboBox {
-                id: selCity
-                visible:selCountry.currentIndex > 0
-                width: parent.width
-                label: qsTr("City")
-                menu: ContextMenu {
-                    MenuItem {
-                        text: qsTr("Select")
-                        onClicked: {
-                            load_citynumber = "xxx"
-                        }
-                    }
-                    MenuItem {
-                        text: qsTr("Joensuu")
-                        onClicked: {
-                            load_citynumber = "207"
-                        }
-                    }
-                    MenuItem {
-                        text: qsTr("Jyväskylä")
-                        onClicked: {
-                            load_citynumber = "209"
-                        }
-                    }
-                    MenuItem {
-                        text: qsTr("Lahti")
-                        onClicked: {
-                            load_citynumber = "223"
-                        }
-                    }
-                }
-            }
-
-            TextField {
-                visible: selCountry.currentIndex == 0
-                label: "Write zip file location."
-            }*/
-
-            /*Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0
-                text:"1. Delete old data"
-                onClicked: Mydbs.delete_tables()
-            }*/
 
             Button {
                 id:button1
-                text:"2. Load new data"
+                enabled:level == 0 && page.downloading == false
+                text:"1. " + qsTr("Load new data")
                 onClicked: {
                     spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber)
-                    button2.enabled = true
+                    page.downloading = true
                 }
             }
 
             Button {
                 id:button2
-                enabled:false
-                text:"3. Unzip data"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"4. Create calendar.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"5. Create calendar dates.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar_dates.txt", "calendar_dates.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"6. Create stops.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stops.txt", "stops.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"7. Create routes.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "routes.txt", "routes.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"8. Create stop_times.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stop_times.txt", "stop_times.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"9. Create trips.xml"
-                onClicked: spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "trips.txt", "trips.xml", load_country, load_citynumber)
-            }
-
-            Button {
-                enabled:true
-                text:"10. Reload xml"
+                enabled:level == 1 && page.downloading == false
+                text:"2. " + qsTr("Unzip data")
                 onClicked: {
-                    calendar_xml.reload()
-                    calendar_dates_xml.reload()
-                    busstops_xml.reload()
-                    routes_xml.reload()
-                    stoptimes_xml.reload()
-                    trips_xml.reload()
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber)
+                    page.downloading = true
                 }
             }
 
-            /*Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"11. Load calendar"
-                onClicked: Mydbs.load_calendar()
+            Button {
+                id:button3
+                enabled:level == 2 && page.downloading == false
+                text:"3. " + qsTr("Create xml files")
+                onClicked: {
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber)
+                    page.downloading = true
+                }
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"12. Load calendar dates"
-                onClicked: Mydbs.load_calendar_dates()
+                id:button4
+                enabled:level == 3 && page.downloading == false
+                text:"4. " + qsTr("Reload xml")
+                onClicked: {
+                    calendar_xml.reload()
+                    calendar_dates_xml.reload()
+                    routes_xml.reload()
+                    busstops_xml.reload()
+                    trips_xml.reload()
+                    stoptimes_xml.reload()
+                    page.level = 4
+                }
             }
 
             Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && busstops_xml.status == 1
-                text:"13. Load stops"
-                onClicked: Mydbs.load_stops()
-            }
-
-            Button {
-                enabled:selCountry.currentIndex > 0 && selCity.currentIndex > 0 && routes_xml.status == 1
-                text:"14. Load routes"
-                onClicked: Mydbs.load_routes()
-            }
-
-            Button {
-                enabled: selCountry.currentIndex > 0 && selCity.currentIndex > 0 && stoptimes_xml.status == 1
-                text:"15. Load stop times"
-                onClicked: Mydbs.load_stop_times()
-            }*/
-
-            Button {
-                enabled: stoptimes_xml.status == 1
-                text:"11. Load data to database"
+                id:button5
+                enabled: page.level == 4 && stoptimes_xml.status == 1
+                text:"5. " + qsTr("Load data to database")
                 onClicked: {
                     Mydbs.delete_tables()
                     Mydbs.load_calendar()
@@ -236,6 +123,7 @@ Page {
                     Mydbs.load_routes()
                     Mydbs.load_trips()
                     Mydbs.load_stop_times()
+                    page.level = 5
                 }
             }
 
@@ -319,6 +207,11 @@ Page {
 
             setHandler('message', function(msg1, msg2, msg3, msg4, msg5) {
                 console.log(msg1, msg2, msg3, msg4, msg5);
+            });
+            setHandler('finished', function(newvalue) {
+                page.downloading = false;
+                page.level = page.level + 1;
+                //console.log( "finished" , newvalue);
             });
             importModule('staticfiles', function () {});
         }

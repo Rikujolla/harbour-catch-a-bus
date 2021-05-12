@@ -34,6 +34,7 @@ Page {
     onStatusChanged: {
         country_setting.text = qsTr("Selected country: ") + selections.get(0).country_name
         city_setting.text = qsTr("Selected city: ") + selections.get(0).city
+        selections.get(0).city !== "" ? load_static_data.enabled = true : load_static_data.enabled = false
     }
 
     SilicaFlickable {
@@ -41,15 +42,15 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Select ccountry")
+                text: qsTr("Select country")
                 onClicked:{
-                    //pageStack.push(Qt.resolvedUrl("About.qml"))
+                    pageStack.push(Qt.resolvedUrl("SelectCountry.qml"))
                 }
             }
             MenuItem {
                 text: qsTr("Select city")
                 onClicked:{
-                    //pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
+                    pageStack.push(Qt.resolvedUrl("SelectCity.qml"))
                 }
             }
         }
@@ -79,7 +80,7 @@ Page {
             }
 
             Button {
-                text:qsTr("Change country")
+                text:qsTr("Select country")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     Mydbs.load_city_data();
@@ -119,11 +120,12 @@ Page {
                     margins: Theme.paddingLarge
                 }
                 text: {
-                    qsTr("City data is loadad from server 1.1.2021. The data is valid for current date but may still have changed. ")
+                    qsTr("Load and edit static data!")
                 }
             }
 
             Button {
+                id:load_static_data
                 text:qsTr("Load static data")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {

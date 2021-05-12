@@ -59,6 +59,7 @@ Page {
             Label {
                 id: listos
                 x: Theme.paddingLarge
+                wrapMode: Text.WordWrap
                 text: route_short_name + " " + start_time.substring(0,5) + " " + planned_time.substring(0,5) + " " + route_long_name
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor

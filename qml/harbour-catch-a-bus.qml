@@ -52,7 +52,7 @@ ApplicationWindow
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.1.2"
+    property string version: "0.1.3"
     //Cityinfo, maybe later to be included in a ListModel
     //property string city: "Jyväskyla"
     //property string cityname: "jyvaskyla"
@@ -157,16 +157,6 @@ ApplicationWindow
             licence_plate: 'KMT-518'
         }
     }
-
-    /*XmlListModel {
-        id: busstops_xml
-        source: "data/209/stops.xml"
-        query: "/xml/stop"
-        XmlRole {name:"stop_id"; query:"stop_id/string()"}
-        XmlRole {name:"stop_name"; query:"stop_name/string()"}
-        XmlRole {name:"stop_lat"; query:"stop_lat/number()"}
-        XmlRole {name:"stop_lon"; query:"stop_lon/number()"}
-    }*/
 
     Component.onCompleted: {
         Mydbs.loadSettings()
