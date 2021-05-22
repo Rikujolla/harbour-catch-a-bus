@@ -62,16 +62,36 @@ Page {
                     right: parent.right
                     margins: Theme.paddingLarge
                 }
-                text: qsTr("On this page the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/") + " " +
-                      qsTr("Please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.")
+                text: qsTr("As default the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/") + "\n" +
+                      qsTr("I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.") +"\n"+
+                      qsTr("After the path selection, please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.")
             }
+
+            TextField {
+                id: path_selection
+                placeholderText: qsTr("Enter path")
+                anchors.horizontalCenter: parent.horizontalCenter
+                //validator: RegExpValidator { regExp: /^[0-9]{0,}$/ }
+                //color: errorHighlight? "red" : Theme.primaryColor
+                //inputMethodHints:  Qt.ImhDigitsOnly
+                EnterKey.enabled: !errorHighlight
+                EnterKey.iconSource: "image://theme/icon-m-enter-close"
+                EnterKey.onClicked: {
+                    focus = false;
+                    if(text != "") {load_path = text}
+                    selections.set(0,{"localpath": text})
+                    Mydbs.saveSettings()
+                }
+            }
+
+
 
             Button {
                 id:button1
                 enabled:level == 0 && page.downloading == false
                 text:"1. " + qsTr("Load new data")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber)
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber, selections.get(0).staticpath)
                     page.downloading = true
                 }
             }
@@ -81,7 +101,7 @@ Page {
                 enabled:level == 1 && page.downloading == false
                 text:"2. " + qsTr("Unzip data")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber)
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber, selections.get(0).staticpath)
                     page.downloading = true
                 }
             }
@@ -91,7 +111,7 @@ Page {
                 enabled:level == 2 && page.downloading == false
                 text:"3. " + qsTr("Create xml files")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber)
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber, selections.get(0).staticpath)
                     page.downloading = true
                 }
             }
@@ -195,9 +215,11 @@ Page {
     }
 
     Component.onCompleted: {
+        Mydbs.loadSettings()
         load_country = selections.get(0).country
         load_citynumber = selections.get(0).citynumber
-        console.log(load_country, load_citynumber)
+        if(selections.get(0).localpath != "") { path_selection.text = load_path = selections.get(0).localpath}
+        console.log(load_path, load_country, load_citynumber)
     }
 
     Python {
@@ -216,8 +238,8 @@ Page {
             importModule('staticfiles', function () {});
         }
 
-        function startDownload(arg1, arg2, arg3, arg4, arg5) {
-            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5],function() {});
+        function startDownload(arg1, arg2, arg3, arg4, arg5, arg6) {
+            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5, arg6],function() {});
 
         }
     }

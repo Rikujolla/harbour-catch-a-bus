@@ -40,14 +40,14 @@ Page {
         model: bus_at_stop
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Busses available")
                 onClicked:{
                     pageStack.push(Qt.resolvedUrl("Loc.qml"))
                 }
             }
-        }
+        }*/
 
         header: PageHeader {
             title: qsTr("Stop schedule")

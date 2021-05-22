@@ -1,5 +1,47 @@
 <xml>
-<city><country_name>Finland</country_name><country>fin</country><city>Joensuu</city><cityname>joensuu</cityname><citynumber>207</citynumber></city>
-<city><country_name>Finland</country_name><country>fin</country><city>Jyväskylä</city><cityname>jyvaskyla</cityname><citynumber>209</citynumber></city>
-<city><country_name>Finland</country_name><country>fin</country><city>Lahti</city><cityname>lahti</cityname><citynumber>223</citynumber></city>
+<!-- <city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Helsinki</city>
+<cityname>helsinki</cityname>
+<citynumber>091</citynumber>
+<staticpath>https://infopalvelut.storage.hsldev.com/gtfs/hsl.zip</staticpath>
+<gtfsversion>2.0</gtfsversion>
+</city> -->
+<city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Joensuu</city>
+<cityname>joensuu</cityname>
+<citynumber>207</citynumber>
+<staticpath>https://tvv.fra1.digitaloceanspaces.com/207.zip</staticpath>
+<gtfsversion>1.0</gtfsversion>
+</city>
+<city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Jyväskylä</city>
+<cityname>jyvaskyla</cityname>
+<citynumber>209</citynumber>
+<staticpath>https://tvv.fra1.digitaloceanspaces.com/209.zip</staticpath>
+<gtfsversion>1.0</gtfsversion>
+</city>
+<city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Lahti</city>
+<cityname>lahti</cityname>
+<citynumber>223</citynumber>
+<staticpath>https://tvv.fra1.digitaloceanspaces.com/223.zip</staticpath>
+<gtfsversion>1.0</gtfsversion>
+</city>
+<!-- <city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Oulu</city>
+<cityname>oulu</cityname>
+<citynumber>564</citynumber>
+<staticpath>https://assets.oulunliikenne.fi/gtfs_google/google_transit.zip</staticpath>
+<gtfsversion>1.0</gtfsversion>
+</city> -->
 </xml>

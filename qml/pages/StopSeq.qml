@@ -39,14 +39,14 @@ Page {
         model: stopseq_model
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Stop sequence")
                 onClicked:{
                     pageStack.pop();
                 }
             }
-        }
+        }*/
 
         header: PageHeader {
             title: qsTr("Stop sequence")
@@ -72,6 +72,7 @@ Page {
             running: true && Qt.application.active
             interval: 5000
             repeat:true
+            triggeredOnStart: true
             onTriggered: {
                 Mydbs.fill_sequence(day,selections.get(0).trip_id,selections.get(0).start_time)
                 listView.positionViewAtIndex(selections.get(0).stop_sequence-1, ListView.Center)

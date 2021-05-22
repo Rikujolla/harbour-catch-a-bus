@@ -39,7 +39,7 @@ Page {
         model: city_list
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("City selection")
                 onClicked:{
@@ -50,7 +50,7 @@ Page {
                 onClicked:{
                 }
             }
-        }
+        }*/
 
         header: PageHeader {
             title: qsTr("City selection")
@@ -72,6 +72,7 @@ Page {
                 selections.set(0,{"city": city_a})
                 selections.set(0,{"cityname": cityname_a})
                 selections.set(0,{"citynumber": citynumber_a})
+                selections.set(0,{"staticpath": staticpath_a})
                 console.log(city_a, cityname_a, citynumber_a)
                 Mydbs.saveSettings()
                 pageStack.pop();
@@ -86,6 +87,7 @@ Page {
                 city_a:""
                 cityname_a:""
                 citynumber_a:""
+                staticpath_a:""
             }
         }
 

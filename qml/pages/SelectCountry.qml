@@ -39,7 +39,7 @@ Page {
         model: country_list
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Stop sequence")
                 onClicked:{
@@ -50,11 +50,11 @@ Page {
                 onClicked:{
                 }
             }
-        }
+        }*/
 
         header: PageHeader {
-            title: qsTr("Stop sequence")
-            description: qsTr("Stop time, Stop name")
+            title: qsTr("Country selection")
+            //description: qsTr("Stop time, Stop name")
         }
         delegate: BackgroundItem {
             id: delegate

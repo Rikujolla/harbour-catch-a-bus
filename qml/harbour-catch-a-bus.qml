@@ -52,7 +52,7 @@ ApplicationWindow
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.1.3"
+    property string version: "0.1.4"
     //Cityinfo, maybe later to be included in a ListModel
     //property string city: "Jyväskyla"
     //property string cityname: "jyvaskyla"
@@ -124,6 +124,8 @@ ApplicationWindow
             citynumber: "" // E.g. 209 means Jyväskylä, not necessarily number, may be other code also
             country_name: "" // E.g. Finland
             country: "" // E.g. fin
+            staticpath: "" // Path for static data zip file
+            localpath: "" // If empty using default
         }
     }
 

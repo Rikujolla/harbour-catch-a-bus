@@ -32,15 +32,15 @@ import QtQuick.XmlListModel 2.0
 Page {
     id: page
     onStatusChanged: {
-        country_setting.text = qsTr("Selected country: ") + selections.get(0).country_name
-        city_setting.text = qsTr("Selected city: ") + selections.get(0).city
+        country_setting.text = qsTr("Selected country") + (": ") + selections.get(0).country_name
+        city_setting.text = qsTr("Selected city") + (": ") + selections.get(0).city
         selections.get(0).city !== "" ? load_static_data.enabled = true : load_static_data.enabled = false
     }
 
     SilicaFlickable {
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Select country")
                 onClicked:{
@@ -53,7 +53,7 @@ Page {
                     pageStack.push(Qt.resolvedUrl("SelectCity.qml"))
                 }
             }
-        }
+        }*/
 
         contentHeight: column.height
 
@@ -142,6 +142,8 @@ Page {
                 XmlRole {name:"city"; query:"city/string()"}
                 XmlRole {name:"cityname"; query:"cityname/string()"}
                 XmlRole {name:"citynumber"; query:"citynumber/string()"}
+                XmlRole {name:"staticpath"; query:"staticpath/string()"}
+                XmlRole {name:"gtfsversion"; query:"gtfsversion/string()"}
             }
 
         }

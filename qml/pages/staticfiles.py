@@ -41,7 +41,7 @@ import zipfile
 import os
 import urllib.request
 
-def slow_function(path, ifile, ofile, country, city):
+def slow_function(path, ifile, ofile, country, city, static):
     if not os.path.exists(path):
         os.makedirs(path)
     finfile = path + ifile
@@ -58,17 +58,43 @@ def slow_function(path, ifile, ofile, country, city):
                 #row0 = line.split(",")
             #pyotherside.send('message', row0[0], row0[2], row[3])
     if ifile == "loaddata":
-        zip_source = 'https://tvv.fra1.digitaloceanspaces.com/' + city + '.zip'
-        zip_target = '/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip'
+        zip_source = static
+        #zip_source = 'https://tvv.fra1.digitaloceanspaces.com/' + city + '.zip'
+        #zip_target = '/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip'
+        zip_target = path + city + '.zip'
         pyotherside.send('message', "Loaded", "all", "data!", zip_source, zip_target)
         urllib.request.urlretrieve(zip_source, zip_target)
         pyotherside.send('message', "Loaded", "all", "data!")
     elif ifile == "unzip":
-        with zipfile.ZipFile('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip', 'r') as zip_ref:
-            zip_ref.extractall('/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/')
+        with zipfile.ZipFile(path + city + '.zip', 'r') as zip_ref:
+            zip_ref.extractall(path)
         pyotherside.send('message', "Unzipped", "all", "data!")
 
     elif ifile == "calendar.txt":
+        # delete files
+        if os.path.exists(path+"/"+city+".zip"):
+            pyotherside.send('message', "The", city, ".zip exist!")
+            os.remove(path+"/"+city+".zip")
+        if os.path.exists(path+ "shapes.txt"):
+            pyotherside.send('message', "The", "file shapes.txt", "exist!")
+            os.remove(path+ "shapes.txt")
+        if os.path.exists(path+ "agency.txt"):
+            pyotherside.send('message', "The", "file agency.txt", "exist!")
+            os.remove(path+ "agency.txt")
+        if os.path.exists(path+ "contracts.txt"):
+            pyotherside.send('message', "The", "file contracts.txt", "exist!")
+            os.remove(path+ "contracts.txt")
+        if os.path.exists(path+ "feed_info.txt"):
+            pyotherside.send('message', "The", "file feed_info.txt", "exist!")
+            os.remove(path+ "feed_info.txt")
+        if os.path.exists(path+ "transfers.txt"):
+            pyotherside.send('message', "The", "file transfers.txt", "exist!")
+            os.remove(path+ "transfers.txt")
+        if os.path.exists(path+ "translations.txt"):
+            pyotherside.send('message', "The", "file translations.txt", "exist!")
+            os.remove(path+ "translations.txt")
+        #
+
         linenumber = 0
         with open (foutfile, 'w') as outfile:
             with open (finfile) as infile:
@@ -93,8 +119,10 @@ def slow_function(path, ifile, ofile, country, city):
                                                         outfile.write('<' + row0[9] + '>' + row[9] + '</' + row0[9] + '>')
                                                         outfile.write('</calendar>'+ '\n')
                                         outfile.write('</xml>\n')
-            pyotherside.send('message', path, ifile, ofile, country, city)
-
+        pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "calendar.txt"):
+            pyotherside.send('message', "The", "file calendar.txt", "exist!")
+            os.remove(path+ "calendar.txt")
 
         ifile = "calendar_dates.txt"
         ofile = "calendar_dates.xml"
@@ -117,7 +145,11 @@ def slow_function(path, ifile, ofile, country, city):
                                                                                 outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
                                                                                 outfile.write('</calendar_dates>'+ '\n')
                                                                 outfile.write('</xml>\n')
-            pyotherside.send('message', path, ifile, ofile, country, city)
+        pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "calendar_dates.txt"):
+            pyotherside.send('message', "The", "file calendar_dates.txt", "exist!")
+            os.remove(path+ "calendar_dates.txt")
+
         ifile = "routes.txt"
         ofile = "routes.xml"
         finfile = path + ifile
@@ -140,6 +172,9 @@ def slow_function(path, ifile, ofile, country, city):
                                         outfile.write('</routes>'+ '\n')
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "routes.txt"):
+            pyotherside.send('message', "The", "file routes.txt", "exist!")
+            os.remove(path+ "routes.txt")
 
         ifile = "stops.txt"
         ofile = "stops.xml"
@@ -164,6 +199,9 @@ def slow_function(path, ifile, ofile, country, city):
                                         outfile.write('</stop>'+ '\n')
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "stops.txt"):
+            pyotherside.send('message', "The", "file stops.txt", "exist!")
+            os.remove(path+ "stops.txt")
 
         ifile = "trips.txt"
         ofile = "trips.xml"
@@ -186,7 +224,10 @@ def slow_function(path, ifile, ofile, country, city):
                                                 outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
                                                 outfile.write('</trips>'+ '\n')
                                 outfile.write('</xml>\n')
-            pyotherside.send('message', path, ifile, ofile, country, city)
+        pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "trips.txt"):
+            pyotherside.send('message', "The", "file trips.txt", "exist!")
+            os.remove(path+ "trips.txt")
 
         ifile = "stop_times.txt"
         ofile = "stop_times.xml"
@@ -210,7 +251,6 @@ def slow_function(path, ifile, ofile, country, city):
                                                 start_time = row[2]
 
                                         outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                        #outfile.write('<' + 'start_time' + '>' + row_one[0][:2] + ":" + row_one[0][2:4] + ":" + row_one[0][-2:]+ '</' + 'start_time' + '>')
                                         outfile.write('<' + 'start_time' + '>' + start_time + '</' + 'start_time' + '>')
                                         outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
                                         outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
@@ -218,6 +258,9 @@ def slow_function(path, ifile, ofile, country, city):
                                         outfile.write('</stoptime>'+ '\n')
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
+        if os.path.exists(path+ "stop_times.txt"):
+            pyotherside.send('message', "The", "file stop_times.txt", "exist!")
+            os.remove(path+ "stop_times.txt")
 
 
     else:
@@ -231,15 +274,16 @@ class Sloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, path, ifile, ofile, country, city):
+    def download(self, path, ifile, ofile, country, city, static):
         self.path = path
         self.ifile = ifile
         self.ofile = ofile
         self.country = country
         self.city = city
+        self.static = static
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,self.static,))
         self.bgthread.start()
 
 

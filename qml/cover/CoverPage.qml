@@ -55,7 +55,6 @@ CoverBackground {
         id: label2
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: label.bottom
-        text: selections.get(0).route_short_name
         anchors.topMargin: Theme.paddingMedium
         x: Theme.paddingLarge
     }
@@ -63,8 +62,6 @@ CoverBackground {
         id: label3
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: label2.bottom
-        //text: (selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence) + " stops"
-        text: (selections.get(0).stop_sequence) + " stops"
         anchors.topMargin: Theme.paddingMedium
         x: Theme.paddingLarge
     }
@@ -72,7 +69,6 @@ CoverBackground {
         id: label4
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: label3.bottom
-        text: "Bus " + selections.get(0).dist_bus_to_stop + " m"
         anchors.topMargin: Theme.paddingMedium
         x: Theme.paddingLarge
     }
@@ -80,7 +76,6 @@ CoverBackground {
         id: label5
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: label4.bottom
-        text: "Me " + selections.get(0).dist_me + " m"
         anchors.topMargin: Theme.paddingMedium
         x: Theme.paddingLarge
     }
@@ -88,7 +83,6 @@ CoverBackground {
         id: label6
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: label5.bottom
-        text: "RUN!"
         anchors.topMargin: Theme.paddingMedium
         x: Theme.paddingLarge
     }
@@ -105,13 +99,13 @@ CoverBackground {
                 label3.text = qsTr("Bus passed")
             }
             else {
-                label3.text = (selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence) + " stops"
+                label3.text = (selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence) + " " + qsTr("stops")
             }
-            label4.text = "Bus " + selections.get(0).dist_bus_to_stop + " m"
+            label4.text = qsTr("Bus") + " " + selections.get(0).dist_bus_to_stop + " " + qsTr("m")
             var _time_bus = selections.get(0).dist_bus_to_stop/16.6 //Estimating bus speed about 60 km/h
             var _my_speed_needed = selections.get(0).dist_me/(_time_bus + 30.0)
 
-            label5.text = "Me " + selections.get(0).dist_me + " m"
+            label5.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m")
 
             if (((selections.get(0).stop_sequence_selected - selections.get(0).stop_sequence)<0) && selections.get(0).dist_bus < 30.0){ //
                 label6.text = qsTr("IN THE BUS!")

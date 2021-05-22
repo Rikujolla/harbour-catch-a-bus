@@ -101,38 +101,59 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="105"/>
+        <location filename="../qml/cover/CoverPage.qml" line="107"/>
+        <source>stops</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="109"/>
+        <source>Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="109"/>
+        <location filename="../qml/cover/CoverPage.qml" line="113"/>
+        <source>m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="113"/>
+        <source>Me</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="104"/>
         <source>Bus passed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="117"/>
+        <location filename="../qml/cover/CoverPage.qml" line="116"/>
         <source>IN THE BUS!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="121"/>
-        <location filename="../qml/cover/CoverPage.qml" line="141"/>
+        <location filename="../qml/cover/CoverPage.qml" line="120"/>
+        <location filename="../qml/cover/CoverPage.qml" line="140"/>
         <source>YOU LOST!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="125"/>
+        <location filename="../qml/cover/CoverPage.qml" line="124"/>
         <source>HOLD!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="129"/>
+        <location filename="../qml/cover/CoverPage.qml" line="128"/>
         <source>WALK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="133"/>
+        <location filename="../qml/cover/CoverPage.qml" line="132"/>
         <source>JOG!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="137"/>
+        <location filename="../qml/cover/CoverPage.qml" line="136"/>
         <source>RUN!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -165,21 +186,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/FirstPage.qml" line="47"/>
         <location filename="../qml/pages/FirstPage.qml" line="91"/>
-        <location filename="../qml/pages/FirstPage.qml" line="263"/>
+        <location filename="../qml/pages/FirstPage.qml" line="265"/>
         <source>Me</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/FirstPage.qml" line="47"/>
         <location filename="../qml/pages/FirstPage.qml" line="91"/>
-        <location filename="../qml/pages/FirstPage.qml" line="263"/>
-        <source>m - The bus</source>
+        <location filename="../qml/pages/FirstPage.qml" line="265"/>
+        <source>m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/FirstPage.qml" line="47"/>
         <location filename="../qml/pages/FirstPage.qml" line="91"/>
-        <location filename="../qml/pages/FirstPage.qml" line="263"/>
-        <source>m</source>
+        <location filename="../qml/pages/FirstPage.qml" line="265"/>
+        <source>The bus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -198,7 +222,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="205"/>
+        <location filename="../qml/pages/FirstPage.qml" line="150"/>
+        <source>Select bus line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FirstPage.qml" line="207"/>
         <source>Me to bus competition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -211,37 +240,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="65"/>
-        <source>On this page the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/pages/LoadStatic.qml" line="66"/>
-        <source>Please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="92"/>
-        <source>Create xml files</source>
+        <source>I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/LoadStatic.qml" line="72"/>
+        <source>Enter path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="112"/>
+        <source>Create xml files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="92"/>
         <source>Load new data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="82"/>
-        <source>Unzip data</source>
+        <location filename="../qml/pages/LoadStatic.qml" line="65"/>
+        <source>As default the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="67"/>
+        <source>After the path selection, please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/LoadStatic.qml" line="102"/>
+        <source>Unzip data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="122"/>
         <source>Reload xml</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="117"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="137"/>
         <source>Load data to database</source>
         <translation type="unfinished"></translation>
     </message>
@@ -249,33 +288,16 @@
 <context>
     <name>SelectCity</name>
     <message>
-        <location filename="../qml/pages/SelectCity.qml" line="44"/>
         <location filename="../qml/pages/SelectCity.qml" line="56"/>
         <source>City selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SelectCity.qml" line="49"/>
-        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SelectCountry</name>
     <message>
-        <location filename="../qml/pages/SelectCountry.qml" line="44"/>
         <location filename="../qml/pages/SelectCountry.qml" line="56"/>
-        <source>Stop sequence</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SelectCountry.qml" line="49"/>
-        <source>Reload</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SelectCountry.qml" line="57"/>
-        <source>Stop time, Stop name</source>
+        <source>Country selection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -287,19 +309,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Settings.qml" line="36"/>
-        <source>Selected city: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Settings.qml" line="45"/>
         <location filename="../qml/pages/Settings.qml" line="83"/>
         <source>Select country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/Settings.qml" line="35"/>
-        <source>Selected country: </source>
+        <source>Selected country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Settings.qml" line="36"/>
+        <source>Selected city</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -313,7 +334,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Settings.qml" line="51"/>
         <location filename="../qml/pages/Settings.qml" line="105"/>
         <source>Select city</source>
         <translation type="unfinished"></translation>
@@ -321,11 +341,6 @@
 </context>
 <context>
     <name>StopSchedule</name>
-    <message>
-        <location filename="../qml/pages/StopSchedule.qml" line="45"/>
-        <source>Busses available</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../qml/pages/StopSchedule.qml" line="53"/>
         <source>Stop schedule</source>
@@ -340,7 +355,6 @@
 <context>
     <name>StopSeq</name>
     <message>
-        <location filename="../qml/pages/StopSeq.qml" line="44"/>
         <location filename="../qml/pages/StopSeq.qml" line="52"/>
         <source>Stop sequence</source>
         <translation type="unfinished"></translation>
@@ -353,11 +367,6 @@
 </context>
 <context>
     <name>Stops</name>
-    <message>
-        <location filename="../qml/pages/Stops.qml" line="43"/>
-        <source>Clear busses</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../qml/pages/Stops.qml" line="52"/>
         <source>Closest stops</source>

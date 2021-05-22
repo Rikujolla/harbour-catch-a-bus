@@ -44,7 +44,7 @@ Page {
         else {
             selected_stop.text = selections.get(0).stop_name + ", " + selections.get(0).dist_me + " m"
         }
-        competition.text = "Me " + selections.get(0).dist_me + " m - The bus " + selections.get(0).dist_bus + " m"
+        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
         if (selections.get(0).trip_id == 'Not selected'){
             selected_bus.text = selections.get(0).trip_id
         }
@@ -88,7 +88,7 @@ Page {
                         positsione.text = ""
                         selections.set(0,{"dist_me":40000.0})
                         selections.set(0,{"dist_bus":40000.0})
-                        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m - The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
+                        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
                     }
                     else {
                         distanceLoader.start()
@@ -146,7 +146,8 @@ Page {
 
             TextField {
                 id: bus
-                placeholderText: "Enter bus line"
+                visible:selected_stop.text == "Not selected"
+                placeholderText: qsTr("Select bus line")
                 anchors.horizontalCenter: parent.horizontalCenter
                 validator: RegExpValidator { regExp: /^[0-9]{0,}$/ }
                 color: errorHighlight? "red" : Theme.primaryColor
@@ -173,6 +174,7 @@ Page {
             BackgroundItem {
                 Label {
                     id:selected_bus
+                    visible: text != ""
                     font.pixelSize:Theme.fontSizeLarge
                     wrapMode: Text.WordWrap
                     anchors {
@@ -260,7 +262,7 @@ Page {
                     selections.set(0, {"dist_me":Myfunc.distance(selections.get(0).stop_lat,selections.get(0).stop_lon,coord.latitude,coord.longitude)});
                     positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + ")";
                     selections.set(0,{"stop_sequence":p4})
-                    competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m - The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
+                    competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
                 });
                 setHandler('finished', function(newvalue) {
                     page.downloading = false;

@@ -7,6 +7,14 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+* Sat May 22 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.4-1
+- Removing temporary files during static download
+- Temporary files path can be set to sdcard e.g.
+- Finnish translation finalized
+
+* Wed May 12 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.3-1
+- Data download enhanced.
+
 * Tue May 11 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.2-1
 - Jyvaskyla, Lahti and Joensuu working somehow.
 

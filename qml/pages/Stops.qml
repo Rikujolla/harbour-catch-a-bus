@@ -38,7 +38,7 @@ Page {
         model: selected_busstop
         anchors.fill: parent
 
-        PullDownMenu {
+        /*PullDownMenu {
             MenuItem {
                 text: qsTr("Clear busses")
                 onClicked:{
@@ -46,7 +46,7 @@ Page {
                     pageStack.pop();
                 }
             }
-        }
+        }*/
 
         header: PageHeader {
             title: qsTr("Closest stops")

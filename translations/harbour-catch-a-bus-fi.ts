@@ -42,26 +42,26 @@
     </message>
     <message>
         <source>The idea of the software is to ease the competition of you and the bus. You see if running is needed or should I stay at home and wait for the next bus.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ohjelman idea on auttaa sinun ja bussin välistä kilpailua. Ohjelma näyttää, pitääkö juosta vai pysyä kotona ja odottaa seuraavaa bussia.</translation>
     </message>
     <message>
         <source>The app is collecting data only to the local database on your phone. To function properly the app needs your location info.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovellus kerää tietoja vain paikallisiin tietokantoihin. Toimiakseen oikein, sovellus tarvitsee sijaintitietosi.</translation>
     </message>
     <message>
         <source>App icon (Kapu)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovelluksen ikoni (Kapu)</translation>
     </message>
     <message>
         <source>Copyright (c) 2021, Riku Lahtinen</source>
-        <translation type="unfinished">Copyright (c) 2015, Riku Lahtinen {2021,?}</translation>
+        <translation>Copyright (c) 2021, Riku Lahtinen</translation>
     </message>
 </context>
 <context>
     <name>Busses</name>
     <message>
         <source>Busses available</source>
-        <translation type="unfinished"></translation>
+        <translation>Käytettävissä olevat bussit</translation>
     </message>
     <message>
         <source>Select your bus</source>
@@ -69,11 +69,11 @@
     </message>
     <message>
         <source>All currently running busses</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaikki kulussa olevat bussit</translation>
     </message>
     <message>
         <source>Currently running busses of the selected stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitun pysäkin kulussa olevat bussit</translation>
     </message>
 </context>
 <context>
@@ -104,11 +104,27 @@
     </message>
     <message>
         <source>RUN!</source>
-        <translation></translation>
+        <translation>JUOKSE!</translation>
     </message>
     <message>
         <source>JOG!</source>
-        <translation type="unfinished"></translation>
+        <translation>HÖLKKÄÄ!</translation>
+    </message>
+    <message>
+        <source>stops</source>
+        <translation>pysäkkiä</translation>
+    </message>
+    <message>
+        <source>Bus</source>
+        <translation>Bussi</translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation>m</translation>
+    </message>
+    <message>
+        <source>Me</source>
+        <translation>Minä</translation>
     </message>
 </context>
 <context>
@@ -123,7 +139,7 @@
     </message>
     <message>
         <source>Select a bus</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse bussi</translation>
     </message>
     <message>
         <source>Catch a bus</source>
@@ -135,92 +151,92 @@
     </message>
     <message>
         <source>Selected bus connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Valittu bussiyhteys</translation>
     </message>
     <message>
         <source>Me to bus competition</source>
-        <translation type="unfinished"></translation>
+        <translation>Minun ja bussin kilpailu</translation>
     </message>
     <message>
         <source>Start tracking</source>
-        <translation type="unfinished"></translation>
+        <translation>Aloita seuranta</translation>
     </message>
     <message>
         <source>Reset and stop tracking</source>
-        <translation type="unfinished"></translation>
+        <translation>Tyhjennä ja lopeta seuranta</translation>
     </message>
     <message>
         <source>Me</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>m - The bus</source>
-        <translation type="unfinished"></translation>
+        <translation>Minä</translation>
     </message>
     <message>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
+    </message>
+    <message>
+        <source>The bus</source>
+        <translation>Bussi</translation>
+    </message>
+    <message>
+        <source>Select bus line</source>
+        <translation>Valitse bussilinja</translation>
     </message>
 </context>
 <context>
     <name>LoadStatic</name>
     <message>
         <source>Load static data</source>
-        <translation type="unfinished">Lataa tiedot</translation>
+        <translation>Lataa tiedot</translation>
     </message>
     <message>
         <source>Load new data</source>
-        <translation type="unfinished"></translation>
+        <translation>Lataa uudet tiedot</translation>
     </message>
     <message>
         <source>Unzip data</source>
-        <translation type="unfinished"></translation>
+        <translation>Pura tiedot</translation>
     </message>
     <message>
         <source>Reload xml</source>
-        <translation type="unfinished"></translation>
+        <translation>Päivitä xml-tiedot</translation>
     </message>
     <message>
         <source>Load data to database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>On this page the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lataa tiedot tietokantaan</translation>
     </message>
     <message>
         <source>Create xml files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tee xml-tiedostot</translation>
+    </message>
+    <message>
+        <source>Enter path</source>
+        <translation>Syötä kansion polku</translation>
+    </message>
+    <message>
+        <source>As default the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
+        <translation>Oletuksena tiedot ladataan kansioon /home/nemo/.local/share/harbour-catch-a-bus/</translation>
+    </message>
+    <message>
+        <source>After the path selection, please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
+        <translation>Kansiovalinnan jälkeen paina nappeja järjestyksessä. Jotkut vaiheet voivat kestää jopa minuutin ja hetken aikaa sovellus ei vastaa.</translation>
+    </message>
+    <message>
+        <source>I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.</source>
+        <translation>Suosittelen vaihtamaan oletuskansioksi muistikortin kansion, jotta puhelin ei täyty väliaikaisilla tiedostoilla.</translation>
     </message>
 </context>
 <context>
     <name>SelectCity</name>
     <message>
         <source>City selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaupunkivalinta</translation>
     </message>
 </context>
 <context>
     <name>SelectCountry</name>
     <message>
-        <source>Stop sequence</source>
-        <translation type="unfinished">Pysäkkilistaus</translation>
-    </message>
-    <message>
-        <source>Stop time, Stop name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <source>Country selection</source>
+        <translation>Maavalinta</translation>
     </message>
 </context>
 <context>
@@ -235,38 +251,34 @@
     </message>
     <message>
         <source>Load static data</source>
-        <translation type="unfinished">Lataa tiedot</translation>
-    </message>
-    <message>
-        <source>Selected country: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selected city: </source>
-        <translation type="unfinished"></translation>
+        <translation>Lataa tiedot</translation>
     </message>
     <message>
         <source>Select country</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse maa</translation>
     </message>
     <message>
         <source>Load and edit static data!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lataa ja käsittele tietoja!</translation>
+    </message>
+    <message>
+        <source>Selected country</source>
+        <translation>Valittu maa</translation>
+    </message>
+    <message>
+        <source>Selected city</source>
+        <translation>Valittu kaupunki</translation>
     </message>
 </context>
 <context>
     <name>StopSchedule</name>
     <message>
-        <source>Busses available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Stop schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkkiaikataulu</translation>
     </message>
     <message>
         <source>Route, Start time, Stop time, Route name</source>
-        <translation type="unfinished"></translation>
+        <translation>Reitti, lähtöaika, pysäkkiaika, reitin nimi</translation>
     </message>
 </context>
 <context>
@@ -277,15 +289,11 @@
     </message>
     <message>
         <source>Stop time, Stop name</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkkiaika, pysäkin nimi</translation>
     </message>
 </context>
 <context>
     <name>Stops</name>
-    <message>
-        <source>Clear busses</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Closest stops</source>
         <translation>Lähimmät pysäkit</translation>
