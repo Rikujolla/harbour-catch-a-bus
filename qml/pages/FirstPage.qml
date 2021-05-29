@@ -38,19 +38,33 @@ import "dbfunctions.js" as Mydbs
 Page {
     id: page
     onStatusChanged: {
-        if (selections.get(0).stop_name == 'Not selected'){
-            selected_stop.text = selections.get(0).stop_name
+        if (selections.get(0).stop_name == ''){
+            selected_stop.text = qsTr("Press to select a stop")
+            bus.visible = true
+            selected_bus.visible = false
         }
         else {
             selected_stop.text = selections.get(0).stop_name + ", " + selections.get(0).dist_me + " m"
+            bus.visible = false
+            selected_bus.visible = true
         }
-        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
-        if (selections.get(0).trip_id == 'Not selected'){
-            selected_bus.text = selections.get(0).trip_id
+        if (selections.get(0).trip_id == ''){
+            selected_bus.text = qsTr("Press to select a bus")
+            competition.visible = false
+            positsione.visible = false
         }
         else {
             selected_bus.text = selections.get(0).route_short_name + " " + selections.get(0).start_time.substring(0,5) + " " + selections.get(0).label
+            competition.visible = true
         }
+        if(distanceLoader.running){
+            competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
+            positsione.visible = true
+        }
+        else {
+            competition.text = qsTr("Start tracking")
+        }
+
         pheader.description = selections.get(0).country_name + ", " + selections.get(0).city
     }
     property bool downloading: false
@@ -78,17 +92,21 @@ Page {
                 }
             }
             MenuItem {
+                id:item1
                 text: distanceLoader.running ? qsTr("Reset and stop tracking") : qsTr("Start tracking")
+                //visible:distanceLoader.running
                 onClicked:{
                     if(distanceLoader.running) {
                         distanceLoader.stop()
-                        selected_stop.text = "Not selected"
+                        selections.set(0,{"stop_name":""})
+                        selected_stop.text = qsTr("Press to select a stop")
                         bus.text = ""
-                        selected_bus.text = "Not selected"
+                        selected_bus.text = ""
+                        selections.set(0,{"trip_id":""})
                         positsione.text = ""
                         selections.set(0,{"dist_me":40000.0})
                         selections.set(0,{"dist_bus":40000.0})
-                        competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
+                        competition.text = ""
                     }
                     else {
                         distanceLoader.start()
@@ -119,6 +137,7 @@ Page {
             BackgroundItem {
                 Label {
                     id:selected_stop
+                    font.pixelSize:Theme.fontSizeLarge
                     anchors {
                         left: parent.left
                         right: parent.right
@@ -127,7 +146,7 @@ Page {
                     text: ""
                 }
                 onClicked: {
-                    if (selected_stop.text == "Not selected"){
+                    if (selections.get(0).stop_name == ''){
                         Mydbs.get_closest_stop()
                         pageStack.push(Qt.resolvedUrl("Stops.qml"))
                     }
@@ -146,7 +165,6 @@ Page {
 
             TextField {
                 id: bus
-                visible:selected_stop.text == "Not selected"
                 placeholderText: qsTr("Select bus line")
                 anchors.horizontalCenter: parent.horizontalCenter
                 validator: RegExpValidator { regExp: /^[0-9]{0,}$/ }
@@ -174,7 +192,7 @@ Page {
             BackgroundItem {
                 Label {
                     id:selected_bus
-                    visible: text != ""
+                    //visible: selections.get(0).trip_id != ''
                     font.pixelSize:Theme.fontSizeLarge
                     wrapMode: Text.WordWrap
                     anchors {
@@ -182,7 +200,6 @@ Page {
                         right: parent.right
                         margins: Theme.paddingLarge
                     }
-                    text: ""
                 }
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
@@ -209,6 +226,7 @@ Page {
             BackgroundItem {
                 Label {
                     id:competition
+                    //visible: selections.get(0).trip_id !== ''
                     font.pixelSize:Theme.fontSizeLarge
                     anchors {
                         left: parent.left
@@ -218,7 +236,9 @@ Page {
                     text: ""
                 }
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
+                    distanceLoader.start()
+                    positsione.visible = true
+                    //pageStack.push(Qt.resolvedUrl("StopSchedule.qml"))
                 }
             }
         }
@@ -228,6 +248,7 @@ Page {
             interval: 5000;
             running: false;
             repeat: true
+            triggeredOnStart: true
             onTriggered: {
                 Myfunc.get_time();
                 buslist_model.clear();

@@ -1,5 +1,5 @@
 <xml>
-<!-- <city>
+<city>
 <country_name>Finland</country_name>
 <country>fin</country>
 <city>Helsinki</city>
@@ -7,7 +7,7 @@
 <citynumber>091</citynumber>
 <staticpath>https://infopalvelut.storage.hsldev.com/gtfs/hsl.zip</staticpath>
 <gtfsversion>2.0</gtfsversion>
-</city> -->
+</city>
 <city>
 <country_name>Finland</country_name>
 <country>fin</country>

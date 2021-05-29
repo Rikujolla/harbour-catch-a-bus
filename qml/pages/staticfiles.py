@@ -41,7 +41,7 @@ import zipfile
 import os
 import urllib.request
 
-def slow_function(path, ifile, ofile, country, city, static):
+def slow_function(path, ifile, ofile, country, city, static, version):
     if not os.path.exists(path):
         os.makedirs(path)
     finfile = path + ifile
@@ -93,6 +93,12 @@ def slow_function(path, ifile, ofile, country, city, static):
         if os.path.exists(path+ "translations.txt"):
             pyotherside.send('message', "The", "file translations.txt", "exist!")
             os.remove(path+ "translations.txt")
+        if os.path.exists(path+ "stops2.txt"):
+            pyotherside.send('message', "The", "file stops2.txt", "exist!")
+            os.remove(path+ "stops2.txt")
+        if os.path.exists(path+ "stops_old.txt"):
+            pyotherside.send('message', "The", "file stops_old.txt", "exist!")
+            os.remove(path+ "stops_old.txt")
         #
 
         linenumber = 0
@@ -189,6 +195,14 @@ def slow_function(path, ifile, ofile, country, city, static):
                                 if linenumber == 0:
                                         row0 = line.split(",")
                                         linenumber = 1
+                                elif version == '2.0':
+                                        outfile.write('<stop>')
+                                        row = line.split(",")
+                                        outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
+                                        outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
+                                        outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
+                                        outfile.write('<' + row0[5] + '>' + row[5] + '</' + row0[5] + '>')
+                                        outfile.write('</stop>'+ '\n')
                                 else:
                                         outfile.write('<stop>')
                                         row = line.split(",")
@@ -198,7 +212,7 @@ def slow_function(path, ifile, ofile, country, city, static):
                                         outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
                                         outfile.write('</stop>'+ '\n')
                         outfile.write('</xml>\n')
-        pyotherside.send('message', path, ifile, ofile, country, city)
+        pyotherside.send('message', path, ifile, ofile, country, city, version)
         if os.path.exists(path+ "stops.txt"):
             pyotherside.send('message', "The", "file stops.txt", "exist!")
             os.remove(path+ "stops.txt")
@@ -274,16 +288,17 @@ class Sloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, path, ifile, ofile, country, city, static):
+    def download(self, path, ifile, ofile, country, city, static, version):
         self.path = path
         self.ifile = ifile
         self.ofile = ofile
         self.country = country
         self.city = city
         self.static = static
+        self.version = version
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,self.static,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,self.static,self.version,))
         self.bgthread.start()
 
 

@@ -105,6 +105,7 @@ Page {
                 text:qsTr("Select city")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
+                    if(printlogs) {console.log(city_xml.get(1).staticpath, city_xml.get(1).gtfsversion)}
                     pageStack.push(Qt.resolvedUrl("SelectCity.qml"))
                 }
             }
@@ -129,6 +130,7 @@ Page {
                 text:qsTr("Load static data")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
+                    if(printlogs) {console.log(city_xml.get(0).staticpath, city_xml.get(0).gtfsversion)}
                     pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
                 }
             }

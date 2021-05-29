@@ -42,7 +42,7 @@ Page {
             MenuItem {
                 text: qsTr("Clear busses")
                 onClicked:{
-                    selections.set(0,{"stop_id": '207673', "stop_name":'Not selected', "dist_me":400000.0})
+                    selections.set(0,{"stop_id": '207673', "stop_name":'', "dist_me":400000.0})
                     pageStack.pop();
                 }
             }

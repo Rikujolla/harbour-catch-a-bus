@@ -64,7 +64,7 @@ Page {
                 }
                 text: qsTr("As default the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/") + "\n" +
                       qsTr("I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.") +"\n"+
-                      qsTr("After the path selection, please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.")
+                      qsTr("After the path selection, please press all the buttons in sequence! Depending on the data amount some phases may take several minutes and the phone may become unresponsive for a while.")
             }
 
             TextField {
@@ -91,7 +91,7 @@ Page {
                 enabled:level == 0 && page.downloading == false
                 text:"1. " + qsTr("Load new data")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber, selections.get(0).staticpath)
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
                 }
             }
@@ -101,7 +101,7 @@ Page {
                 enabled:level == 1 && page.downloading == false
                 text:"2. " + qsTr("Unzip data")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber, selections.get(0).staticpath)
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
                 }
             }
@@ -111,7 +111,8 @@ Page {
                 enabled:level == 2 && page.downloading == false
                 text:"3. " + qsTr("Create xml files")
                 onClicked: {
-                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber, selections.get(0).staticpath)
+                    if(printlogs){console.log("GTFS-version", selections.get(0).gtfsversion)}
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
                 }
             }
@@ -137,12 +138,19 @@ Page {
                 text:"5. " + qsTr("Load data to database")
                 onClicked: {
                     Mydbs.delete_tables()
+                    if(printlogs){console.log("Tables deleted")}
                     Mydbs.load_calendar()
+                    if(printlogs){console.log("Calendar loaded")}
                     Mydbs.load_calendar_dates()
+                    if(printlogs){console.log("Calendar dated loaded")}
                     Mydbs.load_stops()
+                    if(printlogs){console.log("Stops loaded")}
                     Mydbs.load_routes()
+                    if(printlogs){console.log("Routes loaded")}
                     Mydbs.load_trips()
+                    if(printlogs){console.log("Trips loaded")}
                     Mydbs.load_stop_times()
+                    if(printlogs){console.log("Stop times loaded")}
                     page.level = 5
                 }
             }
@@ -219,7 +227,7 @@ Page {
         load_country = selections.get(0).country
         load_citynumber = selections.get(0).citynumber
         if(selections.get(0).localpath != "") { path_selection.text = load_path = selections.get(0).localpath}
-        console.log(load_path, load_country, load_citynumber)
+        if(printlogs){console.log(load_path, load_country, load_citynumber, selections.get(0).gtfsversion)}
     }
 
     Python {
@@ -238,8 +246,8 @@ Page {
             importModule('staticfiles', function () {});
         }
 
-        function startDownload(arg1, arg2, arg3, arg4, arg5, arg6) {
-            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5, arg6],function() {});
+        function startDownload(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
+            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5, arg6, arg7],function() {});
 
         }
     }

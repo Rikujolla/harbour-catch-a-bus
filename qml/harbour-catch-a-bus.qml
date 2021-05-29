@@ -53,13 +53,7 @@ ApplicationWindow
     property int stop_index: 0
     property string day:"M-P"
     property string version: "0.1.4"
-    //Cityinfo, maybe later to be included in a ListModel
-    //property string city: "Jyväskyla"
-    //property string cityname: "jyvaskyla"
-    //property string citynumber: "209" // 209 means Jyväskylä, not necessarily number, may be other code also
-    //property string country_name: "Finland"
-    //property string country: "fin"
-
+    property bool printlogs: true //for development
 
     PositionSource {
         id: possut
@@ -70,11 +64,11 @@ ApplicationWindow
     ListModel {
         id:buslist_model
         ListElement {
-            line: '12'
+            line: ''
             route_short_name: ''
-            time:'08:00:00'
-            label:'KUOKKALA'
-            licenseplate: 'CCC-111'
+            time:''
+            label:''
+            licenseplate: ''
         }
     }
 
@@ -93,7 +87,7 @@ ApplicationWindow
         id:selected_busstop
         ListElement {
             stop_id: '207673'
-            stop_name:'Not selected'
+            stop_name:''
             stop_lat:0.0
             stop_lon: 0.0
             dist_me: 40000.0
@@ -106,16 +100,16 @@ ApplicationWindow
         id:selections
         ListElement {
             route_short_name: ''
-            stop_id: 'Not selected'
-            stop_name:'Not selected'
+            stop_id: ''
+            stop_name:''
             stop_lat:0.0
             stop_lon: 0.0
             stop_sequence:0 //Current_stop_sequence
             stop_sequence_selected:0 //Stop_sequence of the current stop for selected trip
             dist_me: 40000.0 //My distance to a selected bus stop
-            trip_id:'Not selected'
-            start_time: 'Not selected'
-            label: 'Not selected'
+            trip_id:''
+            start_time: ''
+            label: ''
             license_plate:""
             dist_bus: 40000.0 // The bus distance to me
             dist_bus_to_stop: 40000.0 //The bus distance to a bus stop
@@ -126,6 +120,7 @@ ApplicationWindow
             country: "" // E.g. fin
             staticpath: "" // Path for static data zip file
             localpath: "" // If empty using default
+            gtfsversion:"" // GTFS-version 1.0 or 2.0
         }
     }
 
@@ -134,15 +129,15 @@ ApplicationWindow
         id:stopseq_model
         ListElement {
             route_short_name: ''
-            stop_id: 'Not selected'
-            stop_name:'Not selected'
+            stop_id: ''
+            stop_name:''
             stop_sequence:0
             colore:""
             dist_me: 40000.0
-            trip_id:'Not selected'
-            start_time: 'Not selected'
+            trip_id:''
+            start_time: ''
             planned_time:''
-            label: 'Not selected'
+            label: ''
             license_plate:""
             dist_bus: 40000.0
         }

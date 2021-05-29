@@ -255,30 +255,43 @@ function get_closest_stop() {
                     console.log(lowlat, uplat, lowlon, uplon)
                     //var rs = tx.executeSql('SELECT * FROM Stops');
                     var rs = tx.executeSql('SELECT * FROM Stops WHERE stop_lat > ? AND stop_lat < ? AND stop_lon > ? AND stop_lon < ?', [lowlat, uplat, lowlon,uplon]);
-                    console.log(rs.rows.length)
+                    if (printlogs){console.log(rs.rows.length)}
                     var dist_temp = 400000;
                     var _thelati = 0.0
                     var _thelongi = 0.0
+                    var _long_away = false
+                    // if the stops are long away. Mostly for testing. Could be replaced with test location.
                     if(rs.rows.length == 0){
-                        rs = tx.executeSql('SELECT * FROM Stops LIMIT 100');
-                    }
-
-                    for (var i=0;i<rs.rows.length;i++){
-                        _thelati = (rs.rows.item(i).stop_lat)
-                        _thelongi = (rs.rows.item(i).stop_lon)
-                        dist_temp = Myfunc.distance(_thelati, _thelongi,coord.latitude, coord.longitude)
-                        tx.executeSql('UPDATE Stops SET mydistance = ?  WHERE stop_id = ?', [dist_temp,rs.rows.item(i).stop_id])
-                    }
-
-                    rs = tx.executeSql('SELECT * FROM Stops WHERE mydistance < ? ORDER BY mydistance ASC', [2000]);
-                    if (rs.rows.length == 0){
-                        //rs = tx.executeSql('SELECT * FROM Stops ORDER BY mydistance ASC LIMIT 10');
+                        if (printlogs){console.log(rs.rows.length)}
                         rs = tx.executeSql('SELECT * FROM Stops ORDER BY stop_name ASC LIMIT 100');
+                        _long_away = true
+                    }
+                    // Normal condition
+                    else {
+                        if (printlogs){console.log("Normal condition", rs.rows.length)}
+
+                        for (var i=0;i<rs.rows.length;i++){
+                            _thelati = (rs.rows.item(i).stop_lat)
+                            _thelongi = (rs.rows.item(i).stop_lon)
+                            dist_temp = Myfunc.distance(_thelati, _thelongi,coord.latitude, coord.longitude)
+                            tx.executeSql('UPDATE Stops SET mydistance = ?  WHERE stop_id = ?', [dist_temp,rs.rows.item(i).stop_id])
+                        }
+
+                        rs = tx.executeSql('SELECT * FROM Stops WHERE mydistance < ? AND mydistance > ? ORDER BY mydistance ASC', [2000, 0.0]);
+                        if (printlogs){console.log("Number of the closest stops", rs.rows.length)}
                     }
 
                     selected_busstop.clear();
                     for (i=0;i<rs.rows.length;i++){
-                        selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":rs.rows.item(i).mydistance, "stop_lat":rs.rows.item(i).stop_lat, "stop_lon":rs.rows.item(i).stop_lon})
+                        if (_long_away){
+                            _thelati = (rs.rows.item(i).stop_lat)
+                            _thelongi = (rs.rows.item(i).stop_lon)
+                            dist_temp = Myfunc.distance(_thelati, _thelongi,coord.latitude, coord.longitude)
+                            selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":dist_temp, "stop_lat":rs.rows.item(i).stop_lat, "stop_lon":rs.rows.item(i).stop_lon})
+                        }
+                        else {
+                            selected_busstop.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "dist_me":rs.rows.item(i).mydistance, "stop_lat":rs.rows.item(i).stop_lat, "stop_lon":rs.rows.item(i).stop_lon})
+                        }
                     }
                 })
 }
@@ -315,7 +328,7 @@ function running_busses_on_the_stop() {
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
-                    if (selections.get(0).stop_name != 'Not selected'){
+                    if (selections.get(0).stop_name != ''){
                         //var rs = tx.executeSql('SELECT * FROM Busses INNER JOIN Stop_times on Stop_times.trip_id = Busses.route_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
                         var rs = tx.executeSql('SELECT *, route_short_name, route_long_name FROM Busses INNER JOIN Trips ON Trips.route_id=Busses.route_id INNER JOIN Stop_times on Stop_times.trip_id = Trips.trip_id AND Stop_times.start_time = Busses.start_time AND Stop_times.stop_id = ? INNER JOIN Routes ON Busses.route_id = Routes.route_id ORDER BY start_time, route_id LIMIT 1;', [selections.get(0).stop_id]);
                     }
@@ -367,11 +380,11 @@ function load_city_data() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT, gtfsversion TEXT)');
                     tx.executeSql('DELETE FROM City');
                     for (var i = 0;i<city_xml.count;i++) {
-                        tx.executeSql('INSERT INTO City VALUES(?,?,?,?,?,?)', [city_xml.get(i).country_name, city_xml.get(i).country, city_xml.get(i).city,
-                                                                               city_xml.get(i).cityname, city_xml.get(i).citynumber, city_xml.get(i).staticpath])
+                        tx.executeSql('INSERT INTO City VALUES(?,?,?,?,?,?,?)', [city_xml.get(i).country_name, city_xml.get(i).country, city_xml.get(i).city,
+                                                                                 city_xml.get(i).cityname, city_xml.get(i).citynumber, city_xml.get(i).staticpath, city_xml.get(i).gtfsversion])
                     }
                 })
 }
@@ -381,7 +394,7 @@ function fill_country() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT, gtfsversion TEXT)');
                     var rs = tx.executeSql('SELECT DISTINCT country_name, country FROM City')
                     country_list.clear()
                     for (var i = 0;i<rs.rows.length;i++) {
@@ -395,11 +408,11 @@ function fill_city() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS City(country_name TEXT, country TEXT, city TEXT, cityname TEXT, citynumber TEXT, staticpath TEXT, gtfsversion TEXT)');
                     var rs = tx.executeSql('SELECT * FROM City WHERE country = ?', [selections.get(0).country])
                     city_list.clear()
                     for (var i = 0;i<rs.rows.length;i++) {
-                        city_list.append({"city_a":rs.rows.item(i).city, "cityname_a":rs.rows.item(i).cityname, "citynumber_a":rs.rows.item(i).citynumber, "staticpath_a":rs.rows.item(i).staticpath})
+                        city_list.append({"city_a":rs.rows.item(i).city, "cityname_a":rs.rows.item(i).cityname, "citynumber_a":rs.rows.item(i).citynumber, "staticpath_a":rs.rows.item(i).staticpath, "gtfsversion_a":rs.rows.item(i).gtfsversion})
                     }
                 })
 }
@@ -454,6 +467,12 @@ function saveSettings() {
                     if (rs.rows.length > 0) {tx.executeSql('UPDATE Settings SET valte = ? WHERE name = ?', [selections.get(0).localpath, 'localpath'])}
                     // If no players add active player
                     else {tx.executeSql('INSERT INTO Settings VALUES(?, ?, ?, ?, ?)', [ 'localpath', '', selections.get(0).localpath, '', '' ])}
+
+                    // gtfsversion
+                    rs = tx.executeSql('SELECT * FROM Settings WHERE name = ?', 'gtfsversion');
+                    if (rs.rows.length > 0) {tx.executeSql('UPDATE Settings SET valte = ? WHERE name = ?', [selections.get(0).gtfsversion, 'gtfsversion'])}
+                    // If no players add active player
+                    else {tx.executeSql('INSERT INTO Settings VALUES(?, ?, ?, ?, ?)', [ 'gtfsversion', '', selections.get(0).gtfsversion, '', '' ])}
                 }
                 )
 
@@ -501,6 +520,11 @@ function loadSettings() {
                     // localpath
                     rs = tx.executeSql('SELECT * FROM Settings WHERE name = ?', ['localpath']);
                     if (rs.rows.length > 0) {selections.set(0,{"localpath": rs.rows.item(0).valte})}
+                    else {}
+
+                    // gtfsversion
+                    rs = tx.executeSql('SELECT * FROM Settings WHERE name = ?', ['gtfsversion']);
+                    if (rs.rows.length > 0) {selections.set(0,{"gtfsversion": rs.rows.item(0).valte})}
                     else {}
                 }
 

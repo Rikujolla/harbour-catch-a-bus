@@ -73,7 +73,8 @@ Page {
                 selections.set(0,{"cityname": cityname_a})
                 selections.set(0,{"citynumber": citynumber_a})
                 selections.set(0,{"staticpath": staticpath_a})
-                console.log(city_a, cityname_a, citynumber_a)
+                selections.set(0,{"gtfsversion": gtfsversion_a})
+                if(printlogs){console.log(selections.get(0).city, city_a, cityname_a, citynumber_a,selections.get(0).staticpath,staticpath_a,gtfsversion_a)}
                 Mydbs.saveSettings()
                 pageStack.pop();
 
@@ -88,6 +89,7 @@ Page {
                 cityname_a:""
                 citynumber_a:""
                 staticpath_a:""
+                gtfsversion_a:""
             }
         }
 

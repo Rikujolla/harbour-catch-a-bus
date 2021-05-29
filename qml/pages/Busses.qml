@@ -50,7 +50,7 @@ Page {
         header: PageHeader {
             title: qsTr("Select your bus")
             description: {
-                if (selections.get(0).stop_name == 'Not selected') {qsTr("All currently running busses")}
+                if (selections.get(0).stop_name == '') {qsTr("All currently running busses")}
                 else {qsTr("Currently running busses of the selected stop")}
             }
         }

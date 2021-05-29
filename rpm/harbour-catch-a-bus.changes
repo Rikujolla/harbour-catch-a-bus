@@ -7,6 +7,11 @@
 
 # * date Author's Name <author's email> version-release
 # - Summary of changes
+
+* Sat May 29 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.5-1
+- Able to read GTFS-version 2.0 static data
+- Able to handle stops for Helsinki, stop time file too big, have to look at that
+
 * Sat May 22 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.4-1
 - Removing temporary files during static download
 - Temporary files path can be set to sdcard e.g.

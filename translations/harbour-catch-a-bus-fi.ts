@@ -181,6 +181,14 @@
         <source>Select bus line</source>
         <translation>Valitse bussilinja</translation>
     </message>
+    <message>
+        <source>Press to select a stop</source>
+        <translation>Pana valitaksesi pysäkin</translation>
+    </message>
+    <message>
+        <source>Press to select a bus</source>
+        <translation>Paina valitaksesi bussin</translation>
+    </message>
 </context>
 <context>
     <name>LoadStatic</name>
@@ -217,12 +225,12 @@
         <translation>Oletuksena tiedot ladataan kansioon /home/nemo/.local/share/harbour-catch-a-bus/</translation>
     </message>
     <message>
-        <source>After the path selection, please press all the buttons in sequence! Some phases may take up to a minute and the phone may become unresponsive for a while.</source>
-        <translation>Kansiovalinnan jälkeen paina nappeja järjestyksessä. Jotkut vaiheet voivat kestää jopa minuutin ja hetken aikaa sovellus ei vastaa.</translation>
-    </message>
-    <message>
         <source>I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.</source>
         <translation>Suosittelen vaihtamaan oletuskansioksi muistikortin kansion, jotta puhelin ei täyty väliaikaisilla tiedostoilla.</translation>
+    </message>
+    <message>
+        <source>After the path selection, please press all the buttons in sequence! Depending on the data amount some phases may take several minutes and the phone may become unresponsive for a while.</source>
+        <translation>Kansiovalinnan jälkeen paina nappeja järjestyksessä! Riippuen datan määrästä jotkut vaiheet saattavat kestää minuutteja ja sovellus ei vastaa hetkeen.</translation>
     </message>
 </context>
 <context>
