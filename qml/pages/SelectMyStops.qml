@@ -25,17 +25,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-//import QtQuick.LocalStorage 2.0
+import QtQuick.LocalStorage 2.0
+import "dbfunctions.js" as Mydbs
 
 Page {
     id: page
     onStatusChanged: {
-        //Mydbases.loadLocation()
+        //Mydbs.get_buss_stops()
     }
 
     SilicaListView {
         id: listView
-        model: selected_busstop
+        model: busstop_model
         anchors.fill: parent
 
         /*PullDownMenu {
@@ -47,31 +48,62 @@ Page {
             }
         }*/
 
-        header: PageHeader {
-            title: qsTr("Closest stops")
-            description: qsTr("Stop name, Distance")
+        header: BackgroundItem {
+            enabled: false
+            height: header_part.height + search_part.height
+            PageHeader {
+                id: header_part
+                title: qsTr("Select my stops")
+                description: qsTr("Stop names in alphabetical order")
+            }
+
+            SearchField{
+                id:search_part
+                anchors.top: header_part.bottom
+                width: parent.width
+                placeholderText: "Search"
+
+                onTextChanged: {
+                    if (text.length >2) {
+                        Mydbs.get_buss_stops(text)
+                        //search_part.cursorPosition = search_part.text.length
+                        //forceActiveFocus()
+                    }
+                    else {console.log(text)}
+                }
+            }
         }
+
         delegate: BackgroundItem {
             id: delegate
 
             Label {
                 id: listos
                 x: Theme.paddingLarge
-                text: stop_name + ", " + dist_me + " m"
+                text: stop_name
                 anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+                color: my_stop == 1 ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
-                stop_index = index;
-                //console.log(stop_lat, stop_lon)
-                selections.set(0,{"stop_id": stop_id, "stop_name":stop_name, "dist_me":dist_me, "stop_lat":stop_lat, "stop_lon":stop_lon})
-                pageStack.pop();
+                //my_stop == 1 ? my_stop = 0 : my_stop = 1
+                if (my_stop == 0){
+                    Mydbs.add_my_stops(1, stop_id, stop_name, my_stop, "");
+                    my_stop = 1
+                    console.log("mystop 0->1")
+                }
+                else {
+                    Mydbs.add_my_stops(0, stop_id, stop_name, my_stop, "");
+                    my_stop == 0
+                    console.log("mystop 1->0")
+                }
+
+                Mydbs.get_buss_stops("");
             }
         }
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
-            //Mydbases.loadLocation()
+            Mydbs.get_buss_stops("")
         }
     }
 }

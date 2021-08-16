@@ -183,7 +183,7 @@
     </message>
     <message>
         <source>Press to select a stop</source>
-        <translation>Pana valitaksesi pysäkin</translation>
+        <translation>Paina valitaksesi pysäkin</translation>
     </message>
     <message>
         <source>Press to select a bus</source>
@@ -245,6 +245,17 @@
     <message>
         <source>Country selection</source>
         <translation>Maavalinta</translation>
+    </message>
+</context>
+<context>
+    <name>SelectMyStops</name>
+    <message>
+        <source>Select my stops</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop names in alphabetical order</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

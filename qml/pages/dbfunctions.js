@@ -5,10 +5,90 @@ function load_stops() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Mystops(stop_id TEXT, stop_name TEXT, my_stop INTEGER)');
                     for (var i=0;i<busstops_xml.count;i++){
-                        tx.executeSql('INSERT INTO Stops VALUES(?, ?, ?, ?,?,?)', [busstops_xml.get(i).stop_id, busstops_xml.get(i).stop_name, busstops_xml.get(i).stop_lat,
-                                                                                   busstops_xml.get(i).stop_lon, 0.0, 0.0])
+                        tx.executeSql('INSERT INTO Stops VALUES(?,?,?,?,?,?,?)', [busstops_xml.get(i).stop_id, busstops_xml.get(i).stop_name, busstops_xml.get(i).stop_lat,
+                                                                                  busstops_xml.get(i).stop_lon, 0.0, 0.0, 0])
+                    }
+
+                    tx.executeSql('UPDATE Stops SET my_stop = (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id) where EXISTS (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id)');
+
+                })
+}
+
+function get_my_stops() {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Mystops(stop_id TEXT, stop_name TEXT, my_stop INTEGER)');
+                    var rs = tx.executeSql('SELECT * FROM Mystops');
+
+                    selected_stops = [];
+                    for (var i=0;i<rs.rows.length;i++){
+                        selected_stops.push(rs.rows.item(i).stop_id)
+                    }
+
+
+                })
+}
+
+function get_buss_stops(_text) {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Mystops(stop_id TEXT, stop_name TEXT, my_stop INTEGER)');
+                    if (_text == ""){
+                        var rs = tx.executeSql('SELECT * FROM Stops ORDER BY my_stop DESC, stop_name ASC', []);
+                    }
+                    else {
+                        rs = tx.executeSql('SELECT * FROM Stops WHERE stop_name LIKE ? ORDER BY my_stop DESC, stop_name ASC', ['%' + _text + '%']);
+                    }
+
+                    busstop_model.clear();
+                    for (var i=0;i<rs.rows.length;i++){
+                        busstop_model.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "my_stop":rs.rows.item(i).my_stop})
+                    }
+
+                    tx.executeSql('UPDATE Stops SET my_stop = (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id) where EXISTS (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id)');
+
+                })
+}
+
+function add_my_stops(_add, _stop_id, _stop_name, _my_stop, _text) {
+
+    var db = LocalStorage.openDatabaseSync("Catchabus", "1.0", "Catchabus database", 1000000);
+
+    db.transaction(
+                function(tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Mystops(stop_id TEXT, stop_name TEXT, my_stop INTEGER)');
+                    if (_add == 1){
+                        tx.executeSql('INSERT INTO Mystops VALUES(?, ?, ?)', [_stop_id, _stop_name, _add])
+                        tx.executeSql('UPDATE Stops SET my_stop = ? WHERE stop_id = ?', [_add, _stop_id])
+                    }
+                    else if (_add==0) {
+                        tx.executeSql('DELETE FROM Mystops WHERE stop_id = ?', [_stop_id])
+                        tx.executeSql('UPDATE Stops SET my_stop = ? WHERE stop_id = ?', [_add, _stop_id])
+                    }
+
+                    //tx.executeSql('UPDATE Stops SET my_stop = (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id) where EXISTS (SELECT my_stop FROM Mystops WHERE Mystops.stop_id = Stops.stop_id)');
+
+                    if (_text == ""){
+                        var rs = tx.executeSql('SELECT * FROM Stops ORDER BY my_stop DESC, stop_name ASC', []);
+                    }
+                    else {
+                        rs = tx.executeSql('SELECT * FROM Stops WHERE stop_name LIKE ? ORDER BY my_stop DESC, stop_name ASC', ['%' + _text + '%']);
+                    }
+
+                    busstop_model.clear();
+                    for (var i=0;i<rs.rows.length;i++){
+                        busstop_model.set(i,{"stop_id":rs.rows.item(i).stop_id, "stop_name":rs.rows.item(i).stop_name, "my_stop":rs.rows.item(i).my_stop})
                     }
                 })
 }
@@ -20,7 +100,7 @@ function get_stop_name(_name) {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     rs = tx.executeSql('SELECT * FROM Stops WHERE stop_id = ?', [_name]);
                 })
     return rs.rows.item(0).stop_name
@@ -126,7 +206,7 @@ function delete_tables() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
@@ -147,7 +227,7 @@ function get_stop_times() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Trips(route_id TEXT, service_id TEXT, trip_id TEXT)');
@@ -244,7 +324,7 @@ function get_closest_stop() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     //var rs = tx.executeSql('SELECT *, (ABS(stop_lat-?) + ABS(stop_lon-?)) AS mydist FROM Stops GROUP BY stop_id ORDER BY mydist ASC LIMIT 20', [possut.position.coordinate.latitude, possut.position.coordinate.longitude]);
                     var coord = possut.position.coordinate
@@ -311,7 +391,7 @@ function running_busses(msg1, msg2, msg3, msg4) {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('INSERT INTO Busses VALUES (?,?,?,?)', [msg1, msg2, msg3, msg4]);
@@ -323,7 +403,7 @@ function running_busses_on_the_stop() {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');
@@ -350,7 +430,7 @@ function fill_sequence(_day, _route_id, _start_time) {
 
     db.transaction(
                 function(tx) {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS Stops(stop_id TEXT, stop_name TEXT, stop_lat REAL, stop_lon REAL, mydistance REAL, busdistance REAL, my_stop INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Stop_times(trip_id TEXT, start_time TEXT, departure_time TEXT, stop_id TEXT, stop_sequence INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Busses(route_id TEXT, start_time TEXT, label TEXT, license_plate TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS Routes(route_id TEXT, route_short_name TEXT, route_long_name TEXT)');

@@ -37,6 +37,8 @@ Page {
     property string load_path: StandardPaths.home + "/.local/share/harbour-catch-a-bus/"
     property bool downloading: false
     property int level: 0
+    property var selected_stops: ["143704", "143705"]
+
     SilicaFlickable {
         anchors.fill: parent
 
@@ -127,14 +129,14 @@ Page {
                     routes_xml.reload()
                     busstops_xml.reload()
                     trips_xml.reload()
-                    stoptimes_xml.reload()
+                    //stoptimes_xml.reload()
                     page.level = 4
                 }
             }
 
             Button {
                 id:button5
-                enabled: page.level == 4 && stoptimes_xml.status == 1
+                enabled: page.level == 4 && trips_xml.status == 1
                 text:"5. " + qsTr("Load data to database")
                 onClicked: {
                     Mydbs.delete_tables()
@@ -149,9 +151,55 @@ Page {
                     if(printlogs){console.log("Routes loaded")}
                     Mydbs.load_trips()
                     if(printlogs){console.log("Trips loaded")}
+                    // Mydbs.load_stop_times()
+                    //if(printlogs){console.log("Stop times loaded")}
+                    page.level = 5
+                }
+            }
+
+            Button {
+                id:button6
+                enabled: page.downloading == false
+                text: "5. Select stops"
+                onClicked: {
+                    console.log("load stops")
+                    pageStack.push(Qt.resolvedUrl("SelectMyStops.qml"))
+                }
+            }
+
+            Button {
+                id:button7
+                enabled: page.downloading == false
+                text: "5. Load stop times"
+                onClicked: {
+                    Mydbs.get_my_stops()
+                    for (var i=0;i<selected_stops.length;i++){
+                        console.log(selected_stops[i])
+                    }
+
+                    spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stop_times.txt", "stop_times.xml", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion, selected_stops)
+                    page.downloading = true
+
+                }
+            }
+
+            Button {
+                id:button8
+                enabled: page.downloading == false && stoptimes_xml.status == 1
+                text: "5. Reload xml"
+                onClicked: {
+                    console.log("load stops")
+                    stoptimes_xml.reload()
+                }
+            }
+
+            Button {
+                id:button9
+                enabled: page.downloading == false && stoptimes_xml.status == 1
+                text: "5. load stop times to the db"
+                onClicked: {
                     Mydbs.load_stop_times()
                     if(printlogs){console.log("Stop times loaded")}
-                    page.level = 5
                 }
             }
 
@@ -246,8 +294,8 @@ Page {
             importModule('staticfiles', function () {});
         }
 
-        function startDownload(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
-            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5, arg6, arg7],function() {});
+        function startDownload(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
+            call('staticfiles.sloader.download', [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8],function() {});
 
         }
     }

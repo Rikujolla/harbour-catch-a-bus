@@ -244,52 +244,52 @@
 <context>
     <name>LoadStatic</name>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="51"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="53"/>
         <source>Load static data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="66"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="68"/>
         <source>I recommend to change the default path to the folder on your sdcard not to fill your phone with temporary files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="67"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="69"/>
         <source>After the path selection, please press all the buttons in sequence! Depending on the data amount some phases may take several minutes and the phone may become unresponsive for a while.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="72"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="74"/>
         <source>Enter path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="112"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="114"/>
         <source>Create xml files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="92"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="94"/>
         <source>Load new data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="65"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="67"/>
         <source>As default the data loading is done to the folder /home/nemo/.local/share/harbour-catch-a-bus/</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="102"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="104"/>
         <source>Unzip data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="123"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="125"/>
         <source>Reload xml</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="138"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="140"/>
         <source>Load data to database</source>
         <translation type="unfinished"></translation>
     </message>
@@ -307,6 +307,19 @@
     <message>
         <location filename="../qml/pages/SelectCountry.qml" line="56"/>
         <source>Country selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SelectMyStops</name>
+    <message>
+        <location filename="../qml/pages/SelectMyStops.qml" line="56"/>
+        <source>Select my stops</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SelectMyStops.qml" line="57"/>
+        <source>Stop names in alphabetical order</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -377,12 +390,12 @@
 <context>
     <name>Stops</name>
     <message>
-        <location filename="../qml/pages/Stops.qml" line="52"/>
+        <location filename="../qml/pages/Stops.qml" line="51"/>
         <source>Closest stops</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Stops.qml" line="53"/>
+        <location filename="../qml/pages/Stops.qml" line="52"/>
         <source>Stop name, Distance</source>
         <translation type="unfinished"></translation>
     </message>

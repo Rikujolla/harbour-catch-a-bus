@@ -41,7 +41,7 @@ import zipfile
 import os
 import urllib.request
 
-def slow_function(path, ifile, ofile, country, city, static, version):
+def slow_function(path, ifile, ofile, country, city, static, version, selected_stops):
     if not os.path.exists(path):
         os.makedirs(path)
     finfile = path + ifile
@@ -243,11 +243,15 @@ def slow_function(path, ifile, ofile, country, city, static, version):
             pyotherside.send('message', "The", "file trips.txt", "exist!")
             os.remove(path+ "trips.txt")
 
+    elif ifile == "stop_times.txt":
         ifile = "stop_times.txt"
         ofile = "stop_times.xml"
         finfile = path + ifile
         foutfile = path + ofile
         linenumber = 0
+        savebatch = 0
+        batch = ''
+        batch_print = ''
         with open (foutfile, 'w') as outfile:
             with open (finfile) as infile:
                         outfile.write('<xml>\n')
@@ -257,25 +261,37 @@ def slow_function(path, ifile, ofile, country, city, static, version):
                                         row0 = line.split(",")
                                         linenumber = 1
                                 else:
-                                        outfile.write('<stoptime>')
 
                                         row = line.split(",")
 
                                         if row[4] == "1":
                                                 start_time = row[2]
+                                                if savebatch ==1:
+                                                    batch_print = batch
+                                                batch = ''
+                                                savebatch = 0
 
-                                        outfile.write('<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>')
-                                        outfile.write('<' + 'start_time' + '>' + start_time + '</' + 'start_time' + '>')
-                                        outfile.write('<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>')
-                                        outfile.write('<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>')
-                                        outfile.write('<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>')
-                                        outfile.write('</stoptime>'+ '\n')
+                                        if row[3] in selected_stops:
+                                            savebatch = 1
+                                            #pyotherside.send('message', "in stops", ifile, ofile, country, city)
+
+                                        batch+='<stoptime>'
+                                        batch+='<' + row0[0] + '>' + row[0] + '</' + row0[0] + '>'
+                                        batch+='<' + 'start_time' + '>' + start_time + '</' + 'start_time' + '>'
+                                        batch+='<' + row0[2] + '>' + row[2] + '</' + row0[2] + '>'
+                                        batch+='<' + row0[3] + '>' + row[3] + '</' + row0[3] + '>'
+                                        batch+='<' + row0[4] + '>' + row[4] + '</' + row0[4] + '>'
+                                        batch+='</stoptime>'+ '\n'
+                                if batch_print != '':
+                                    outfile.write(batch_print)
+                                    batch_print = ''
+                        #Ensuring the last batch printing, because batch_print doesnt't work for the last batch. Some extra data in file to ensure the functionality.
+                        outfile.write(batch)
                         outfile.write('</xml>\n')
         pyotherside.send('message', path, ifile, ofile, country, city)
         if os.path.exists(path+ "stop_times.txt"):
             pyotherside.send('message', "The", "file stop_times.txt", "exist!")
-            os.remove(path+ "stop_times.txt")
-
+            #os.remove(path+ "stop_times.txt")
 
     else:
         pyotherside.send('message', "path", "ifile", "ofile", "country", "city")
@@ -288,7 +304,7 @@ class Sloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, path, ifile, ofile, country, city, static, version):
+    def download(self, path, ifile, ofile, country, city, static, version, selected_stops):
         self.path = path
         self.ifile = ifile
         self.ofile = ofile
@@ -296,9 +312,10 @@ class Sloader:
         self.city = city
         self.static = static
         self.version = version
+        self.selected_stops = selected_stops
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,self.static,self.version,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.path,self.ifile,self.ofile,self.country,self.city,self.static,self.version,self.selected_stops,))
         self.bgthread.start()
 
 

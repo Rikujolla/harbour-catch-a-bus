@@ -52,7 +52,7 @@ ApplicationWindow
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.1.4"
+    property string version: "0.1.6"
     property bool printlogs: true //for development
 
     PositionSource {
@@ -75,10 +75,14 @@ ApplicationWindow
     ListModel {
         id:busstop_model
         ListElement {
-            stop_id: '10000000'
-            stop_name:'Puuppolan eritasoliittymä 1'
-            stop_lat:'62.35482864741343'
-            stop_lon: '25.707038504557797'
+            stop_id: '143704'
+            stop_name:''
+            my_stop:0
+        }
+        ListElement {
+            stop_id: '143705'
+            stop_name:''
+            my_stop:0
         }
     }
 
@@ -86,7 +90,7 @@ ApplicationWindow
     ListModel {
         id:selected_busstop
         ListElement {
-            stop_id: '207673'
+            stop_id: ''
             stop_name:''
             stop_lat:0.0
             stop_lon: 0.0
