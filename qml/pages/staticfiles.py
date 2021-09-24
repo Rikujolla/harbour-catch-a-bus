@@ -46,9 +46,6 @@ def slow_function(path, ifile, ofile, country, city, static, version, selected_s
         os.makedirs(path)
     finfile = path + ifile
     foutfile = path + ofile
-        #for i in range(2):
-        #pyotherside.send('progress', i/2.0)
-        #time.sleep(0.5)
     #with zipfile.ZipFile(path + '209.zip') as myzip:
         #with myzip.open('stops.txt', 'rU') as myfile:
             #myfiles = myfile.read().decode('UTF-8'))
@@ -59,8 +56,6 @@ def slow_function(path, ifile, ofile, country, city, static, version, selected_s
             #pyotherside.send('message', row0[0], row0[2], row[3])
     if ifile == "loaddata":
         zip_source = static
-        #zip_source = 'https://tvv.fra1.digitaloceanspaces.com/' + city + '.zip'
-        #zip_target = '/home/nemo/.local/share/harbour-catch-a-bus/' + country + '/' + city + '/' + city + '.zip'
         zip_target = path + city + '.zip'
         pyotherside.send('message', "Loaded", "all", "data!", zip_source, zip_target)
         urllib.request.urlretrieve(zip_source, zip_target)
@@ -295,7 +290,7 @@ def slow_function(path, ifile, ofile, country, city, static, version, selected_s
 
     else:
         pyotherside.send('message', "path", "ifile", "ofile", "country", "city")
-    pyotherside.send('finished', 'random.choice(colors)')
+    pyotherside.send('finished', 'Dataloading')
 
 class Sloader:
     def __init__(self):

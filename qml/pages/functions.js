@@ -8,9 +8,6 @@ function distance(thelati, thelongi, coord_lat, coord_lon) {
     var ddist; // Distance in meters
     var coord = possut.position.coordinate
 
-    //dfii = Math.abs(coord.latitude - thelati)*Math.PI/180;
-    //meanfii = (coord.latitude + thelati)*Math.PI/360
-    //dlamda = Math.abs(coord.longitude - thelongi)*Math.PI/180;
     dfii = Math.abs(coord_lat - thelati)*Math.PI/180;
     meanfii = (coord_lat + thelati)*Math.PI/360
     dlamda = Math.abs(coord_lon - thelongi)*Math.PI/180;

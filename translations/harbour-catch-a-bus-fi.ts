@@ -232,6 +232,18 @@
         <source>After the path selection, please press all the buttons in sequence! Depending on the data amount some phases may take several minutes and the phone may become unresponsive for a while.</source>
         <translation>Kansiovalinnan jälkeen paina nappeja järjestyksessä! Riippuen datan määrästä jotkut vaiheet saattavat kestää minuutteja ja sovellus ei vastaa hetkeen.</translation>
     </message>
+    <message>
+        <source>Select stops</source>
+        <translation>Valitse pysäkkejä</translation>
+    </message>
+    <message>
+        <source>Load stop times</source>
+        <translation>Lataa pysäkkiaikataulut</translation>
+    </message>
+    <message>
+        <source>Load stop times to the database</source>
+        <translation>Lataa pysäkkiaikataulut tietokantaan</translation>
+    </message>
 </context>
 <context>
     <name>SelectCity</name>
@@ -251,11 +263,11 @@
     <name>SelectMyStops</name>
     <message>
         <source>Select my stops</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse pysäkkini</translation>
     </message>
     <message>
         <source>Stop names in alphabetical order</source>
-        <translation type="unfinished"></translation>
+        <translation>Pysäkkiaikataulut aakkostettuina</translation>
     </message>
 </context>
 <context>

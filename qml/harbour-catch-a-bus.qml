@@ -52,8 +52,8 @@ ApplicationWindow
     property string current_time:"00:00:00"
     property int stop_index: 0
     property string day:"M-P"
-    property string version: "0.1.6"
-    property bool printlogs: true //for development
+    property string version: "0.1.7"
+    property bool developing: true //True when developing, false in release
 
     PositionSource {
         id: possut
@@ -122,9 +122,11 @@ ApplicationWindow
             citynumber: "" // E.g. 209 means Jyväskylä, not necessarily number, may be other code also
             country_name: "" // E.g. Finland
             country: "" // E.g. fin
+            urlstring: "" //Gtfs urlsting without tripupdate or vehicleposition
             staticpath: "" // Path for static data zip file
             localpath: "" // If empty using default
             gtfsversion:"" // GTFS-version 1.0 or 2.0
+            basestring:"" // Base64string for city
         }
     }
 

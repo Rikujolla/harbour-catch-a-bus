@@ -188,7 +188,7 @@
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="61"/>
-        <location filename="../qml/pages/FirstPage.qml" line="286"/>
+        <location filename="../qml/pages/FirstPage.qml" line="311"/>
         <source>Me</source>
         <translation type="unfinished"></translation>
     </message>
@@ -200,13 +200,13 @@
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="61"/>
-        <location filename="../qml/pages/FirstPage.qml" line="286"/>
+        <location filename="../qml/pages/FirstPage.qml" line="311"/>
         <source>m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="61"/>
-        <location filename="../qml/pages/FirstPage.qml" line="286"/>
+        <location filename="../qml/pages/FirstPage.qml" line="311"/>
         <source>The bus</source>
         <translation type="unfinished"></translation>
     </message>
@@ -236,7 +236,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="224"/>
+        <location filename="../qml/pages/FirstPage.qml" line="226"/>
         <source>Me to bus competition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -264,8 +264,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="114"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="116"/>
         <source>Create xml files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="169"/>
+        <source>Select stops</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="181"/>
+        <source>Load stop times</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/LoadStatic.qml" line="214"/>
+        <source>Load stop times to the database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -279,17 +294,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="104"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="105"/>
         <source>Unzip data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="125"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="128"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="201"/>
         <source>Reload xml</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoadStatic.qml" line="140"/>
+        <location filename="../qml/pages/LoadStatic.qml" line="144"/>
         <source>Load data to database</source>
         <translation type="unfinished"></translation>
     </message>

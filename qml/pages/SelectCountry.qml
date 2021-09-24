@@ -74,8 +74,10 @@ Page {
                 selections.set(0,{"city": ""})
                 selections.set(0,{"cityname": ""})
                 selections.set(0,{"citynumber": ""})
+                selections.set(0,{"urlstring": ""})
                 selections.set(0,{"staticpath": ""})
                 selections.set(0,{"gtfsversion": ""})
+                selections.set(0,{"basestring": ""})
                 console.log(country_name_a, country_a)
                 Mydbs.saveSettings();
                 pageStack.pop();

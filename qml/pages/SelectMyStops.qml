@@ -31,8 +31,8 @@ import "dbfunctions.js" as Mydbs
 Page {
     id: page
     onStatusChanged: {
-        //Mydbs.get_buss_stops()
     }
+    property string search_txt:""
 
     SilicaListView {
         id: listView
@@ -66,9 +66,13 @@ Page {
                 onTextChanged: {
                     if (text.length >2) {
                         Mydbs.get_buss_stops(text)
+                        search_txt = text
                         //search_part.cursorPosition = search_part.text.length
                         //forceActiveFocus()
+                        //selectAll()
+                        //focus = true
                     }
+                    else if (text.length==0){Mydbs.get_buss_stops("")}
                     else {console.log(text)}
                 }
             }
@@ -97,7 +101,7 @@ Page {
                     console.log("mystop 1->0")
                 }
 
-                Mydbs.get_buss_stops("");
+                Mydbs.get_buss_stops(search_txt);
             }
         }
         VerticalScrollDecorator {}

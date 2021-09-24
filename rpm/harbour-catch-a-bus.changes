@@ -8,6 +8,12 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Mon Sep 24 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.7-1
+- Seems to work only in Jyvaskyla:(
+
+* Mon Aug 16 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.6-1
+- Able to handle stop times of Helsinki
+
 * Sat May 29 2021 Riku Lahtinen <rikul.lajolla@kiu.as> 0.1.5-1
 - Able to read GTFS-version 2.0 static data
 - Able to handle stops for Helsinki, stop time file too big, have to look at that

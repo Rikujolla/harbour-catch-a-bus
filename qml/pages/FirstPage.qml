@@ -179,11 +179,13 @@ Page {
                     Mydbs.clear_running_busses();
                     if (bus.text !== "") {
                         var _search = Mydbs.get_route_id(bus.text)
-
-                        python.startDownload(_search, selections.get(0).cityname, "00:00:01");
+                        console.log ("bas1" , selections.get(0).urlstring)
+                        python.startDownload(_search, selections.get(0).cityname, "00:00:01", selections.get(0).basestring, selections.get(0).urlstring);
                     }
                     else {
-                        python.startDownload("haku", selections.get(0).cityname, "00:00:01");
+                        console.log ("bas2" , selections.get(0).urlstring)
+
+                        python.startDownload("haku", selections.get(0).cityname, "00:00:01", selections.get(0).basestring, selections.get(0).urlstring);
                     }
 
                 }
@@ -254,7 +256,9 @@ Page {
                 buslist_model.clear();
                 Mydbs.clear_running_busses(); // check if needed
                 if (!page.downloading){
-                    python.startDownload(selections.get(0).trip_id, selections.get(0).cityname, selections.get(0).start_time);
+                    console.log ("bas3" , selections.get(0).urlstring)
+
+                    python.startDownload(selections.get(0).trip_id, selections.get(0).cityname, selections.get(0).start_time, selections.get(0).basestring, selections.get(0).urlstring);
                 }
             }
         }
@@ -278,9 +282,30 @@ Page {
                 });
                 setHandler('position', function(latti, longi, p3, p4, p5, p6) {
                     var coord = possut.position.coordinate
-                    selections.set(0, {"dist_bus":Myfunc.distance(latti,longi,coord.latitude,coord.longitude)});
+                    if (developing && selections.get(0).cityname == "kuopio") {
+                        var my_lat = 62.89238
+                        var my_lon = 27.67703
+                    }
+                    else if (developing && selections.get(0).cityname == "lahti") {
+                        my_lat = 60.98267
+                        my_lon = 25.66151
+                    }
+                    else if (developing && selections.get(0).cityname == "joensuu") {
+                        my_lat = 62.60118
+                        my_lon = 29.76316
+                    }
+                    else if (developing && selections.get(0).cityname == "jyvaskyla") {
+                        my_lat = 62.34578
+                        my_lon = 25.67744
+                    }
+                    else {
+                        my_lat = coord.latitude
+                        my_lon = coord.longitude
+                    }
+
+                    selections.set(0, {"dist_bus":Myfunc.distance(latti,longi,my_lat,my_lon)});
                     selections.set(0, {"dist_bus_to_stop":Myfunc.distance(latti,longi,selections.get(0).stop_lat,selections.get(0).stop_lon)});
-                    selections.set(0, {"dist_me":Myfunc.distance(selections.get(0).stop_lat,selections.get(0).stop_lon,coord.latitude,coord.longitude)});
+                    selections.set(0, {"dist_me":Myfunc.distance(selections.get(0).stop_lat,selections.get(0).stop_lon,my_lat,my_lon)});
                     positsione.text = p6 + " " + Mydbs.get_stop_name(p3) + " (" + p4 + ")";
                     selections.set(0,{"stop_sequence":p4})
                     competition.text = qsTr("Me") + " " + selections.get(0).dist_me + " " + qsTr("m") +(" - ") + qsTr("The bus") + " " + selections.get(0).dist_bus + " " + qsTr("m")
@@ -294,11 +319,11 @@ Page {
 
             }
 
-            function startDownload(arg1, arg2, arg3) {
+            function startDownload(arg1, arg2, arg3, arg4, arg5) {
                 page.downloading = true;
                 //dlprogress.value = 0.0;
-                //console.log("arg1",arg1)
-                call('datadownloader.downloader.download', [arg1, arg2, arg3],function() {});
+                console.log("arg5",arg5)
+                call('datadownloader.downloader.download', [arg1, arg2, arg3, arg4, arg5],function() {});
             }
 
             onError: {

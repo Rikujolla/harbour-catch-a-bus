@@ -42,13 +42,16 @@ import urllib.request
 import base64
 from google.transit import gtfs_realtime_pb2
 
-def slow_function(bus, city, starttime):
+def slow_function(bus, city, starttime, bastring, urlstring):
     #for i in range(2):
         #pyotherside.send('progress', i/2.0)
         #time.sleep(0.5)
     #pyotherside.send('message', 'Muuttujan alustus')
-    request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/tripupdate")
-    base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    #request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/tripupdate")
+    request = urllib.request.Request(urlstring + "tripupdate")
+    #base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    base64string = bastring
+    pyotherside.send('bastring', bastring)
     request.add_header("Authorization", "Basic %s" % base64string)
     response = urllib.request.urlopen(request)
     feed = gtfs_realtime_pb2.FeedMessage()
@@ -63,8 +66,10 @@ def slow_function(bus, city, starttime):
                 pyotherside.send('bus_id', route_id, start_time, label, license_plate)
     pyotherside.send('finished', 'random.choice(colors)')
 
-    request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/vehicleposition")
-    base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    #request = urllib.request.Request("https://data.waltti.fi/" + city + "/api/gtfsrealtime/v1.0/feed/vehicleposition")
+    request = urllib.request.Request(urlstring + "vehicleposition")
+    #base64string = "ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg=="
+    base64string = bastring
     request.add_header("Authorization", "Basic %s" % base64string)
     response = urllib.request.urlopen(request)
     feed2 = gtfs_realtime_pb2.FeedMessage()
@@ -89,13 +94,15 @@ class Downloader:
         self.bgthread = threading.Thread()
         self.bgthread.start()
 
-    def download(self, bus, city, starttime):
+    def download(self, bus, city, starttime, bastring, urlstring):
         self.bus = bus
         self.city = city
         self.starttime = starttime
+        self.bastring = bastring
+        self.urlstring = urlstring
         if self.bgthread.is_alive():
             return
-        self.bgthread = threading.Thread(target=slow_function, args=(self.bus, self.city, self.starttime,))
+        self.bgthread = threading.Thread(target=slow_function, args=(self.bus, self.city, self.starttime,self.bastring, self.urlstring,))
         self.bgthread.start()
 
 

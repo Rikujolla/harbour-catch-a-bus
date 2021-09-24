@@ -6,7 +6,9 @@
 <cityname>helsinki</cityname>
 <citynumber>091</citynumber>
 <staticpath>https://infopalvelut.storage.hsldev.com/gtfs/hsl.zip</staticpath>
+<urlstring></urlstring>
 <gtfsversion>2.0</gtfsversion>
+<basestring></basestring>
 </city>
 <city>
 <country_name>Finland</country_name>
@@ -15,7 +17,9 @@
 <cityname>joensuu</cityname>
 <citynumber>207</citynumber>
 <staticpath>https://tvv.fra1.digitaloceanspaces.com/207.zip</staticpath>
+<urlstring>https://data.waltti.fi/joensuu/api/gtfsrealtime/v1.0/feed/</urlstring>
 <gtfsversion>1.0</gtfsversion>
+<basestring>ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg==</basestring>
 </city>
 <city>
 <country_name>Finland</country_name>
@@ -24,7 +28,20 @@
 <cityname>jyvaskyla</cityname>
 <citynumber>209</citynumber>
 <staticpath>https://tvv.fra1.digitaloceanspaces.com/209.zip</staticpath>
+<urlstring>https://data.waltti.fi/jyvaskyla/api/gtfsrealtime/v1.0/feed/</urlstring>
 <gtfsversion>1.0</gtfsversion>
+<basestring>ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg==</basestring>
+</city>
+<city>
+<country_name>Finland</country_name>
+<country>fin</country>
+<city>Kuopio</city>
+<cityname>kuopio</cityname>
+<citynumber>297</citynumber>
+<staticpath>http://karttapalvelu.kuopio.fi/google_transit/google_transit.zip</staticpath>
+<urlstring>https://opendatavilkku.mattersoft.fi/rtapi/gtfsrealtime/v1.0/feed/</urlstring>
+<gtfsversion>1.0</gtfsversion>
+<basestring>czk0cjNKTWNjOTpoRkxwS3BidUk1</basestring>
 </city>
 <city>
 <country_name>Finland</country_name>
@@ -33,7 +50,9 @@
 <cityname>lahti</cityname>
 <citynumber>223</citynumber>
 <staticpath>https://tvv.fra1.digitaloceanspaces.com/223.zip</staticpath>
+<urlstring>https://data.waltti.fi/lahti/api/gtfsrealtime/v1.0/feed/</urlstring>
 <gtfsversion>1.0</gtfsversion>
+<basestring>ODA2Mzc2NDg0OTQxOTkwNjpQZHhqYXlTV0c2NWpURkVMQjU0Z2E2dHBMRWt0cnRZbg==</basestring>
 </city>
 <!-- <city>
 <country_name>Finland</country_name>

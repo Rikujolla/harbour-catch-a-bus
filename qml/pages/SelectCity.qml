@@ -72,9 +72,11 @@ Page {
                 selections.set(0,{"city": city_a})
                 selections.set(0,{"cityname": cityname_a})
                 selections.set(0,{"citynumber": citynumber_a})
+                selections.set(0,{"urlstring": urlstring_a})
                 selections.set(0,{"staticpath": staticpath_a})
                 selections.set(0,{"gtfsversion": gtfsversion_a})
-                if(printlogs){console.log(selections.get(0).city, city_a, cityname_a, citynumber_a,selections.get(0).staticpath,staticpath_a,gtfsversion_a)}
+                selections.set(0,{"basestring": basestring_a})
+                if(developing){console.log(selections.get(0).city, city_a, cityname_a, citynumber_a,selections.get(0).staticpath,staticpath_a,gtfsversion_a, basestring_a, urlstring_a)}
                 Mydbs.saveSettings()
                 pageStack.pop();
 
@@ -88,8 +90,10 @@ Page {
                 city_a:""
                 cityname_a:""
                 citynumber_a:""
+                urlstring_a:""
                 staticpath_a:""
                 gtfsversion_a:""
+                basestring_a:""
             }
         }
 

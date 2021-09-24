@@ -105,7 +105,7 @@ Page {
                 text:qsTr("Select city")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    if(printlogs) {console.log(city_xml.get(1).staticpath, city_xml.get(1).gtfsversion)}
+                    if(developing) {console.log(city_xml.get(1).staticpath, city_xml.get(1).gtfsversion)}
                     pageStack.push(Qt.resolvedUrl("SelectCity.qml"))
                 }
             }
@@ -130,7 +130,7 @@ Page {
                 text:qsTr("Load static data")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    if(printlogs) {console.log(city_xml.get(0).staticpath, city_xml.get(0).gtfsversion)}
+                    if(developing) {console.log(city_xml.get(0).staticpath, city_xml.get(0).gtfsversion)}
                     pageStack.push(Qt.resolvedUrl("LoadStatic.qml"))
                 }
             }
@@ -144,8 +144,10 @@ Page {
                 XmlRole {name:"city"; query:"city/string()"}
                 XmlRole {name:"cityname"; query:"cityname/string()"}
                 XmlRole {name:"citynumber"; query:"citynumber/string()"}
+                XmlRole {name:"urlstring"; query:"urlstring/string()"}
                 XmlRole {name:"staticpath"; query:"staticpath/string()"}
                 XmlRole {name:"gtfsversion"; query:"gtfsversion/string()"}
+                XmlRole {name:"basestring"; query:"basestring/string()"}
             }
 
         }

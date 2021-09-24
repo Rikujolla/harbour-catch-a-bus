@@ -37,7 +37,7 @@ Page {
     property string load_path: StandardPaths.home + "/.local/share/harbour-catch-a-bus/"
     property bool downloading: false
     property int level: 0
-    property var selected_stops: ["143704", "143705"]
+    property var selected_stops: []
 
     SilicaFlickable {
         anchors.fill: parent
@@ -92,6 +92,7 @@ Page {
                 id:button1
                 enabled:level == 0 && page.downloading == false
                 text:"1. " + qsTr("Load new data")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "loaddata", "loaddata", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
@@ -102,6 +103,7 @@ Page {
                 id:button2
                 enabled:level == 1 && page.downloading == false
                 text:"2. " + qsTr("Unzip data")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "unzip", "unzip", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
@@ -112,8 +114,9 @@ Page {
                 id:button3
                 enabled:level == 2 && page.downloading == false
                 text:"3. " + qsTr("Create xml files")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    if(printlogs){console.log("GTFS-version", selections.get(0).gtfsversion)}
+                    if(developing){console.log("GTFS-version", selections.get(0).gtfsversion)}
                     spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "calendar.txt", "calendar.xml", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion)
                     page.downloading = true
                 }
@@ -123,6 +126,7 @@ Page {
                 id:button4
                 enabled:level == 3 && page.downloading == false
                 text:"4. " + qsTr("Reload xml")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     calendar_xml.reload()
                     calendar_dates_xml.reload()
@@ -138,39 +142,44 @@ Page {
                 id:button5
                 enabled: page.level == 4 && trips_xml.status == 1
                 text:"5. " + qsTr("Load data to database")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     Mydbs.delete_tables()
-                    if(printlogs){console.log("Tables deleted")}
+                    if(developing){console.log("Tables deleted")}
                     Mydbs.load_calendar()
-                    if(printlogs){console.log("Calendar loaded")}
+                    if(developing){console.log("Calendar loaded")}
                     Mydbs.load_calendar_dates()
-                    if(printlogs){console.log("Calendar dated loaded")}
+                    if(developing){console.log("Calendar dated loaded")}
                     Mydbs.load_stops()
-                    if(printlogs){console.log("Stops loaded")}
+                    if(developing){console.log("Stops loaded")}
                     Mydbs.load_routes()
-                    if(printlogs){console.log("Routes loaded")}
+                    if(developing){console.log("Routes loaded")}
                     Mydbs.load_trips()
-                    if(printlogs){console.log("Trips loaded")}
+                    if(developing){console.log("Trips loaded")}
                     // Mydbs.load_stop_times()
-                    //if(printlogs){console.log("Stop times loaded")}
+                    //if(developing){console.log("Stop times loaded")}
                     page.level = 5
                 }
             }
 
             Button {
                 id:button6
+                //enabled: page.downloading == false && page.level == 5
                 enabled: page.downloading == false
-                text: "5. Select stops"
+                text: "6. " + qsTr("Select stops")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     console.log("load stops")
                     pageStack.push(Qt.resolvedUrl("SelectMyStops.qml"))
+                    page.level = 6
                 }
             }
 
             Button {
                 id:button7
-                enabled: page.downloading == false
-                text: "5. Load stop times"
+                enabled: page.downloading == false && (page.level == 5 || page.level == 6)
+                text: "7. " + qsTr("Load stop times")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     Mydbs.get_my_stops()
                     for (var i=0;i<selected_stops.length;i++){
@@ -179,27 +188,35 @@ Page {
 
                     spython.startDownload(load_path + load_country + "/" + load_citynumber + "/", "stop_times.txt", "stop_times.xml", load_country, load_citynumber, selections.get(0).staticpath, selections.get(0).gtfsversion, selected_stops)
                     page.downloading = true
+                    page.level = 7
 
                 }
             }
 
             Button {
                 id:button8
-                enabled: page.downloading == false && stoptimes_xml.status == 1
-                text: "5. Reload xml"
+                //enabled: page.downloading == false && stoptimes_xml.status == 1 && page.level == 7
+                enabled: true
+                //enabled: true
+                text: "8. " + qsTr("Reload xml")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     console.log("load stops")
                     stoptimes_xml.reload()
+                    page.level = 8
                 }
             }
 
             Button {
                 id:button9
-                enabled: page.downloading == false && stoptimes_xml.status == 1
-                text: "5. load stop times to the db"
+                //enabled: page.downloading == false && stoptimes_xml.status == 1 && page.level == 8
+                enabled: true
+                text: "9. " + qsTr("Load stop times to the database")
+                anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     Mydbs.load_stop_times()
-                    if(printlogs){console.log("Stop times loaded")}
+                    if(developing){console.log("Stop times loaded")}
+                    page.level = 9
                 }
             }
 
@@ -275,7 +292,7 @@ Page {
         load_country = selections.get(0).country
         load_citynumber = selections.get(0).citynumber
         if(selections.get(0).localpath != "") { path_selection.text = load_path = selections.get(0).localpath}
-        if(printlogs){console.log(load_path, load_country, load_citynumber, selections.get(0).gtfsversion)}
+        if(developing){console.log(load_path, load_country, load_citynumber, selections.get(0).gtfsversion)}
     }
 
     Python {
